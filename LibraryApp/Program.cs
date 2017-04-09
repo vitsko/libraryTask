@@ -1,42 +1,74 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Library;
-
-namespace LibraryApp
+﻿namespace LibraryApp
 {
-    class Program
+    using System;
+    using Library;
+
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Console.Title = "Library";
+            bool exitMainMenu = false;
 
-            while (true)
+            while (!exitMainMenu)
             {
+                MainMenu.Draw();
                 var selectMainMenu = Console.ReadKey();
-
 
                 switch (selectMainMenu.KeyChar)
                 {
-                    case '2':
+                    case '1':
                         {
-                            MenuToAdd.Draw();
+                            bool exitMenuAdd = false;
 
-                            var selectCreateditem = Console.ReadKey();
-
-                            switch (selectCreateditem.KeyChar)
+                            while (!exitMenuAdd)
                             {
-                                case '1':
-                                    {
-                                        Catalog.Library.Add(new Library.Book());
-                                        break;
-                                    }
+                                MenuToAdd.Draw();
 
-                                default: break;
+                                var selectCreateditem = Console.ReadKey();
+
+                                var aboutItemCatalog = MenuToAdd.Input(selectCreateditem);
+
+                                switch (selectCreateditem.KeyChar)
+                                {
+                                    case '1':
+                                        {
+                                            Catalog.Library.Add(new Library.Book(aboutItemCatalog));
+                                            exitMenuAdd = true;
+                                            break;
+                                        }
+
+                                    case '2':
+                                        {
+                                            Catalog.Library.Add(new Library.Newspaper(aboutItemCatalog));
+                                            exitMenuAdd = true;
+                                            break;
+                                        }
+
+                                    case '3':
+                                        {
+                                            Catalog.Library.Add(new Library.Patent(aboutItemCatalog));
+                                            exitMenuAdd = true;
+                                            break;
+                                        }
+
+                                    case 'q':
+                                        {
+                                            exitMenuAdd = true;
+                                            break;
+                                        }
+
+                                    default:
+                                        break;
+                                }
                             }
 
+                            break;
+                        }
+
+                    case 'q':
+                        {
+                            exitMainMenu = true;
                             break;
                         }
 
