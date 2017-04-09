@@ -61,10 +61,51 @@ namespace LibraryApp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Укажите название книги:,Укажите авторов книги:,Укажите город издания книги:,Укажите название издательства книги:,Укажите год издания книги:,Укажите количество страниц книги:,Укажите примечание к книге:,Укажите ISBN книги:.
+        /// </summary>
+        internal static string AskAboutBook {
+            get {
+                return ResourceManager.GetString("AskAboutBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Укажите название газеты:,Укажите город издания газеты:,Укажите название издательства газеты:,Укажите год издания газеты:,Укажите количество страниц газеты:,Укажите примечание к газете:,Укажите номер газеты:,Укажите дату газеты:,Укажите ISSN газеты:.
+        /// </summary>
+        internal static string AskAboutNewspaper {
+            get {
+                return ResourceManager.GetString("AskAboutNewspaper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Укажите название патента:,Укажите изобретателей патента:,Укажите страну патента:,Укажите регистрационный номер патента:,Укажите дату подачи заяки патента:,Укажите дату публикации патента:,Укажите количество страниц патента:,Укажите примечание к патенту:.
+        /// </summary>
+        internal static string AskAboutPatent {
+            get {
+                return ResourceManager.GetString("AskAboutPatent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Главное меню:
+        ///[1]-- Добавить запись в Каталог
+        ///
+        ///[Q] - Закончить работу с Каталогом.
+        /// </summary>
+        internal static string MainMenu {
+            get {
+                return ResourceManager.GetString("MainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Добавить в Каталог:
         ///[1]-- Книга
         ///[2]-- Газета
-        ///[3]-- Патент.
+        ///[3]-- Патент
+        ///
+        ///[Q] - Перейти в Главное меню.
         /// </summary>
         internal static string MenuToAdd {
             get {

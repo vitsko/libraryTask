@@ -67,6 +67,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AllTextRus.resx</DependentUpon>
     </Compile>
+    <Compile Include="MainMenu.cs" />
     <Compile Include="MenuToAdd.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

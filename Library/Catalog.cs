@@ -11,11 +11,6 @@
         private Catalog()
         {
             libraryItem = new ItemCatalog[100];
-
-            // Delete after testing.
-           // libraryItem[0] = new ItemCatalog();
-           // libraryItem[2] = new ItemCatalog();
-           // libraryItem[5] = new ItemCatalog();
         }
 
         public static Catalog Library
