@@ -21,30 +21,53 @@
             }
         }
 
+        private static int Count
+        {
+            get
+            {
+                return Catalog.Shift()
+                              .Count();
+            }
+        }
+
         public void Add(ItemCatalog item)
         {
-            this.AddToHead();
-            this.AddToEnd(item);
+            Catalog.AddToHead();
+            Catalog.AddToEnd(item);
         }
 
-        private void AddToHead()
+        public bool Delete(string indexItem)
         {
-            var allItems = this.Shift();
+            int index = -1;
+            bool isInt = int.TryParse(indexItem, out index);
 
-            for (int index = 0; index < Catalog.libraryItem.Length; index++)
+            if (isInt == true && index >= 0)
             {
-                Catalog.libraryItem[index] = null;
+                if (Catalog.Count >= index + 1)
+                {
+                    Catalog.libraryItem[index - 1] = null;
+                    Catalog.AddToHead();
+                    return true;
+                }
             }
 
-            Array.Copy(allItems, Catalog.libraryItem, allItems.Length);
+            return false;
         }
 
-        private ItemCatalog[] Shift()
+        private static void AddToHead()
         {
-            return libraryItem.Where(item => item != null).ToArray();
+            var allItem = Catalog.Shift();
+
+            Array.Clear(Catalog.libraryItem, 0, Catalog.libraryItem.Length);
+            Array.Copy(allItem, Catalog.libraryItem, allItem.Length);
         }
 
-        private void AddToEnd(ItemCatalog item)
+        private static ItemCatalog[] Shift()
+        {
+            return Catalog.libraryItem.Where(item => item != null).ToArray();
+        }
+
+        private static void AddToEnd(ItemCatalog item)
         {
             var lastIndex = Catalog.libraryItem.ToList().FindIndex(x => x == null);
             Catalog.libraryItem[lastIndex] = item;

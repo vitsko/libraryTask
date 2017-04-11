@@ -88,8 +88,28 @@ namespace LibraryApp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Укажите номер для удаления из Каталога:.
+        /// </summary>
+        internal static string AskToDelete {
+            get {
+                return ResourceManager.GetString("AskToDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы удалили запись #{0}.
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Главное меню:
         ///[1]-- Добавить запись в Каталог
+        ///[2]-- Удалить запись из Каталога
         ///
         ///[Q] - Закончить работу с Каталогом.
         /// </summary>
@@ -110,6 +130,16 @@ namespace LibraryApp {
         internal static string MenuToAdd {
             get {
                 return ResourceManager.GetString("MenuToAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не существует записи #{0}.
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        internal static string NoDelete {
+            get {
+                return ResourceManager.GetString("NoDelete", resourceCulture);
             }
         }
     }
