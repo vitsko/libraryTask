@@ -129,6 +129,7 @@
   <data name="MainMenu" xml:space="preserve">
     <value>Главное меню:
 [1]-- Добавить запись в Каталог
+[2]-- Удалить запись из Каталога
 
 [Q] - Закончить работу с Каталогом</value>
     </data>
@@ -140,4 +141,15 @@
 
 [Q] - Перейти в Главное меню</value>
   </data>
+  <data name="AskToDelete" xml:space="preserve">
+    <value>Укажите номер для удаления из Каталога:</value>
+    </data>
+  <data name="Delete" xml:space="preserve">
+<value>Вы удалили запись #{0}.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+    </data>
+  <data name="NoDelete" xml:space="preserve">
+<value>Не существует записи #{0}.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+    </data>
 </root>

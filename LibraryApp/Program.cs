@@ -66,6 +66,26 @@
                             break;
                         }
 
+                    case '2':
+                        {
+                            MenuToDelete.Draw();
+
+                            var indexToDelete = Console.ReadLine();
+
+                            var isDelete = Catalog.Library.Delete(indexToDelete);
+
+                            if (isDelete)
+                            {
+                                MenuToDelete.AboutDelete(indexToDelete);
+                            }
+                            else
+                            {
+                                MenuToDelete.NotDelete(indexToDelete);
+                            }
+
+                            break;
+                        }
+
                     case 'q':
                         {
                             exitMainMenu = true;
