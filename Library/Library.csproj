@@ -40,13 +40,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutObject.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AboutObject.resx</DependentUpon>
+    </Compile>
     <Compile Include="Book.cs" />
     <Compile Include="Catalog.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="InfoObject.cs" />
     <Compile Include="ItemCatalog.cs" />
     <Compile Include="Newspaper.cs" />
     <Compile Include="Patent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AboutObject.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AboutObject.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

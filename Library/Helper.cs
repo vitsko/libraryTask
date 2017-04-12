@@ -1,6 +1,7 @@
 ﻿namespace Library
 {
     using System;
+    using System.Text;
     using System.Text.RegularExpressions;
 
     internal static class Helper

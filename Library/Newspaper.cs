@@ -1,6 +1,7 @@
 ﻿namespace Library
 {
     using System;
+    using System.Text;
 
     public class Newspaper : ItemCatalog
     {
@@ -19,7 +20,7 @@
 
         public string Date { get; set; }
 
-        public string ISSIN { get; set; }
+        public string ISSN { get; set; }
 
         protected override void Create(string[] aboutItemCatalog)
         {
@@ -31,7 +32,45 @@
             this.Note = aboutItemCatalog[5];
             this.Number = aboutItemCatalog[6];
             this.Date = aboutItemCatalog[7];
-            this.ISSIN = aboutItemCatalog[8];
+            this.ISSN = aboutItemCatalog[8];
         }
+
+        public override string ToString()
+        {
+            StringBuilder allinfo = new StringBuilder();
+
+            allinfo.AppendLine(InfoObject.TypeNews);
+
+            allinfo.AppendLine(InfoObject.Title);
+            allinfo.AppendLine(this.Title);
+
+
+            allinfo.AppendLine(InfoObject.City);
+            allinfo.AppendLine(this.PublisherCity);
+
+            allinfo.AppendLine(InfoObject.Publisher);
+            allinfo.AppendLine(this.Publisher);
+
+            allinfo.AppendLine(InfoObject.Year);
+            allinfo.AppendLine(this.Year);
+
+            allinfo.AppendLine(InfoObject.PageCount);
+            allinfo.AppendLine(this.PageCount);
+
+            allinfo.AppendLine(InfoObject.Note);
+            allinfo.AppendLine(this.Note);
+
+            allinfo.AppendLine(InfoObject.Number);
+            allinfo.AppendLine(this.Number);
+
+            allinfo.AppendLine(InfoObject.Date);
+            allinfo.AppendLine(this.Date);
+
+            allinfo.AppendLine(InfoObject.ISSN);
+            allinfo.AppendLine(this.ISSN);
+
+            return allinfo.ToString();
+        }
+
     }
 }

@@ -1,10 +1,13 @@
 ﻿namespace Library
 {
     using System;
+    using System.Text;
 
     public class Book : ItemCatalog
     {
-           public Book(string[] aboutItemCatalog)
+        private const char COMMA = ',';
+
+        public Book(string[] aboutItemCatalog)
         {
             this.Create(aboutItemCatalog);
         }
@@ -31,6 +34,39 @@
             this.PageCount = aboutItemCatalog[5];
             this.Note = aboutItemCatalog[6];
             this.ISBN = aboutItemCatalog[7];
+        }
+
+        public override string ToString()
+        {
+            StringBuilder allinfo = new StringBuilder();
+
+            allinfo.AppendLine(InfoObject.TypeBook);
+
+            allinfo.AppendLine(InfoObject.Title);
+            allinfo.AppendLine(this.Title);
+
+            allinfo.AppendLine(InfoObject.Authors);
+            allinfo.AppendLine(String.Join(COMMA.ToString(), this.Authors));
+
+            allinfo.AppendLine(InfoObject.City);
+            allinfo.AppendLine(this.PublisherCity);
+
+            allinfo.AppendLine(InfoObject.Publisher);
+            allinfo.AppendLine(this.Publisher);
+
+            allinfo.AppendLine(InfoObject.Year);
+            allinfo.AppendLine(this.Year);
+
+            allinfo.AppendLine(InfoObject.PageCount);
+            allinfo.AppendLine(this.PageCount);
+
+            allinfo.AppendLine(InfoObject.Note);
+            allinfo.AppendLine(this.Note);
+
+            allinfo.AppendLine(InfoObject.ISBN);
+            allinfo.AppendLine(this.ISBN);
+
+            return allinfo.ToString();
         }
     }
 }

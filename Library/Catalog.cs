@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Text;
 
     public sealed class Catalog
     {
@@ -21,12 +22,20 @@
             }
         }
 
-        private static int Count
+        public static int Count
         {
             get
             {
-                return Catalog.Shift()
+                return Catalog.AllItemCatalog
                               .Count();
+            }
+        }
+
+        private static ItemCatalog[] AllItemCatalog
+        {
+            get
+            {
+                return Catalog.Shift();
             }
         }
 
@@ -52,6 +61,18 @@
             }
 
             return false;
+        }
+
+        public string GetInfoCatalog()
+        {
+            StringBuilder aboutCatalog = new StringBuilder();
+
+            foreach (var item in Catalog.AllItemCatalog)
+            {
+                aboutCatalog.AppendLine(item.ToString());
+            }
+
+            return aboutCatalog.ToString();
         }
 
         private static void AddToHead()

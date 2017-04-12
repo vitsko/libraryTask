@@ -117,52 +117,64 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AskAboutBook" xml:space="preserve">
-    <value>Укажите название книги:,Укажите авторов книги:,Укажите город издания книги:,Укажите название издательства книги:,Укажите год издания книги:,Укажите количество страниц книги:,Укажите примечание к книге:,Укажите ISBN книги:</value>
-  </data>
-  <data name="AskAboutNewspaper" xml:space="preserve">
-    <value>Укажите название газеты:,Укажите город издания газеты:,Укажите название издательства газеты:,Укажите год издания газеты:,Укажите количество страниц газеты:,Укажите примечание к газете:,Укажите номер газеты:,Укажите дату газеты:,Укажите ISSN газеты:</value>
-  </data>
-  <data name="AskAboutPatent" xml:space="preserve">
-    <value>Укажите название патента:,Укажите изобретателей патента:,Укажите страну патента:,Укажите регистрационный номер патента:,Укажите дату подачи заяки патента:,Укажите дату публикации патента:,Укажите количество страниц патента:,Укажите примечание к патенту:</value>
-  </data>
-  <data name="MainMenu" xml:space="preserve">
-    <value>Главное меню:
-[1]-- Добавить запись в Каталог
-[2]-- Удалить запись из Каталога
-[3]-- Просмотр Каталога
-
-[Q] - Закончить работу с Каталогом</value>
-    </data>
-  <data name="MenuToAdd" xml:space="preserve">
-    <value>Добавить в Каталог:
-[1]-- Книга
-[2]-- Газета
-[3]-- Патент
-
-[Q] - Перейти в Главное меню</value>
-  </data>
-  <data name="AskToDelete" xml:space="preserve">
-    <value>Укажите номер для удаления из Каталога:</value>
-    </data>
-  <data name="Delete" xml:space="preserve">
-<value>Вы удалили запись #{0}.
-Нажмите любую кнопку для выходя в Главное меню...</value>
-    </data>
-  <data name="NoDelete" xml:space="preserve">
-<value>Не существует записи #{0}.
-Нажмите любую кнопку для выходя в Главное меню...</value>
-    </data>
-  <data name="EmptyCatalog" xml:space="preserve">
-<value>Каталог пуст.
-Нажмите любую кнопку для выходя в Главное меню...</value>
-    </data>
-  <data name="ShowCatalog" xml:space="preserve">
-<value>---КАТАЛОГ---</value>
-    </data>
-  <data name="PressAnyKey" xml:space="preserve">
-<value>
-  Нажмите любую кнопку для выходя в Главное меню...</value>
-    </data>
-
+  <!--О книге-->
+  <data name="TypeBook" xml:space="preserve">
+<value>#Книга</value>
+</data>
+  <data name="Title" xml:space="preserve">
+<value>Название:</value>
+</data>
+  <data name="Authors" xml:space="preserve">
+<value>Авторы:</value>
+</data>
+  <data name="City" xml:space="preserve">
+<value>Место издательства (Город):</value>
+</data>
+  <data name="Publisher" xml:space="preserve">
+<value>Издательство:</value>
+</data>
+  <data name="Year" xml:space="preserve">
+<value>Год издания:</value>
+</data>
+  <data name="PageCount" xml:space="preserve">
+<value>Количество страниц:</value>
+</data>
+  <data name="Note" xml:space="preserve">
+<value>Примечание:</value>
+</data>
+  <data name="ISBN" xml:space="preserve">
+<value>Международный стандартный номер книги (ISBN):</value>
+</data>
+  <!--О газете -->
+  <data name="TypeNews" xml:space="preserve">
+<value>#Газета</value>
+</data>
+  <data name="Number" xml:space="preserve">
+<value>Номер:</value>
+</data>
+  <data name="Date" xml:space="preserve">
+<value>Дата:</value>
+</data>
+  <data name="ISSN" xml:space="preserve">
+<value>Международный стандартный номер серийного издания (ISSN):</value>
+</data>
+  <!--О Патенте-->
+  <data name="TypePatent" xml:space="preserve">
+<value>#Патент</value>
+</data>
+  <data name="Inventors" xml:space="preserve">
+<value>Изобретатели:</value>
+</data>
+  <data name="Country" xml:space="preserve">
+<value>Страна:</value>
+</data>
+  <data name="RegNumber" xml:space="preserve">
+<value>Регистрационный номер:</value>
+</data>
+  <data name="DateRequest" xml:space="preserve">
+<value>Дата подачи заявки:</value>
+</data>
+  <data name="DatePublication" xml:space="preserve">
+<value>Дата публикации:</value>
+</data>
 </root>
