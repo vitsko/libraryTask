@@ -107,9 +107,20 @@ namespace LibraryApp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Каталог пуст.
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        internal static string EmptyCatalog {
+            get {
+                return ResourceManager.GetString("EmptyCatalog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Главное меню:
         ///[1]-- Добавить запись в Каталог
         ///[2]-- Удалить запись из Каталога
+        ///[3]-- Просмотр Каталога
         ///
         ///[Q] - Закончить работу с Каталогом.
         /// </summary>
@@ -140,6 +151,25 @@ namespace LibraryApp {
         internal static string NoDelete {
             get {
                 return ResourceManager.GetString("NoDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///  Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        internal static string PressAnyKey {
+            get {
+                return ResourceManager.GetString("PressAnyKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ---КАТАЛОГ---.
+        /// </summary>
+        internal static string ShowCatalog {
+            get {
+                return ResourceManager.GetString("ShowCatalog", resourceCulture);
             }
         }
     }

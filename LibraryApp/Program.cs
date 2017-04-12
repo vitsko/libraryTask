@@ -68,19 +68,41 @@
 
                     case '2':
                         {
-                            MenuToDelete.Draw();
-
-                            var indexToDelete = Console.ReadLine();
-
-                            var isDelete = Catalog.Library.Delete(indexToDelete);
-
-                            if (isDelete)
+                            if (Catalog.Count != 0)
                             {
-                                MenuToDelete.AboutDelete(indexToDelete);
+                                MenuToDelete.Draw();
+
+                                var indexToDelete = Console.ReadLine();
+
+                                var isDelete = Catalog.Library.Delete(indexToDelete);
+
+                                if (isDelete)
+                                {
+                                    MenuToDelete.AboutDelete(indexToDelete);
+                                }
+                                else
+                                {
+                                    MenuToDelete.NotDelete(indexToDelete);
+                                }
                             }
                             else
                             {
-                                MenuToDelete.NotDelete(indexToDelete);
+                                MenuToDelete.AboutEmptyCatalog();
+                            }
+
+                            break;
+                        }
+
+                    case '3':
+                        {
+                            if (Catalog.Count != 0)
+                            {
+                                var info = Catalog.Library.GetInfoCatalog();
+                                MenuShow.AboutCatalog(info);
+                            }
+                            else
+                            {
+                                MenuToDelete.AboutEmptyCatalog();
                             }
 
                             break;
