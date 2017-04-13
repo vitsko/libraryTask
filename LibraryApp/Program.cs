@@ -108,6 +108,23 @@
                             break;
                         }
 
+                    case '4':
+                        {
+                            if (Catalog.Count != 0)
+                            {
+                                MenuShow.InputSeachRequest();
+                                var searchTitle = Console.ReadLine();
+                                var info = Catalog.Library.GetInfoItemWithTitle(searchTitle);
+                                MenuShow.ResultSearchOfTitle(searchTitle, info);
+                            }
+                            else
+                            {
+                                MenuToDelete.AboutEmptyCatalog();
+                            }
+
+                            break;
+                        }
+
                     case 'q':
                         {
                             exitMainMenu = true;

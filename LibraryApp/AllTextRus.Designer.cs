@@ -117,10 +117,20 @@ namespace LibraryApp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Введите поисковый запрос:.
+        /// </summary>
+        internal static string InputSeachRequest {
+            get {
+                return ResourceManager.GetString("InputSeachRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Главное меню:
         ///[1]-- Добавить запись в Каталог
         ///[2]-- Удалить запись из Каталога
         ///[3]-- Просмотр Каталога
+        ///[4]-- Поиск по названию
         ///
         ///[Q] - Закончить работу с Каталогом.
         /// </summary>
@@ -161,6 +171,15 @@ namespace LibraryApp {
         internal static string PressAnyKey {
             get {
                 return ResourceManager.GetString("PressAnyKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ---Результат поиска по названию &quot;{0}&quot;---.
+        /// </summary>
+        internal static string ResultSearchOfTitle {
+            get {
+                return ResourceManager.GetString("ResultSearchOfTitle", resourceCulture);
             }
         }
         
