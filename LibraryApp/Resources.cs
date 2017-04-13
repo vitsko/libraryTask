@@ -14,5 +14,7 @@
         internal static string EmptyCatalog = AllTextRus.EmptyCatalog;
         internal static string ShowCatalog = AllTextRus.ShowCatalog;
         internal static string PressAnyKey = AllTextRus.PressAnyKey;
+        internal static string ResultSearchOfTitle = AllTextRus.ResultSearchOfTitle;
+        internal static string InputSeachRequest = AllTextRus.InputSeachRequest;
     }
 }
