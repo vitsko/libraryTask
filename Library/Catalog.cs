@@ -65,14 +65,27 @@
 
         public string GetInfoCatalog()
         {
-            StringBuilder aboutCatalog = new StringBuilder();
+            return GetInfoSelectedItem(Catalog.AllItemCatalog).ToString();
+        }
 
-            foreach (var item in Catalog.AllItemCatalog)
+        public string GetInfoItemWithTitle(string title)
+        {
+            var items = Array.FindAll(Catalog.AllItemCatalog,
+                        item => item.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+
+            return GetInfoSelectedItem(items).ToString();
+        }
+
+        private static StringBuilder GetInfoSelectedItem(ItemCatalog[] selectedItems)
+        {
+            StringBuilder aboutItems = new StringBuilder();
+
+            foreach (var item in selectedItems)
             {
-                aboutCatalog.AppendLine(item.ToString());
+                aboutItems.AppendLine(item.ToString());
             }
 
-            return aboutCatalog.ToString();
+            return aboutItems;
         }
 
         private static void AddToHead()

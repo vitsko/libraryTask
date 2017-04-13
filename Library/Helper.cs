@@ -22,5 +22,10 @@
 
             return result;
         }
+
+        public static bool Contains(this String str, String substring, StringComparison comp)
+        {
+            return str.IndexOf(substring, comp) >= 0;
+        }
     }
 }
