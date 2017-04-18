@@ -1,6 +1,7 @@
 ﻿namespace Library
 {
     using System;
+    using System.Globalization;
     using System.Text;
 
     public class Patent : ItemCatalog
@@ -20,18 +21,24 @@
 
         public string DatePublication { get; set; }
 
-        protected override void Create(string[] aboutItemCatalog)
+        protected override int PublishedYear
         {
-            this.Title = aboutItemCatalog[0];
-            this.Inventors = Helper
-                           .DeleteWhitespace(aboutItemCatalog[1])
-                           .Split(Helper.Comma, StringSplitOptions.RemoveEmptyEntries);
-            this.Country = aboutItemCatalog[2];
-            this.RegNumber = aboutItemCatalog[3];
-            this.DateRequest = aboutItemCatalog[4];
-            this.DatePublication = aboutItemCatalog[5];
-            this.PageCount = aboutItemCatalog[6];
-            this.Note = aboutItemCatalog[7];
+            get
+            {
+                CultureInfo newCulture = new CultureInfo("en-US", true);
+                newCulture.DateTimeFormat.ShortDatePattern = "dd.MM.yyyy";
+
+                DateTime enterDate;
+
+                bool result = DateTime.TryParseExact(this.DatePublication, newCulture.DateTimeFormat.ShortDatePattern, newCulture, DateTimeStyles.AllowWhiteSpaces, out enterDate);
+
+                if (result)
+                {
+                    return enterDate.Year;
+                }
+
+                return DateTime.Today.Year;
+            }
         }
 
         public override string ToString()
@@ -44,7 +51,7 @@
             allinfo.AppendLine(this.Title);
 
             allinfo.AppendLine(InfoObject.Inventors);
-            allinfo.AppendLine(String.Join(Helper.Comma.ToString(), this.Inventors));
+            allinfo.AppendLine(string.Join(Helper.Comma.ToString(), this.Inventors));
 
             allinfo.AppendLine(InfoObject.Country);
             allinfo.AppendLine(this.Country);
@@ -56,7 +63,16 @@
             allinfo.AppendLine(this.DateRequest);
 
             allinfo.AppendLine(InfoObject.DatePublication);
-            allinfo.AppendLine(this.DatePublication);
+
+            if (this.DatePublication == string.Empty)
+            {
+                allinfo.AppendLine(DateTime.Today.ToShortDateString());
+            }
+            else
+            {
+                allinfo.AppendLine(this.DatePublication);
+            }
+
 
             allinfo.AppendLine(InfoObject.PageCount);
             allinfo.AppendLine(this.PageCount);
@@ -65,6 +81,20 @@
             allinfo.AppendLine(this.Note);
 
             return allinfo.ToString();
+        }
+
+        protected override void Create(string[] aboutItemCatalog)
+        {
+            this.Title = aboutItemCatalog[0];
+            this.Inventors = Helper
+                           .DeleteWhitespace(aboutItemCatalog[1])
+                           .Split(Helper.Comma, StringSplitOptions.RemoveEmptyEntries);
+            this.Country = aboutItemCatalog[2];
+            this.RegNumber = aboutItemCatalog[3];
+            this.DateRequest = aboutItemCatalog[4];
+            this.DatePublication = aboutItemCatalog[5];
+            this.PageCount = aboutItemCatalog[6];
+            this.Note = aboutItemCatalog[7];
         }
     }
 }

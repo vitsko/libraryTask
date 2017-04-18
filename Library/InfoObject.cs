@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Library
+﻿namespace Library
 {
     internal static class InfoObject
     {
-
-        //Про объекты
+        // Про объекты
         // О книге
         internal static string TypeBook = AboutObject.TypeBook;
         internal static string Title = AboutObject.Title;
