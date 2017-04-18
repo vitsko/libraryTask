@@ -65,15 +65,34 @@
 
         public string GetInfoCatalog()
         {
-            return GetInfoSelectedItem(Catalog.AllItemCatalog).ToString();
+            return Catalog.GetInfoSelectedItem(Catalog.AllItemCatalog).ToString();
         }
 
         public string GetInfoItemWithTitle(string title)
         {
-            var items = Array.FindAll(Catalog.AllItemCatalog,
-                        item => item.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+            var items = Array.FindAll(Catalog.AllItemCatalog, item => item.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
 
             return GetInfoSelectedItem(items).ToString();
+        }
+
+        public string SortByYearAsc()
+        {
+            var allitem = Catalog.Shift();
+            Array.Sort(allitem);
+            return this.GetInfoCatalog(allitem);
+        }
+
+        public string SortByYearDesc()
+        {
+            var allitem = Catalog.Shift();
+            Array.Sort(allitem);
+            Array.Reverse(allitem);
+            return this.GetInfoCatalog(allitem);
+        }
+
+        private string GetInfoCatalog(ItemCatalog[] allitem)
+        {
+            return Catalog.GetInfoSelectedItem(allitem).ToString();
         }
 
         private static StringBuilder GetInfoSelectedItem(ItemCatalog[] selectedItems)

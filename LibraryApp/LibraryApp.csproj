@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="MainMenu.cs" />
     <Compile Include="MenuShow.cs" />
+    <Compile Include="MenuSortAndGroup.cs" />
     <Compile Include="MenuToAdd.cs" />
     <Compile Include="MenuToDelete.cs" />
     <Compile Include="Program.cs" />
@@ -100,6 +101,7 @@
     <EmbeddedResource Include="AllTextRus.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AllTextRus.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

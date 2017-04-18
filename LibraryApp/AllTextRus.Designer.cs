@@ -131,6 +131,7 @@ namespace LibraryApp {
         ///[2]-- Удалить запись из Каталога
         ///[3]-- Просмотр Каталога
         ///[4]-- Поиск по названию
+        ///[5]-- Сортировать по году выпуска
         ///
         ///[Q] - Закончить работу с Каталогом.
         /// </summary>
@@ -151,6 +152,19 @@ namespace LibraryApp {
         internal static string MenuToAdd {
             get {
                 return ResourceManager.GetString("MenuToAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сортировать по году выпуска:
+        ///[1]-- В прямом порядке
+        ///[2]-- В обратном порядке
+        ///
+        ///[Q] - Перейти в Главное меню.
+        /// </summary>
+        internal static string MenuToSortYear {
+            get {
+                return ResourceManager.GetString("MenuToSortYear", resourceCulture);
             }
         }
         

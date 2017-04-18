@@ -22,17 +22,20 @@
 
         public string ISSN { get; set; }
 
-        protected override void Create(string[] aboutItemCatalog)
+        protected override int PublishedYear
         {
-            this.Title = aboutItemCatalog[0];
-            this.PublisherCity = aboutItemCatalog[1];
-            this.Publisher = aboutItemCatalog[2];
-            this.Year = aboutItemCatalog[3];
-            this.PageCount = aboutItemCatalog[4];
-            this.Note = aboutItemCatalog[5];
-            this.Number = aboutItemCatalog[6];
-            this.Date = aboutItemCatalog[7];
-            this.ISSN = aboutItemCatalog[8];
+            get
+            {
+                int yearParse;
+                bool result = int.TryParse(this.Year, out yearParse);
+
+                if (result && yearParse > 0)
+                {
+                    return yearParse;
+                }
+
+                return DateTime.Today.Year;
+            }
         }
 
         public override string ToString()
@@ -44,7 +47,6 @@
             allinfo.AppendLine(InfoObject.Title);
             allinfo.AppendLine(this.Title);
 
-
             allinfo.AppendLine(InfoObject.City);
             allinfo.AppendLine(this.PublisherCity);
 
@@ -52,7 +54,15 @@
             allinfo.AppendLine(this.Publisher);
 
             allinfo.AppendLine(InfoObject.Year);
-            allinfo.AppendLine(this.Year);
+
+            if (this.Year == string.Empty)
+            {
+                allinfo.AppendLine(this.PublishedYear.ToString());
+            }
+            else
+            {
+                allinfo.AppendLine(this.Year);
+            }
 
             allinfo.AppendLine(InfoObject.PageCount);
             allinfo.AppendLine(this.PageCount);
@@ -72,5 +82,17 @@
             return allinfo.ToString();
         }
 
+        protected override void Create(string[] aboutItemCatalog)
+        {
+            this.Title = aboutItemCatalog[0];
+            this.PublisherCity = aboutItemCatalog[1];
+            this.Publisher = aboutItemCatalog[2];
+            this.Year = aboutItemCatalog[3];
+            this.PageCount = aboutItemCatalog[4];
+            this.Note = aboutItemCatalog[5];
+            this.Number = aboutItemCatalog[6];
+            this.Date = aboutItemCatalog[7];
+            this.ISSN = aboutItemCatalog[8];
+        }
     }
 }
