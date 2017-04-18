@@ -8,6 +8,11 @@
     {
         internal static char[] Comma = { ',' };
 
+        public static bool Contains(this string str, string substring, StringComparison comp)
+        {
+            return str.IndexOf(substring, comp) >= 0;
+        }
+
         internal static string DeleteWhitespace(string expression)
         {
             ///Паттерн поиска пробелов между словами
@@ -21,11 +26,6 @@
             string result = Regex.Replace(deleteGapBetween, patternBeginninrOrEndString, string.Empty);
 
             return result;
-        }
-
-        public static bool Contains(this String str, String substring, StringComparison comp)
-        {
-            return str.IndexOf(substring, comp) >= 0;
         }
     }
 }

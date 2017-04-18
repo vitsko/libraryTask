@@ -125,6 +125,53 @@
                             break;
                         }
 
+                    case '5':
+                        {
+                            bool exitSortYear = false;
+
+                            while (!exitSortYear)
+                            {
+                                MenuSortAndGroup.Draw();
+                                var selectSortMenu = Console.ReadKey();
+                                var info = string.Empty;
+
+                                switch (selectSortMenu.KeyChar)
+                                {
+
+                                    case '1':
+                                        info = Catalog.Library.SortByYearAsc();
+                                        exitSortYear = true;
+                                        break;
+
+                                    case '2':
+                                        info = Catalog.Library.SortByYearDesc();
+                                        exitSortYear = true;
+                                        break;
+
+                                    case 'q':
+                                        exitSortYear = true;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+
+                                if (selectSortMenu.KeyChar == '1' || selectSortMenu.KeyChar == '2')
+                                {
+                                    if (info != string.Empty)
+                                    {
+                                        MenuShow.AboutCatalog(info);
+                                    }
+                                    else
+                                    {
+                                        MenuToDelete.AboutEmptyCatalog();
+                                    }
+
+                                }
+                            }
+                            break;
+                        }
+
                     case 'q':
                         {
                             exitMainMenu = true;
