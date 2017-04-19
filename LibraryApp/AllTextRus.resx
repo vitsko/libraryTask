@@ -179,5 +179,7 @@
   <data name="InputSeachRequest" xml:space="preserve">
 <value>Введите поисковый запрос:</value>
     </data>
-
+<data name="ResultSearchOfAuthors" xml:space="preserve">
+<value>---Результат поиска книги по автору "{0}"---</value>
+    </data>
 </root>
