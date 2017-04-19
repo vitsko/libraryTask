@@ -8,24 +8,34 @@
         {
             Console.Clear();
             Console.WriteLine(Display.ShowCatalog);
-            Console.WriteLine(infoCatalog);
-            Console.WriteLine(Display.PressAnyKey);
-            Console.ReadKey();
+            MenuShow.ShowResult(infoCatalog);
         }
 
         internal static void ResultSearchOfTitle(string titleSearch, string result)
         {
             Console.Clear();
             Console.WriteLine(Display.ResultSearchOfTitle, titleSearch);
-            Console.WriteLine(result);
-            Console.WriteLine(Display.PressAnyKey);
-            Console.ReadKey();
+            MenuShow.ShowResult(result);
+        }
+
+        internal static void ResultSearchByAuthors(string authorSearch, string result)
+        {
+            Console.Clear();
+            Console.WriteLine(Display.ResultSearchOfAuthors, authorSearch);
+            MenuShow.ShowResult(result);
         }
 
         internal static void InputSeachRequest()
         {
             Console.Clear();
             Console.WriteLine(Display.InputSeachRequest);
+        }
+
+        private static void ShowResult(string result)
+        {
+            Console.WriteLine(result);
+            Console.WriteLine(Display.PressAnyKey);
+            Console.ReadKey();
         }
     }
 }

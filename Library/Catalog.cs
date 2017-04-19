@@ -1,6 +1,7 @@
 ﻿namespace Library
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
@@ -88,6 +89,16 @@
             Array.Sort(allitem);
             Array.Reverse(allitem);
             return this.GetInfoCatalog(allitem);
+        }
+
+        public string InfoBookByAuthor(string authorForSearch)
+        {
+            IEqualityComparer<string> comparator = new ComparatorByContains();
+
+            var books = Catalog.AllItemCatalog.Where(item => item is Book == true).ToArray();
+            var booksByAuthor = Array.FindAll(books, book => ((Book)book).Authors.Contains(authorForSearch, comparator));
+            return this.GetInfoCatalog(booksByAuthor);
+
         }
 
         private string GetInfoCatalog(ItemCatalog[] allitem)

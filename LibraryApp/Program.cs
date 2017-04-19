@@ -172,6 +172,23 @@
                             break;
                         }
 
+                    case '6':
+                        {
+                            if (Catalog.Count != 0)
+                            {
+                                MenuShow.InputSeachRequest();
+                                var searchByAuthor = Console.ReadLine();
+                                var info = Catalog.Library.InfoBookByAuthor(searchByAuthor);
+                                MenuShow.ResultSearchByAuthors(searchByAuthor, info);
+                            }
+                            else
+                            {
+                                MenuToDelete.AboutEmptyCatalog();
+                            }
+
+                            break;
+                        }
+
                     case 'q':
                         {
                             exitMainMenu = true;
