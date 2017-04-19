@@ -189,6 +189,15 @@ namespace LibraryApp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ---Результат поиска книги по автору &quot;{0}&quot;---.
+        /// </summary>
+        internal static string ResultSearchOfAuthors {
+            get {
+                return ResourceManager.GetString("ResultSearchOfAuthors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ---Результат поиска по названию &quot;{0}&quot;---.
         /// </summary>
         internal static string ResultSearchOfTitle {

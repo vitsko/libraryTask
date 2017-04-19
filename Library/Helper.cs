@@ -1,6 +1,7 @@
 ﻿namespace Library
 {
     using System;
+    using System.Collections.Generic;
     using System.Text;
     using System.Text.RegularExpressions;
 
@@ -26,6 +27,20 @@
             string result = Regex.Replace(deleteGapBetween, patternBeginninrOrEndString, string.Empty);
 
             return result;
+        }
+    }
+
+    internal class ComparatorByContains : IEqualityComparer<string>
+    {
+        public bool Equals(string withinStr, string search)
+        {
+            return Helper.Contains(withinStr, search, StringComparison.OrdinalIgnoreCase);
+
+        }
+
+        public int GetHashCode(string comparator)
+        {
+            return comparator.GetHashCode();
         }
     }
 }
