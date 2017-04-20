@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Text.RegularExpressions;
 
     public sealed class Catalog
     {
@@ -99,6 +100,48 @@
             var booksByAuthor = Array.FindAll(books, book => ((Book)book).Authors.Contains(authorForSearch, comparator));
             return this.GetInfoCatalog(booksByAuthor);
 
+        }
+
+        public string GroupBooksByPublisher(string publisher)
+        {
+            string pattern = @"^" + publisher + "";
+            var books = Catalog.AllItemCatalog.Where(item => item is Book == true).ToArray();
+
+            if (books.Length != 0)
+            {
+                var booksWithResult = new List<Book>();
+
+                foreach (var book in books)
+                {
+                    var onlyBook = (Book)book;
+
+                    if ((Regex.Match(onlyBook.Publisher, pattern, RegexOptions.IgnoreCase).Success))
+                    {
+                        booksWithResult.Add(onlyBook);
+                    }
+                }
+
+                if (booksWithResult.Count != 0)
+                {
+
+                    var result = from book in booksWithResult
+                                 group book by book.Publisher;
+
+                    var groupingBook = new List<Book>();
+
+                    foreach (var item in result)
+                    {
+                        foreach (var book in item)
+                        {
+                            groupingBook.Add(book);
+                        }
+                    }
+
+                    return this.GetInfoCatalog(groupingBook.ToArray());
+                }
+            }
+
+            return string.Empty;
         }
 
         private string GetInfoCatalog(ItemCatalog[] allitem)

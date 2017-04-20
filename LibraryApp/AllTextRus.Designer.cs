@@ -132,6 +132,8 @@ namespace LibraryApp {
         ///[3]-- Просмотр Каталога
         ///[4]-- Поиск по названию
         ///[5]-- Сортировать по году выпуска
+        ///[6]-- Поиск книг по автору
+        ///[7]-- Поиск и групп ровка книг по издательству
         ///
         ///[Q] - Закончить работу с Каталогом.
         /// </summary>
@@ -185,6 +187,15 @@ namespace LibraryApp {
         internal static string PressAnyKey {
             get {
                 return ResourceManager.GetString("PressAnyKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ---Результат поиска с группировкой книги по издательству &quot;{0}&quot;---.
+        /// </summary>
+        internal static string ResultGroupByPublisher {
+            get {
+                return ResourceManager.GetString("ResultGroupByPublisher", resourceCulture);
             }
         }
         
