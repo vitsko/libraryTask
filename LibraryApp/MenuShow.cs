@@ -32,6 +32,13 @@
             MenuShow.ShowResult(result);
         }
 
+        internal static void GroupByYear(string result)
+        {
+            Console.Clear();
+            Console.WriteLine(Display.ResultGroupByYear);
+            MenuShow.ShowResult(result);
+        }
+
         internal static void InputSeachRequest()
         {
             Console.Clear();

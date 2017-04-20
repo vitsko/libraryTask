@@ -22,7 +22,7 @@
 
         public string ISBN { get; set; }
 
-        protected override int PublishedYear
+        internal override int PublishedYear
         {
             get
             {

@@ -21,7 +21,7 @@
 
         public string DatePublication { get; set; }
 
-        protected override int PublishedYear
+        internal override int PublishedYear
         {
             get
             {
@@ -72,7 +72,6 @@
             {
                 allinfo.AppendLine(this.DatePublication);
             }
-
 
             allinfo.AppendLine(InfoObject.PageCount);
             allinfo.AppendLine(this.PageCount);
