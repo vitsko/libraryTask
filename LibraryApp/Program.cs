@@ -189,6 +189,23 @@
                             break;
                         }
 
+                    case '7':
+                        {
+                            if (Catalog.Count != 0)
+                            {
+                                MenuShow.InputSeachRequest();
+                                var searchByPublisher = Console.ReadLine();
+                                var info = Catalog.Library.GroupBooksByPublisher(searchByPublisher);
+                                MenuShow.ResultGroupByPublisher(searchByPublisher, info);
+                            }
+                            else
+                            {
+                                MenuToDelete.AboutEmptyCatalog();
+                            }
+
+                            break;
+                        }
+
                     case 'q':
                         {
                             exitMainMenu = true;
