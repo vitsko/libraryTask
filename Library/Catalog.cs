@@ -81,7 +81,7 @@
         {
             var allitem = Catalog.Shift();
             Array.Sort(allitem);
-            return this.GetInfoCatalog(allitem);
+            return Catalog.GetInfoCatalog(allitem);
         }
 
         public string SortByYearDesc()
@@ -89,7 +89,7 @@
             var allitem = Catalog.Shift();
             Array.Sort(allitem);
             Array.Reverse(allitem);
-            return this.GetInfoCatalog(allitem);
+            return Catalog.GetInfoCatalog(allitem);
         }
 
         public string InfoBookByAuthor(string authorForSearch)
@@ -98,8 +98,7 @@
 
             var books = Catalog.AllItemCatalog.Where(item => item is Book == true).ToArray();
             var booksByAuthor = Array.FindAll(books, book => ((Book)book).Authors.Contains(authorForSearch, comparator));
-            return this.GetInfoCatalog(booksByAuthor);
-
+            return Catalog.GetInfoCatalog(booksByAuthor);
         }
 
         public string GroupBooksByPublisher(string publisher)
@@ -115,7 +114,7 @@
                 {
                     var onlyBook = (Book)book;
 
-                    if ((Regex.Match(onlyBook.Publisher, pattern, RegexOptions.IgnoreCase).Success))
+                    if (Regex.Match(onlyBook.Publisher, pattern, RegexOptions.IgnoreCase).Success)
                     {
                         booksWithResult.Add(onlyBook);
                     }
@@ -123,28 +122,40 @@
 
                 if (booksWithResult.Count != 0)
                 {
-
                     var result = from book in booksWithResult
                                  group book by book.Publisher;
 
-                    var groupingBook = new List<Book>();
-
-                    foreach (var item in result)
-                    {
-                        foreach (var book in item)
-                        {
-                            groupingBook.Add(book);
-                        }
-                    }
-
-                    return this.GetInfoCatalog(groupingBook.ToArray());
+                    return Catalog.GetInfoByGroupedItem(result);
                 }
             }
 
             return string.Empty;
         }
 
-        private string GetInfoCatalog(ItemCatalog[] allitem)
+        public string GroupByYear()
+        {
+            var result = from items in Catalog.AllItemCatalog
+                         group items by items.PublishedYear;
+
+            return Catalog.GetInfoByGroupedItem(result);
+        }
+
+        private static string GetInfoByGroupedItem(dynamic resultGroup)
+        {
+            var groupingItem = new List<ItemCatalog>();
+
+            foreach (var group in resultGroup)
+            {
+                foreach (var item in group)
+                {
+                    groupingItem.Add(item);
+                }
+            }
+
+            return Catalog.GetInfoCatalog(groupingItem.ToArray());
+        }
+
+        private static string GetInfoCatalog(ItemCatalog[] allitem)
         {
             return Catalog.GetInfoSelectedItem(allitem).ToString();
         }

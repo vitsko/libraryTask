@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LibraryApp
+﻿namespace LibraryApp
 {
+    using System;
+
     internal static class MenuSortAndGroup
     {
         internal static void Draw()
@@ -13,7 +9,5 @@ namespace LibraryApp
             Console.Clear();
             Console.WriteLine(Display.SortMenu);
         }
-
-
     }
 }

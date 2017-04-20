@@ -127,48 +127,47 @@
 
                     case '5':
                         {
-                            bool exitSortYear = false;
-
-                            while (!exitSortYear)
+                            if (Catalog.Count != 0)
                             {
-                                MenuSortAndGroup.Draw();
-                                var selectSortMenu = Console.ReadKey();
+                                bool exitSortYear = false;
                                 var info = string.Empty;
 
-                                switch (selectSortMenu.KeyChar)
+                                while (!exitSortYear)
                                 {
+                                    MenuSortAndGroup.Draw();
+                                    var selectSortMenu = Console.ReadKey();
 
-                                    case '1':
-                                        info = Catalog.Library.SortByYearAsc();
-                                        exitSortYear = true;
-                                        break;
+                                    switch (selectSortMenu.KeyChar)
+                                    {
+                                        case '1':
+                                            info = Catalog.Library.SortByYearAsc();
+                                            exitSortYear = true;
+                                            break;
 
-                                    case '2':
-                                        info = Catalog.Library.SortByYearDesc();
-                                        exitSortYear = true;
-                                        break;
+                                        case '2':
+                                            info = Catalog.Library.SortByYearDesc();
+                                            exitSortYear = true;
+                                            break;
 
-                                    case 'q':
-                                        exitSortYear = true;
-                                        break;
+                                        case 'q':
+                                            exitSortYear = true;
+                                            break;
 
-                                    default:
-                                        break;
-                                }
+                                        default:
+                                            break;
+                                    }
 
-                                if (selectSortMenu.KeyChar == '1' || selectSortMenu.KeyChar == '2')
-                                {
                                     if (info != string.Empty)
                                     {
                                         MenuShow.AboutCatalog(info);
                                     }
-                                    else
-                                    {
-                                        MenuToDelete.AboutEmptyCatalog();
-                                    }
-
                                 }
                             }
+                            else
+                            {
+                                MenuToDelete.AboutEmptyCatalog();
+                            }
+
                             break;
                         }
 
@@ -197,6 +196,21 @@
                                 var searchByPublisher = Console.ReadLine();
                                 var info = Catalog.Library.GroupBooksByPublisher(searchByPublisher);
                                 MenuShow.ResultGroupByPublisher(searchByPublisher, info);
+                            }
+                            else
+                            {
+                                MenuToDelete.AboutEmptyCatalog();
+                            }
+
+                            break;
+                        }
+
+                    case '8':
+                        {
+                            if (Catalog.Count != 0)
+                            {
+                                var info = Catalog.Library.GroupByYear();
+                                MenuShow.GroupByYear(info);
                             }
                             else
                             {

@@ -135,6 +135,7 @@
 [5]-- Сортировать по году выпуска
 [6]-- Поиск книг по автору
 [7]-- Поиск и групп ровка книг по издательству
+[8]-- Группировать материалы по году выпуска
 
 [Q] - Закончить работу с Каталогом</value>
     </data>
@@ -148,8 +149,8 @@
   </data>
   <data name="MenuToSortYear" xml:space="preserve">
     <value>Сортировать по году выпуска:
-[1]-- В прямом порядке
-[2]-- В обратном порядке
+[1]-- По возрастанию
+[2]-- По убыванию
 
 [Q] - Перейти в Главное меню</value>
   </data>
@@ -184,7 +185,10 @@
   <data name="ResultSearchOfAuthors" xml:space="preserve">
 <value>---Результат поиска книги по автору "{0}"---</value>
     </data>
- <data name="ResultGroupByPublisher" xml:space="preserve">
+  <data name="ResultGroupByPublisher" xml:space="preserve">
 <value>---Результат поиска с группировкой книги по издательству "{0}"---</value>
+    </data>
+  <data name="ResultGroupByYear" xml:space="preserve">
+<value>---Каталог сгруппированный по годам выпуска материалов---</value>
     </data>
 </root>

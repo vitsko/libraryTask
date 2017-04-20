@@ -22,7 +22,7 @@
 
         public string ISSN { get; set; }
 
-        protected override int PublishedYear
+        internal override int PublishedYear
         {
             get
             {

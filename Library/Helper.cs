@@ -35,7 +35,6 @@
         public bool Equals(string withinStr, string search)
         {
             return Helper.Contains(withinStr, search, StringComparison.OrdinalIgnoreCase);
-
         }
 
         public int GetHashCode(string comparator)
