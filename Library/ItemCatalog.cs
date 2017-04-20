@@ -10,7 +10,7 @@
 
         public string Note { get; set; }
 
-        protected abstract int PublishedYear { get; }
+        internal abstract int PublishedYear { get; }
 
         public int CompareTo(ItemCatalog other)
         {
@@ -18,6 +18,7 @@
             {
                 return 1;
             }
+
             if (this.PublishedYear < other.PublishedYear)
             {
                 return -1;

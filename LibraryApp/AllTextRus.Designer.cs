@@ -134,6 +134,7 @@ namespace LibraryApp {
         ///[5]-- Сортировать по году выпуска
         ///[6]-- Поиск книг по автору
         ///[7]-- Поиск и групп ровка книг по издательству
+        ///[8]-- Группировать материалы по году выпуска
         ///
         ///[Q] - Закончить работу с Каталогом.
         /// </summary>
@@ -159,8 +160,8 @@ namespace LibraryApp {
         
         /// <summary>
         ///   Looks up a localized string similar to Сортировать по году выпуска:
-        ///[1]-- В прямом порядке
-        ///[2]-- В обратном порядке
+        ///[1]-- По возрастанию
+        ///[2]-- По убыванию
         ///
         ///[Q] - Перейти в Главное меню.
         /// </summary>
@@ -196,6 +197,15 @@ namespace LibraryApp {
         internal static string ResultGroupByPublisher {
             get {
                 return ResourceManager.GetString("ResultGroupByPublisher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ---Каталог сгруппированный по годам выпуска материалов---.
+        /// </summary>
+        internal static string ResultGroupByYear {
+            get {
+                return ResourceManager.GetString("ResultGroupByYear", resourceCulture);
             }
         }
         
