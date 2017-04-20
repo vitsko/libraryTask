@@ -133,6 +133,8 @@
 [3]-- Просмотр Каталога
 [4]-- Поиск по названию
 [5]-- Сортировать по году выпуска
+[6]-- Поиск книг по автору
+[7]-- Поиск и групп ровка книг по издательству
 
 [Q] - Закончить работу с Каталогом</value>
     </data>
@@ -179,7 +181,10 @@
   <data name="InputSeachRequest" xml:space="preserve">
 <value>Введите поисковый запрос:</value>
     </data>
-<data name="ResultSearchOfAuthors" xml:space="preserve">
+  <data name="ResultSearchOfAuthors" xml:space="preserve">
 <value>---Результат поиска книги по автору "{0}"---</value>
+    </data>
+ <data name="ResultGroupByPublisher" xml:space="preserve">
+<value>---Результат поиска с группировкой книги по издательству "{0}"---</value>
     </data>
 </root>

@@ -18,5 +18,6 @@
         internal static string ResultSearchOfTitle = AllTextRus.ResultSearchOfTitle;
         internal static string InputSeachRequest = AllTextRus.InputSeachRequest;
         internal static string ResultSearchOfAuthors = AllTextRus.ResultSearchOfAuthors;
+        internal static string ResultGroupByPublisher = AllTextRus.ResultGroupByPublisher;
     }
 }

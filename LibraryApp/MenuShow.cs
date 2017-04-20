@@ -25,6 +25,13 @@
             MenuShow.ShowResult(result);
         }
 
+        internal static void ResultGroupByPublisher(string searchByPublisher, string result)
+        {
+            Console.Clear();
+            Console.WriteLine(Display.ResultGroupByPublisher, searchByPublisher);
+            MenuShow.ShowResult(result);
+        }
+
         internal static void InputSeachRequest()
         {
             Console.Clear();
