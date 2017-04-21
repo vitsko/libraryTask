@@ -8,12 +8,13 @@
 
     public sealed class Catalog
     {
+        private const int SizeArray = 1000;
         private static readonly Catalog Instance = new Catalog();
         private static ItemCatalog[] libraryItem;
 
         private Catalog()
         {
-            libraryItem = new ItemCatalog[100];
+            libraryItem = new ItemCatalog[SizeArray];
         }
 
         public static Catalog Library
@@ -43,23 +44,28 @@
 
         public void Add(ItemCatalog item)
         {
-            Catalog.AddToHead();
-            Catalog.AddToEnd(item);
+            var lastIndex = 0;
+
+            if (Catalog.Count != 0)
+            {
+                lastIndex = Catalog.Count;
+            }
+
+            Catalog.libraryItem[lastIndex] = item;
         }
 
-        public bool Delete(string indexItem)
+        public bool Delete(int index)
         {
-            int index = -1;
-            bool isInt = int.TryParse(indexItem, out index);
-
-            if (isInt == true && index >= 0)
+            if (index >= 1 && Catalog.Count >= index)
             {
-                if (Catalog.Count >= index + 1)
-                {
-                    Catalog.libraryItem[index - 1] = null;
-                    Catalog.AddToHead();
-                    return true;
-                }
+                Catalog.libraryItem[index - 1] = null;
+
+                var allItem = Catalog.Shift();
+
+                Array.Clear(Catalog.libraryItem, 0, Catalog.libraryItem.Length);
+                Array.Copy(allItem, Catalog.libraryItem, allItem.Length);
+
+                return true;
             }
 
             return false;
@@ -172,23 +178,9 @@
             return aboutItems;
         }
 
-        private static void AddToHead()
-        {
-            var allItem = Catalog.Shift();
-
-            Array.Clear(Catalog.libraryItem, 0, Catalog.libraryItem.Length);
-            Array.Copy(allItem, Catalog.libraryItem, allItem.Length);
-        }
-
         private static ItemCatalog[] Shift()
         {
             return Catalog.libraryItem.Where(item => item != null).ToArray();
-        }
-
-        private static void AddToEnd(ItemCatalog item)
-        {
-            var lastIndex = Catalog.libraryItem.ToList().FindIndex(x => x == null);
-            Catalog.libraryItem[lastIndex] = item;
         }
     }
 }

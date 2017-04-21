@@ -15,9 +15,9 @@
                 MainMenu.Draw();
                 var selectMainMenu = Console.ReadKey();
 
-                switch (selectMainMenu.KeyChar)
+                switch (selectMainMenu.Key)
                 {
-                    case '1':
+                    case ConsoleKey.D1:
                         {
                             bool exitMenuAdd = false;
 
@@ -29,30 +29,30 @@
 
                                 var aboutItemCatalog = MenuToAdd.Input(selectCreateditem);
 
-                                switch (selectCreateditem.KeyChar)
+                                switch (selectCreateditem.Key)
                                 {
-                                    case '1':
+                                    case ConsoleKey.D1:
                                         {
                                             Catalog.Library.Add(new Library.Book(aboutItemCatalog));
                                             exitMenuAdd = true;
                                             break;
                                         }
 
-                                    case '2':
+                                    case ConsoleKey.D2:
                                         {
                                             Catalog.Library.Add(new Library.Newspaper(aboutItemCatalog));
                                             exitMenuAdd = true;
                                             break;
                                         }
 
-                                    case '3':
+                                    case ConsoleKey.D3:
                                         {
                                             Catalog.Library.Add(new Library.Patent(aboutItemCatalog));
                                             exitMenuAdd = true;
                                             break;
                                         }
 
-                                    case 'q':
+                                    case ConsoleKey.Q:
                                         {
                                             exitMenuAdd = true;
                                             break;
@@ -66,19 +66,28 @@
                             break;
                         }
 
-                    case '2':
+                    case ConsoleKey.D2:
                         {
                             if (Catalog.Count != 0)
                             {
                                 MenuToDelete.Draw();
-
                                 var indexToDelete = Console.ReadLine();
 
-                                var isDelete = Catalog.Library.Delete(indexToDelete);
+                                int index = -1;
+                                bool isInt = int.TryParse(indexToDelete, out index);
 
-                                if (isDelete)
+                                if (isInt)
                                 {
-                                    MenuToDelete.AboutDelete(indexToDelete);
+                                    var isDelete = Catalog.Library.Delete(index);
+
+                                    if (isDelete)
+                                    {
+                                        MenuToDelete.AboutDelete(indexToDelete);
+                                    }
+                                    else
+                                    {
+                                        MenuToDelete.NotDelete(indexToDelete);
+                                    }
                                 }
                                 else
                                 {
@@ -93,7 +102,7 @@
                             break;
                         }
 
-                    case '3':
+                    case ConsoleKey.D3:
                         {
                             if (Catalog.Count != 0)
                             {
@@ -108,13 +117,19 @@
                             break;
                         }
 
-                    case '4':
+                    case ConsoleKey.D4:
                         {
                             if (Catalog.Count != 0)
                             {
                                 MenuShow.InputSeachRequest();
                                 var searchTitle = Console.ReadLine();
-                                var info = Catalog.Library.GetInfoItemWithTitle(searchTitle);
+                                var info = string.Empty;
+
+                                if (searchTitle != string.Empty)
+                                {
+                                    info = Catalog.Library.GetInfoItemWithTitle(searchTitle);
+                                }
+
                                 MenuShow.ResultSearchOfTitle(searchTitle, info);
                             }
                             else
@@ -125,7 +140,7 @@
                             break;
                         }
 
-                    case '5':
+                    case ConsoleKey.D5:
                         {
                             if (Catalog.Count != 0)
                             {
@@ -171,13 +186,19 @@
                             break;
                         }
 
-                    case '6':
+                    case ConsoleKey.D6:
                         {
                             if (Catalog.Count != 0)
                             {
                                 MenuShow.InputSeachRequest();
                                 var searchByAuthor = Console.ReadLine();
-                                var info = Catalog.Library.InfoBookByAuthor(searchByAuthor);
+                                var info = string.Empty;
+
+                                if (searchByAuthor != string.Empty)
+                                {
+                                    info = Catalog.Library.InfoBookByAuthor(searchByAuthor);
+                                }
+
                                 MenuShow.ResultSearchByAuthors(searchByAuthor, info);
                             }
                             else
@@ -188,13 +209,19 @@
                             break;
                         }
 
-                    case '7':
+                    case ConsoleKey.D7:
                         {
                             if (Catalog.Count != 0)
                             {
                                 MenuShow.InputSeachRequest();
                                 var searchByPublisher = Console.ReadLine();
-                                var info = Catalog.Library.GroupBooksByPublisher(searchByPublisher);
+                                var info = string.Empty;
+
+                                if (searchByPublisher != string.Empty)
+                                {
+                                    info = Catalog.Library.GroupBooksByPublisher(searchByPublisher);
+                                }
+
                                 MenuShow.ResultGroupByPublisher(searchByPublisher, info);
                             }
                             else
@@ -205,7 +232,7 @@
                             break;
                         }
 
-                    case '8':
+                    case ConsoleKey.D8:
                         {
                             if (Catalog.Count != 0)
                             {
@@ -220,7 +247,7 @@
                             break;
                         }
 
-                    case 'q':
+                    case ConsoleKey.Q:
                         {
                             exitMainMenu = true;
                             break;
