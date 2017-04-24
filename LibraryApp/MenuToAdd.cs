@@ -19,9 +19,9 @@
             Console.Clear();
             List<string> questions = new List<string>();
 
-            switch (toAddIntoCatalog.KeyChar)
+            switch (toAddIntoCatalog.Key)
             {
-                case '1':
+                case ConsoleKey.D1:
                     {
                         questions = Display
                                     .AskBook
@@ -29,7 +29,7 @@
                         break;
                     }
 
-                case '2':
+                case ConsoleKey.D2:
                     {
                         questions = Display
                                     .AskNewspaper
@@ -37,7 +37,7 @@
                         break;
                     }
 
-                case '3':
+                case ConsoleKey.D3:
                     {
                         questions = Display
                                     .AskPatent

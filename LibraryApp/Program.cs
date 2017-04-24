@@ -152,19 +152,17 @@
                                     MenuSortAndGroup.Draw();
                                     var selectSortMenu = Console.ReadKey();
 
-                                    switch (selectSortMenu.KeyChar)
+                                    switch (selectSortMenu.Key)
                                     {
-                                        case '1':
+                                        case ConsoleKey.D1:
                                             info = Catalog.Library.SortByYearAsc();
-                                            exitSortYear = true;
                                             break;
 
-                                        case '2':
+                                        case ConsoleKey.D2:
                                             info = Catalog.Library.SortByYearDesc();
-                                            exitSortYear = true;
                                             break;
 
-                                        case 'q':
+                                        case ConsoleKey.Q:
                                             exitSortYear = true;
                                             break;
 
@@ -175,6 +173,7 @@
                                     if (info != string.Empty)
                                     {
                                         MenuShow.AboutCatalog(info);
+                                        exitSortYear = true;
                                     }
                                 }
                             }
