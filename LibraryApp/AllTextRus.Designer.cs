@@ -88,11 +88,21 @@ namespace LibraryApp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Укажите номер для удаления из Каталога:.
+        ///   Looks up a localized string similar to Укажите номер записи для удаления из Каталога:.
         /// </summary>
         internal static string AskToDelete {
             get {
                 return ResourceManager.GetString("AskToDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Каталог пуст или не содержит книг.
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        internal static string CatalogIsEmptyOrHasNotBook {
+            get {
+                return ResourceManager.GetString("CatalogIsEmptyOrHasNotBook", resourceCulture);
             }
         }
         

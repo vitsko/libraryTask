@@ -45,7 +45,7 @@
         {
             StringBuilder allinfo = new StringBuilder();
 
-            allinfo.AppendLine(InfoObject.TypePatent);
+            allinfo.AppendLine(ItemCatalog.Charp + this.Id.ToString() + InfoObject.TypePatent);
 
             allinfo.AppendLine(InfoObject.Title);
             allinfo.AppendLine(this.Title);
@@ -84,6 +84,7 @@
 
         protected override void Create(string[] aboutItemCatalog)
         {
+            this.Id = ItemCatalog.GetId();
             this.Title = aboutItemCatalog[0];
             this.Inventors = Helper
                            .DeleteWhitespace(aboutItemCatalog[1])

@@ -23,12 +23,5 @@
             Console.WriteLine(Display.NoDelete, indexToDelete);
             Console.ReadKey();
         }
-
-        internal static void AboutEmptyCatalog()
-        {
-            Console.Clear();
-            Console.WriteLine(Display.EmptyCatalog);
-            Console.ReadKey();
-        }
     }
 }

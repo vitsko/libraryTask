@@ -13,6 +13,7 @@
         internal static string Delete = AllTextRus.Delete;
         internal static string NoDelete = AllTextRus.NoDelete;
         internal static string EmptyCatalog = AllTextRus.EmptyCatalog;
+        internal static string CatalogIsEmptyOrHasNotBook = AllTextRus.CatalogIsEmptyOrHasNotBook;
         internal static string ShowCatalog = AllTextRus.ShowCatalog;
         internal static string PressAnyKey = AllTextRus.PressAnyKey;
         internal static string ResultSearchOfTitle = AllTextRus.ResultSearchOfTitle;

@@ -42,7 +42,7 @@
         {
             StringBuilder allinfo = new StringBuilder();
 
-            allinfo.AppendLine(InfoObject.TypeNews);
+            allinfo.AppendLine(ItemCatalog.Charp + this.Id.ToString() + InfoObject.TypeNews);
 
             allinfo.AppendLine(InfoObject.Title);
             allinfo.AppendLine(this.Title);
@@ -84,6 +84,7 @@
 
         protected override void Create(string[] aboutItemCatalog)
         {
+            this.Id = ItemCatalog.GetId();
             this.Title = aboutItemCatalog[0];
             this.PublisherCity = aboutItemCatalog[1];
             this.Publisher = aboutItemCatalog[2];

@@ -155,7 +155,7 @@
 [Q] - Перейти в Главное меню</value>
   </data>
   <data name="AskToDelete" xml:space="preserve">
-    <value>Укажите номер для удаления из Каталога:</value>
+    <value>Укажите номер записи для удаления из Каталога:</value>
     </data>
   <data name="Delete" xml:space="preserve">
 <value>Вы удалили запись #{0}.
@@ -167,6 +167,10 @@
     </data>
   <data name="EmptyCatalog" xml:space="preserve">
 <value>Каталог пуст.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+    </data>
+  <data name="CatalogIsEmptyOrHasNotBook" xml:space="preserve">
+<value>Каталог пуст или не содержит книг.
 Нажмите любую кнопку для выходя в Главное меню...</value>
     </data>
   <data name="ShowCatalog" xml:space="preserve">

@@ -6,23 +6,14 @@
     using System.Text;
     using System.Text.RegularExpressions;
 
-    public sealed class Catalog
+    public static class Catalog
     {
         private const int SizeArray = 1000;
-        private static readonly Catalog Instance = new Catalog();
         private static ItemCatalog[] libraryItem;
 
-        private Catalog()
+        static Catalog()
         {
             libraryItem = new ItemCatalog[SizeArray];
-        }
-
-        public static Catalog Library
-        {
-            get
-            {
-                return Instance;
-            }
         }
 
         public static int Count
@@ -34,6 +25,14 @@
             }
         }
 
+        public static bool HasBook
+        {
+            get
+            {
+                return Catalog.AllItemCatalog.Any(item => item is Book);
+            }
+        }
+
         private static ItemCatalog[] AllItemCatalog
         {
             get
@@ -42,7 +41,7 @@
             }
         }
 
-        public void Add(ItemCatalog item)
+        public static void Add(ItemCatalog item)
         {
             var lastIndex = 0;
 
@@ -54,60 +53,66 @@
             Catalog.libraryItem[lastIndex] = item;
         }
 
-        public bool Delete(int index)
+        public static bool Delete(int id)
         {
-            if (index >= 1 && Catalog.Count >= index)
+            if (Catalog.AllItemCatalog.Any(item => item.Id == id))
             {
-                Catalog.libraryItem[index - 1] = null;
+                for (int index = 0; index < Catalog.Count; index++)
+                {
+                    if (Catalog.AllItemCatalog[index].Id == id)
+                    {
+                        Catalog.libraryItem[index] = null;
 
-                var allItem = Catalog.Shift();
+                        var allItem = Catalog.Shift();
 
-                Array.Clear(Catalog.libraryItem, 0, Catalog.libraryItem.Length);
-                Array.Copy(allItem, Catalog.libraryItem, allItem.Length);
+                        Array.Clear(Catalog.libraryItem, 0, Catalog.libraryItem.Length);
+                        Array.Copy(allItem, Catalog.libraryItem, allItem.Length);
 
-                return true;
+                        return true;
+                    }
+                }
             }
 
             return false;
         }
 
-        public string GetInfoCatalog()
+        public static void DeleteAll()
         {
-            return Catalog.GetInfoSelectedItem(Catalog.AllItemCatalog).ToString();
+            for (int index = 0; index < Catalog.SizeArray; index++)
+            {
+                if (Catalog.libraryItem[index] != null)
+                {
+                    Catalog.libraryItem[index] = null;
+                }
+            }
         }
 
-        public string GetInfoItemWithTitle(string title)
+        public static ItemCatalog[] GetItemWithTitle(string title)
         {
-            var items = Array.FindAll(Catalog.AllItemCatalog, item => item.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-
-            return GetInfoSelectedItem(items).ToString();
+            return Array.FindAll(Catalog.AllItemCatalog, item => item.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
         }
 
-        public string SortByYearAsc()
+        public static ItemCatalog[] SortByYearAsc()
         {
-            var allitem = Catalog.Shift();
-            Array.Sort(allitem);
-            return Catalog.GetInfoCatalog(allitem);
+            return SortByYear();
         }
 
-        public string SortByYearDesc()
+        public static ItemCatalog[] SortByYearDesc()
         {
-            var allitem = Catalog.Shift();
-            Array.Sort(allitem);
+            var allitem = SortByYear();
             Array.Reverse(allitem);
-            return Catalog.GetInfoCatalog(allitem);
+            return allitem;
         }
 
-        public string InfoBookByAuthor(string authorForSearch)
+        public static ItemCatalog[] GetBookByAuthor(string authorForSearch)
         {
             IEqualityComparer<string> comparator = new ComparatorByContains();
 
-            var books = Catalog.AllItemCatalog.Where(item => item is Book == true).ToArray();
-            var booksByAuthor = Array.FindAll(books, book => ((Book)book).Authors.Contains(authorForSearch, comparator));
-            return Catalog.GetInfoCatalog(booksByAuthor);
+            var books = Catalog.AllItemCatalog.Where(item => item is Book).ToArray();
+            return Array.FindAll(books, book => ((Book)book).Authors.Contains(authorForSearch, comparator));
         }
 
-        public string GroupBooksByPublisher(string publisher)
+        public static ItemCatalog[] GroupBooksByPublisher(string publisher)
         {
             string pattern = @"^" + publisher + "";
             var books = Catalog.AllItemCatalog.Where(item => item is Book == true).ToArray();
@@ -131,22 +136,46 @@
                     var result = from book in booksWithResult
                                  group book by book.Publisher;
 
-                    return Catalog.GetInfoByGroupedItem(result);
+                    return Catalog.GetItemByGrouped(result);
                 }
             }
 
-            return string.Empty;
+            return books;
         }
 
-        public string GroupByYear()
+        public static ItemCatalog[] GroupByYear()
         {
             var result = from items in Catalog.AllItemCatalog
                          group items by items.PublishedYear;
 
-            return Catalog.GetInfoByGroupedItem(result);
+            return Catalog.GetItemByGrouped(result);
         }
 
-        private static string GetInfoByGroupedItem(dynamic resultGroup)
+        public static string GetInfoCatalog()
+        {
+            return Catalog.GetInfoSelectedItem(Catalog.AllItemCatalog).ToString();
+        }
+
+        public static string GetInfoSelectedItem(ItemCatalog[] selectedItems)
+        {
+            StringBuilder aboutItems = new StringBuilder();
+
+            foreach (var item in selectedItems)
+            {
+                aboutItems.AppendLine(item.ToString());
+            }
+
+            return aboutItems.ToString();
+        }
+
+        private static ItemCatalog[] SortByYear()
+        {
+            var allitem = Catalog.Shift();
+            Array.Sort(allitem);
+            return allitem;
+        }
+
+        private static ItemCatalog[] GetItemByGrouped(dynamic resultGroup)
         {
             var groupingItem = new List<ItemCatalog>();
 
@@ -158,24 +187,7 @@
                 }
             }
 
-            return Catalog.GetInfoCatalog(groupingItem.ToArray());
-        }
-
-        private static string GetInfoCatalog(ItemCatalog[] allitem)
-        {
-            return Catalog.GetInfoSelectedItem(allitem).ToString();
-        }
-
-        private static StringBuilder GetInfoSelectedItem(ItemCatalog[] selectedItems)
-        {
-            StringBuilder aboutItems = new StringBuilder();
-
-            foreach (var item in selectedItems)
-            {
-                aboutItems.AppendLine(item.ToString());
-            }
-
-            return aboutItems;
+            return groupingItem.ToArray();
         }
 
         private static ItemCatalog[] Shift()

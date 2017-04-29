@@ -45,6 +45,20 @@
             Console.WriteLine(Display.InputSeachRequest);
         }
 
+        internal static void AboutEmptyCatalog()
+        {
+            Console.Clear();
+            Console.WriteLine(Display.EmptyCatalog);
+            Console.ReadKey();
+        }
+
+        internal static void CatalogIsEmptyOrHasNotBook()
+        {
+            Console.Clear();
+            Console.WriteLine(Display.CatalogIsEmptyOrHasNotBook);
+            Console.ReadKey();
+        }
+
         private static void ShowResult(string result)
         {
             Console.WriteLine(result);
