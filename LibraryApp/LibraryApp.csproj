@@ -84,10 +84,6 @@
       <Project>{67f2dc48-3e98-484e-97bd-412f529e773c}</Project>
       <Name>Library</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Test\Test.csproj">
-      <Project>{e1827bc8-f9b4-4dff-8ec2-3677bcd1bb5b}</Project>
-      <Name>Test</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

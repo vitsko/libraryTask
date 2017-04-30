@@ -2,8 +2,6 @@
 {
     using System;
     using Library;
-    using Test;
-    using System.Collections.Generic;
 
     internal class Program
     {
@@ -179,7 +177,6 @@
                                         default:
                                             break;
                                     }
-
                                 }
                             }
                             else

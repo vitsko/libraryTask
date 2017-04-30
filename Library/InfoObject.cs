@@ -28,7 +28,7 @@
         internal static string DateRequest = AboutObject.DateRequest;
         internal static string DatePublication = AboutObject.DatePublication;
 
-        //Группировка
+        // Группировка
         internal static string AboutGrouping = AboutObject.AboutGrouping;
         internal static string GroupingIsUnavailable = AboutObject.GroupingIsUnavailable;
     }

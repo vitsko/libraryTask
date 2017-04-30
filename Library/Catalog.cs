@@ -8,18 +8,18 @@
 
     public static class Catalog
     {
-        public enum GroupingBy
-        {
-            Publisher = 1,
-            Year
-        }
-
         private const int SizeArray = 1000;
         private static ItemCatalog[] libraryItem;
 
         static Catalog()
         {
             libraryItem = new ItemCatalog[SizeArray];
+        }
+
+        public enum GroupingBy
+        {
+            Publisher = 1,
+            Year
         }
 
         public static int Count
