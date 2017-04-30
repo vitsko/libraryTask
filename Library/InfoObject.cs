@@ -27,5 +27,9 @@
         internal static string RegNumber = AboutObject.RegNumber;
         internal static string DateRequest = AboutObject.DateRequest;
         internal static string DatePublication = AboutObject.DatePublication;
+
+        //Группировка
+        internal static string AboutGrouping = AboutObject.AboutGrouping;
+        internal static string GroupingIsUnavailable = AboutObject.GroupingIsUnavailable;
     }
 }

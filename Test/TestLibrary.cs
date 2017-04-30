@@ -1,4 +1,5 @@
-﻿namespace Test
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+namespace Test
 {
     using Library;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,7 +13,9 @@
         private const string searchTitle = "Советский";
         private const int idByTitleSearch = 3;
         private const int idBySortYearASC = 1;
-        //private const int idBySortYearASC = 1;
+        private const int idBySortYearDESC = 3;
+        private const string searchByAuthor = "Михаил";
+        private const int countBookByAuthor = 2;
 
 
         [TestMethod]
@@ -42,6 +45,31 @@
             var result = Catalog.GetItemWithTitle(searchTitle);
 
             Assert.IsTrue(result[0].Id == idByTitleSearch);
+        }
+
+        [TestMethod]
+        public void CheckSortByYearASC()
+        {
+            TestLibrary.GetDataToTest();
+            var result = Catalog.SortByYearASC();
+
+            Assert.IsTrue(result[0].Id == TestLibrary.idBySortYearASC);
+        }
+
+        [TestMethod]
+        public void CheckSortByYearDESC()
+        {
+            TestLibrary.GetDataToTest();
+            var result = Catalog.SortByYearDESC();
+
+            Assert.IsTrue(result[0].Id == TestLibrary.idBySortYearDESC);
+        }
+
+        [TestMethod]
+        public void CheckSearchBookByAuthor()
+        {
+            var book = Catalog.GetBookByAuthor(TestLibrary.searchByAuthor);
+            Assert.IsTrue(book.Length == TestLibrary.countBookByAuthor);
         }
 
         private static void GetDataToTest()

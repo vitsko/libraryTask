@@ -177,4 +177,11 @@
   <data name="DatePublication" xml:space="preserve">
 <value>Дата публикации:</value>
 </data>
+  <!--Для группироки-->
+  <data name="AboutGrouping" xml:space="preserve">
+<value>Группировка по </value>
+</data>
+  <data name="GroupingIsUnavailable" xml:space="preserve">
+<value>Нет данных для группировки.</value>
+</data>
 </root>

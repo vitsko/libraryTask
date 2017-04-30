@@ -159,14 +159,14 @@
                                     switch (selectSortMenu.Key)
                                     {
                                         case ConsoleKey.D1:
-                                            catalogAfterSort = Catalog.SortByYearAsc();
+                                            catalogAfterSort = Catalog.SortByYearASC();
                                             info = Catalog.GetInfoSelectedItem(catalogAfterSort);
                                             MenuShow.AboutCatalog(info);
                                             exitSortYear = true;
                                             break;
 
                                         case ConsoleKey.D2:
-                                            catalogAfterSort = Catalog.SortByYearDesc();
+                                            catalogAfterSort = Catalog.SortByYearDESC();
                                             info = Catalog.GetInfoSelectedItem(catalogAfterSort);
                                             MenuShow.AboutCatalog(info);
                                             exitSortYear = true;
@@ -221,13 +221,13 @@
                             {
                                 MenuShow.InputSeachRequest();
                                 var searchByPublisher = Console.ReadLine();
-                                ItemCatalog[] books;
+                                dynamic books;
                                 var info = string.Empty;
 
                                 if (searchByPublisher != string.Empty)
                                 {
                                     books = Catalog.GroupBooksByPublisher(searchByPublisher);
-                                    info = Catalog.GetInfoSelectedItem(books);
+                                    info = Catalog.GetInfoItemByGrouping(books, Catalog.GroupingBy.Publisher);
                                 }
 
                                 MenuShow.ResultGroupByPublisher(searchByPublisher, info);
@@ -244,8 +244,8 @@
                         {
                             if (Catalog.Count != 0)
                             {
-                                ItemCatalog[] groupedCatalogByYear = Catalog.GroupByYear();
-                                var info = Catalog.GetInfoSelectedItem(groupedCatalogByYear);
+                                var groupedCatalogByYear = Catalog.GroupByYear();
+                                var info = Catalog.GetInfoItemByGrouping(groupedCatalogByYear, Catalog.GroupingBy.Year);
                                 MenuShow.GroupByYear(info);
                             }
                             else

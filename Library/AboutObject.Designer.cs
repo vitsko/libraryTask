@@ -61,6 +61,15 @@ namespace Library {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Группировка по .
+        /// </summary>
+        internal static string AboutGrouping {
+            get {
+                return ResourceManager.GetString("AboutGrouping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Авторы:.
         /// </summary>
         internal static string Authors {
@@ -111,6 +120,15 @@ namespace Library {
         internal static string DateRequest {
             get {
                 return ResourceManager.GetString("DateRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нет данных для группировки..
+        /// </summary>
+        internal static string GroupingIsUnavailable {
+            get {
+                return ResourceManager.GetString("GroupingIsUnavailable", resourceCulture);
             }
         }
         
