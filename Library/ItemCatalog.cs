@@ -2,34 +2,34 @@
 {
     using System;
 
-    public abstract class ItemCatalog : IComparable<ItemCatalog>
+    public abstract class ItemCatalog //: IComparable<ItemCatalog>
     {
         protected const char Charp = '#';
 
         public string Title { get; set; }
 
-        public string PageCount { get; set; }
+        public int PageCount { get; set; }
 
         public string Note { get; set; }
 
         public int Id { get; protected set; }
 
-        internal abstract int PublishedYear { get; }
+        // internal abstract int PublishedYear { get; }
 
-        public int CompareTo(ItemCatalog other)
-        {
-            if (this.PublishedYear > other.PublishedYear)
-            {
-                return 1;
-            }
+        //public int CompareTo(ItemCatalog other)
+        //{
+        //    if (this.PublishedYear > other.PublishedYear)
+        //    {
+        //        return 1;
+        //    }
 
-            if (this.PublishedYear < other.PublishedYear)
-            {
-                return -1;
-            }
+        //    if (this.PublishedYear < other.PublishedYear)
+        //    {
+        //        return -1;
+        //    }
 
-            return 0;
-        }
+        //    return 0;
+        //}
 
         protected static int GetId()
         {

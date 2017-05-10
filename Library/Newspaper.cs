@@ -14,29 +14,29 @@
 
         public string Publisher { get; set; }
 
-        public string Year { get; set; }
+        public int Year { get; set; }
 
-        public string Number { get; set; }
+        public int Number { get; set; }
 
         public string Date { get; set; }
 
         public string ISSN { get; set; }
 
-        internal override int PublishedYear
-        {
-            get
-            {
-                int yearParse;
-                bool result = int.TryParse(this.Year, out yearParse);
+        //internal override int PublishedYear
+        //{
+        //    get
+        //    {
+        //        int yearParse;
+        //        bool result = int.TryParse(this.Year, out yearParse);
 
-                if (result && yearParse > 0)
-                {
-                    return yearParse;
-                }
+        //        if (result && yearParse > 0)
+        //        {
+        //            return yearParse;
+        //        }
 
-                return DateTime.Today.Year;
-            }
-        }
+        //        return DateTime.Today.Year;
+        //    }
+        //}
 
         public override string ToString()
         {
@@ -55,23 +55,23 @@
 
             allinfo.AppendLine(InfoObject.Year);
 
-            if (this.Year == string.Empty)
-            {
-                allinfo.AppendLine(this.PublishedYear.ToString());
-            }
-            else
-            {
-                allinfo.AppendLine(this.Year);
-            }
+            //if (this.Year == string.Empty)
+            //{
+            //    allinfo.AppendLine(this.PublishedYear.ToString());
+            //}
+            //else
+            //{
+            allinfo.AppendLine(this.Year.ToString());
+            //}
 
             allinfo.AppendLine(InfoObject.PageCount);
-            allinfo.AppendLine(this.PageCount);
+            allinfo.AppendLine(this.PageCount.ToString());
 
             allinfo.AppendLine(InfoObject.Note);
             allinfo.AppendLine(this.Note);
 
             allinfo.AppendLine(InfoObject.Number);
-            allinfo.AppendLine(this.Number);
+            allinfo.AppendLine(this.Number.ToString());
 
             allinfo.AppendLine(InfoObject.Date);
             allinfo.AppendLine(this.Date);
