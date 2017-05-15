@@ -6,40 +6,110 @@
 
     public class Patent : ItemCatalog
     {
+        private static DateTime defaultDate = new DateTime(1950, 01, 01);
+        private string[] inventors;
+        private string сountry;
+        private DateTime dateRequest;
+        private DateTime datePublication;
+
         public Patent(string[] aboutItemCatalog)
         {
+            errorList.Clear();
             this.Create(aboutItemCatalog);
         }
 
-        public string[] Inventors { get; set; }
+        public string[] Inventors
+        {
+            get
+            {
+                return this.inventors;
+            }
+            set
+            {
+                if (value.Length != 0)
+                {
+                    this.inventors = value;
+                }
+                else
+                {
+                    this.inventors = new string[1];
+                    this.inventors[0] = AboutObject.DefaultInventor;
+                    ItemCatalog.errorList.Add(AboutObject.InventorError + this.inventors[0]);
+                }
+            }
+        }
 
-        public string Country { get; set; }
+        public string Country
+        {
+            get
+            {
+                return this.сountry;
+            }
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    this.сountry = value;
+                }
+                else
+                {
+                    this.сountry = AboutObject.DefaultCountry;
+                    ItemCatalog.errorList.Add(AboutObject.CountryError + this.сountry);
+                }
+            }
+        }
 
         public string RegNumber { get; set; }
 
-        public DateTime DateRequest { get; set; }
+        public DateTime DateRequest
+        {
+            get
+            {
+                return this.dateRequest;
+            }
+            set
+            {
+                if (value >= Patent.defaultDate)
+                {
+                    this.dateRequest = value;
+                }
+                else
+                {
+                    this.dateRequest = Patent.defaultDate;
+                    ItemCatalog.errorList.Add(AboutObject.DateRPatentError + this.dateRequest.ToShortDateString());
+                }
 
-        public DateTime DatePublication { get; set; }
+            }
+        }
 
-        //internal override int PublishedYear
-        //{
-        //    get
-        //    {
-        //        CultureInfo newCulture = new CultureInfo("en-US", true);
-        //        newCulture.DateTimeFormat.ShortDatePattern = "dd.MM.yyyy";
+        public DateTime DatePublication
+        {
+            get
+            {
+                return this.datePublication;
+            }
+            set
+            {
+                if (value >= Patent.defaultDate)
+                {
+                    this.datePublication = value;
+                }
+                else
+                {
+                    this.datePublication = Patent.defaultDate;
+                    ItemCatalog.errorList.Add(AboutObject.DatePPatentError + this.datePublication.ToShortDateString());
+                }
 
-        //        DateTime enterDate;
+            }
+        }
 
-        //        bool result = DateTime.TryParseExact(this.DatePublication, newCulture.DateTimeFormat.ShortDatePattern, newCulture, DateTimeStyles.AllowWhiteSpaces, out enterDate);
-
-        //        if (result)
-        //        {
-        //            return enterDate.Year;
-        //        }
-
-        //        return DateTime.Today.Year;
-        //    }
-        //}
+        internal override int PublishedYear
+        {
+            get
+            {
+                return this.DatePublication.Year;
+            }
+        }
 
         public override string ToString()
         {
@@ -63,15 +133,8 @@
             allinfo.AppendLine(this.DateRequest.ToShortDateString());
 
             allinfo.AppendLine(InfoObject.DatePublication);
-
-            //if (this.DatePublication == string.Empty)
-            //{
-            //    allinfo.AppendLine(DateTime.Today.ToShortDateString());
-            //}
-            //else
-            //{
             allinfo.AppendLine(this.DatePublication.ToShortDateString());
-            //}
+
 
             allinfo.AppendLine(InfoObject.PageCount);
             allinfo.AppendLine(this.PageCount.ToString());
@@ -84,16 +147,27 @@
 
         protected override void Create(string[] aboutItemCatalog)
         {
+            int intValue = 0;
+            DateTime date;
+
             this.Id = ItemCatalog.GetId();
             this.Title = aboutItemCatalog[0];
             this.Inventors = Helper
                            .DeleteWhitespace(aboutItemCatalog[1])
                            .Split(Helper.Comma, StringSplitOptions.RemoveEmptyEntries);
+
             this.Country = aboutItemCatalog[2];
             this.RegNumber = aboutItemCatalog[3];
-            this.DateRequest = aboutItemCatalog[4];
-            this.DatePublication = aboutItemCatalog[5];
-            this.PageCount = aboutItemCatalog[6];
+
+            Helper.IsDateAsDDMMYYYY(aboutItemCatalog[4], out date);
+            this.DateRequest = date;
+
+            Helper.IsDateAsDDMMYYYY(aboutItemCatalog[5], out date);
+            this.DatePublication = date;
+
+            Helper.IsIntMoreThanZero(aboutItemCatalog[6], out intValue);
+            this.PageCount = intValue;
+
             this.Note = aboutItemCatalog[7];
         }
     }

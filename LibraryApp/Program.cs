@@ -2,6 +2,7 @@
 {
     using System;
     using Library;
+    using System.Collections.Generic;
 
     internal class Program
     {
@@ -20,6 +21,7 @@
                     case ConsoleKey.D1:
                         {
                             bool exitMenuAdd = false;
+                            var isCorrectAdd = false;
 
                             while (!exitMenuAdd)
                             {
@@ -33,21 +35,24 @@
                                 {
                                     case ConsoleKey.D1:
                                         {
-                                            Catalog.Add(new Library.Book(aboutItemCatalog));
+                                            isCorrectAdd = Catalog.Add(new Library.Book(aboutItemCatalog));
+                                            MenuShow.ShowResultAdd(isCorrectAdd);
                                             exitMenuAdd = true;
                                             break;
                                         }
 
                                     case ConsoleKey.D2:
                                         {
-                                            Catalog.Add(new Library.Newspaper(aboutItemCatalog));
+                                            isCorrectAdd = Catalog.Add(new Library.Newspaper(aboutItemCatalog));
+                                            MenuShow.ShowResultAdd(isCorrectAdd);
                                             exitMenuAdd = true;
                                             break;
                                         }
 
                                     case ConsoleKey.D3:
                                         {
-                                            Catalog.Add(new Library.Patent(aboutItemCatalog));
+                                            isCorrectAdd = Catalog.Add(new Library.Patent(aboutItemCatalog));
+                                            MenuShow.ShowResultAdd(isCorrectAdd);
                                             exitMenuAdd = true;
                                             break;
                                         }
@@ -122,7 +127,7 @@
                                 MenuShow.InputSeachRequest();
                                 var searchTitle = Console.ReadLine();
 
-                                ItemCatalog[] resultCatalog;
+                                List<ItemCatalog> resultCatalog;
                                 var info = string.Empty;
 
                                 if (searchTitle != string.Empty)
@@ -146,7 +151,7 @@
                             if (Catalog.Count != 0)
                             {
                                 bool exitSortYear = false;
-                                ItemCatalog[] catalogAfterSort;
+                                List<ItemCatalog> catalogAfterSort;
                                 var info = string.Empty;
 
                                 while (!exitSortYear)
@@ -193,7 +198,7 @@
                             {
                                 MenuShow.InputSeachRequest();
                                 var searchByAuthor = Console.ReadLine();
-                                ItemCatalog[] booksbyAuthor;
+                                List<ItemCatalog> booksbyAuthor;
                                 var info = string.Empty;
 
                                 if (searchByAuthor != string.Empty)

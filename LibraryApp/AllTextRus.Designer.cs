@@ -136,6 +136,15 @@ namespace LibraryApp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ---При добавлении объекта в Каталог возникли следующие ошибки---.
+        /// </summary>
+        internal static string ListError {
+            get {
+                return ResourceManager.GetString("ListError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Главное меню:
         ///[1]-- Добавить запись в Каталог
         ///[2]-- Удалить запись из Каталога
@@ -143,7 +152,7 @@ namespace LibraryApp {
         ///[4]-- Поиск по названию
         ///[5]-- Сортировать по году выпуска
         ///[6]-- Поиск книг по автору
-        ///[7]-- Поиск и групп ровка книг по издательству
+        ///[7]-- Поиск и группировка книг по издательству
         ///[8]-- Группировать материалы по году выпуска
         ///
         ///[Q] - Закончить работу с Каталогом.
@@ -198,6 +207,15 @@ namespace LibraryApp {
         internal static string PressAnyKey {
             get {
                 return ResourceManager.GetString("PressAnyKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ---Вы добавили новый объект Каталога---.
+        /// </summary>
+        internal static string ResultAdd {
+            get {
+                return ResourceManager.GetString("ResultAdd", resourceCulture);
             }
         }
         

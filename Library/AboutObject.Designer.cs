@@ -79,11 +79,29 @@ namespace Library {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы не указали Автора книги. Вместо него указано значение по умолчанию: .
+        /// </summary>
+        internal static string AuthorsError {
+            get {
+                return ResourceManager.GetString("AuthorsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Место издательства (Город):.
         /// </summary>
         internal static string City {
             get {
                 return ResourceManager.GetString("City", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы не указали Место издания (город). Вместо него указано значение по умолчанию: .
+        /// </summary>
+        internal static string CityError {
+            get {
+                return ResourceManager.GetString("CityError", resourceCulture);
             }
         }
         
@@ -97,11 +115,38 @@ namespace Library {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы не указали Страну патента. Вместо нее указано значение по умолчанию: .
+        /// </summary>
+        internal static string CountryError {
+            get {
+                return ResourceManager.GetString("CountryError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дата:.
         /// </summary>
         internal static string Date {
             get {
                 return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы указали Дату газеты не в формате дд.мм.гггг. Вместо нее указано значение по умолчанию: .
+        /// </summary>
+        internal static string DateNewsError {
+            get {
+                return ResourceManager.GetString("DateNewsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы указали Дату подачи публикации не в формате дд.мм.гггг или год ранее 1950. Вместо нее указано значение по умолчанию: .
+        /// </summary>
+        internal static string DatePPatentError {
+            get {
+                return ResourceManager.GetString("DatePPatentError", resourceCulture);
             }
         }
         
@@ -124,11 +169,83 @@ namespace Library {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы указали Дату подачи заявки не в формате дд.мм.гггг или год ранее 1950. Вместо нее указано значение по умолчанию: .
+        /// </summary>
+        internal static string DateRPatentError {
+            get {
+                return ResourceManager.GetString("DateRPatentError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Автор по умолчанию.
+        /// </summary>
+        internal static string DefaultAuthor {
+            get {
+                return ResourceManager.GetString("DefaultAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Город по умолчанию.
+        /// </summary>
+        internal static string DefaultCity {
+            get {
+                return ResourceManager.GetString("DefaultCity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Страна по умолчанию.
+        /// </summary>
+        internal static string DefaultCountry {
+            get {
+                return ResourceManager.GetString("DefaultCountry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Изобретатель по умолчанию.
+        /// </summary>
+        internal static string DefaultInventor {
+            get {
+                return ResourceManager.GetString("DefaultInventor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Издательство по умолчанию.
+        /// </summary>
+        internal static string DefaultPublisher {
+            get {
+                return ResourceManager.GetString("DefaultPublisher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Название по умолчанию.
+        /// </summary>
+        internal static string DefaultTitle {
+            get {
+                return ResourceManager.GetString("DefaultTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нет данных для группировки..
         /// </summary>
         internal static string GroupingIsUnavailable {
             get {
                 return ResourceManager.GetString("GroupingIsUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы не указали Изобретателя патента. Вместо него указано значение по умолчанию: .
+        /// </summary>
+        internal static string InventorError {
+            get {
+                return ResourceManager.GetString("InventorError", resourceCulture);
             }
         }
         
@@ -178,6 +295,15 @@ namespace Library {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы указали Номер газеты меньше, чем 0. Вместо него указано значение по умолчанию: .
+        /// </summary>
+        internal static string NumberNewsError {
+            get {
+                return ResourceManager.GetString("NumberNewsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Количество страниц:.
         /// </summary>
         internal static string PageCount {
@@ -187,11 +313,29 @@ namespace Library {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы указали Количество страниц меньше, чем 0. Вместо него указано значение по умолчанию: .
+        /// </summary>
+        internal static string PageCountError {
+            get {
+                return ResourceManager.GetString("PageCountError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Издательство:.
         /// </summary>
         internal static string Publisher {
             get {
                 return ResourceManager.GetString("Publisher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы не указали Издательство. Вместо него указано значение по умолчанию: .
+        /// </summary>
+        internal static string PublisherError {
+            get {
+                return ResourceManager.GetString("PublisherError", resourceCulture);
             }
         }
         
@@ -210,6 +354,15 @@ namespace Library {
         internal static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы не указали Название. Вместо него указано значение по умолчанию: .
+        /// </summary>
+        internal static string TitleError {
+            get {
+                return ResourceManager.GetString("TitleError", resourceCulture);
             }
         }
         
@@ -246,6 +399,15 @@ namespace Library {
         internal static string Year {
             get {
                 return ResourceManager.GetString("Year", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы указали Год издания меньше, чем 1900. Вместо него указано значение по умолчанию: .
+        /// </summary>
+        internal static string YearError {
+            get {
+                return ResourceManager.GetString("YearError", resourceCulture);
             }
         }
     }

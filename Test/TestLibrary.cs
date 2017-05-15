@@ -70,7 +70,7 @@
         {
             TestLibrary.GetDataToTest();
             var book = Catalog.GetBookByAuthor(TestLibrary.SearchByAuthor);
-            Assert.IsTrue(book.Length == TestLibrary.CountBookByAuthor);
+            Assert.IsTrue(book.Count == TestLibrary.CountBookByAuthor);
         }
 
         [TestMethod]

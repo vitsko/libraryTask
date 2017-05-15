@@ -1,5 +1,6 @@
 ﻿namespace LibraryApp
 {
+    using Library;
     using System;
 
     internal static class MenuShow
@@ -57,6 +58,24 @@
             Console.Clear();
             Console.WriteLine(Display.CatalogIsEmptyOrHasNotBook);
             Console.ReadKey();
+        }
+
+        internal static void ShowResultAdd(bool isCorrectAdd)
+        {
+            Console.Clear();
+
+            if (!isCorrectAdd)
+            {
+                Console.WriteLine(AllTextRus.ListError);
+                foreach (var error in ItemCatalog.GetListOfError())
+                {
+                    Console.WriteLine(error);
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine(AllTextRus.ResultAdd);
+            MenuShow.ShowResult(Catalog.AllItem[Catalog.Count - 1].ToString());
         }
 
         private static void ShowResult(string result)
