@@ -1,11 +1,13 @@
 ﻿namespace Library
 {
+    using Resource;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     public abstract class ItemCatalog : IComparable<ItemCatalog>
     {
+        protected const char Comma = ',';
         protected const char Charp = '#';
         protected const int DefaultPageCount = 100;
         protected static List<string> errorList = new List<string>();
@@ -27,8 +29,8 @@
                 }
                 else
                 {
-                    this.title = AboutObject.DefaultTitle;
-                    ItemCatalog.errorList.Add(AboutObject.TitleError + this.title);
+                    this.title = Titles.DefaultTitle;
+                    ItemCatalog.errorList.Add(Titles.TitleError + this.title);
                 }
             }
         }
@@ -48,7 +50,7 @@
                 else
                 {
                     this.pageCount = ItemCatalog.DefaultPageCount;
-                    ItemCatalog.errorList.Add(AboutObject.PageCountError + this.pageCount);
+                    ItemCatalog.errorList.Add(Titles.PageCountError + this.pageCount);
                 }
             }
         }
@@ -89,6 +91,8 @@
             return Catalog.Count == 0 ? 1 : Catalog.AllItem.ElementAt(Catalog.Count - 1).Id + 1;
         }
 
-        protected abstract void Create(string[] aboutItemCatalog);
+        protected internal abstract void Create(List<string> aboutItemCatalog);
+
+        public abstract List<string> GetQuestionAboutItem { get; }
     }
 }

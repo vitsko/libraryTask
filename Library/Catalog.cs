@@ -1,10 +1,12 @@
 ﻿namespace Library
 {
+    using Helper;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
+    using Resource;
 
     public static class Catalog
     {
@@ -49,7 +51,6 @@
         public static bool Add(ItemCatalog item)
         {
             Catalog.libraryItem.Add(item);
-
             return ItemCatalog.IsCorrectCreating();
         }
 
@@ -82,6 +83,12 @@
             }
         }
 
+        public static bool Edit(ItemCatalog itemForEdit, List<string> aboutItemCatalog)
+        {
+            itemForEdit.Create(aboutItemCatalog);
+            return ItemCatalog.IsCorrectCreating();
+        }
+
         public static List<ItemCatalog> GetItemWithTitle(string title)
         {
             return Catalog.libraryItem.FindAll(item => item.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
@@ -104,7 +111,7 @@
 
         public static List<ItemCatalog> GetBookByAuthor(string authorForSearch)
         {
-            IEqualityComparer<string> comparator = new ComparatorByContains();
+            IEqualityComparer<string> comparator = new Comparator();
             var books = Catalog.libraryItem.Where(item => item is Book).ToList();
 
             return books.FindAll(book => ((Book)book).Authors.Contains(authorForSearch, comparator));
@@ -112,7 +119,6 @@
 
         public static dynamic GroupBooksByPublisher(string publisher)
         {
-            string pattern = @"^" + publisher + "";
             var books = Catalog.libraryItem.Where(item => item is Book == true).ToList();
             IEnumerable<IGrouping<string, Book>> emptyResult = null;
 
@@ -124,7 +130,7 @@
                 {
                     var onlyBook = (Book)book;
 
-                    if (Regex.Match(onlyBook.Publisher, pattern, RegexOptions.IgnoreCase).Success)
+                    if (string.Compare(onlyBook.Publisher, 0, publisher, 0, publisher.Length, StringComparison.OrdinalIgnoreCase) == 0)
                     {
                         booksWithResult.Add(onlyBook);
                     }
@@ -173,7 +179,7 @@
                 {
                     var key = Catalog.GetKeyForgrouping(group, propertyToGrouping);
 
-                    aboutGroupedItems.AppendLine(AboutObject.AboutGrouping + @"'" + key + @"' :");
+                    aboutGroupedItems.AppendLine(string.Format(Titles.AboutGrouping, key));
                     aboutGroupedItems.AppendLine();
 
                     foreach (ItemCatalog item in group)
@@ -184,7 +190,7 @@
             }
             else
             {
-                aboutGroupedItems.AppendLine(AboutObject.GroupingIsUnavailable);
+                aboutGroupedItems.AppendLine(Titles.GroupingIsUnavailable);
             }
 
             return aboutGroupedItems.ToString();
@@ -204,6 +210,25 @@
             }
 
             return key;
+        }
+
+        private static int GetIndexByID(int id)
+        {
+            int index = 0;
+
+            foreach (var item in Catalog.libraryItem)
+            {
+                if (item.Id != id)
+                {
+                    index++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return index;
         }
     }
 }

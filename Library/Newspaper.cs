@@ -1,6 +1,9 @@
 ﻿namespace Library
 {
+    using Helper;
+    using Resource;
     using System;
+    using System.Collections.Generic;
     using System.Text;
 
     public class Newspaper : ItemCatalog
@@ -13,9 +16,9 @@
         private int number;
         private DateTime date;
 
-        public Newspaper(string[] aboutItemCatalog)
+        public Newspaper(List<string> aboutItemCatalog)
         {
-            errorList.Clear();
+            this.Id = ItemCatalog.GetId();
             this.Create(aboutItemCatalog);
         }
 
@@ -35,8 +38,8 @@
                 }
                 else
                 {
-                    this.publisher = AboutObject.DefaultPublisher;
-                    ItemCatalog.errorList.Add(AboutObject.PublisherError + this.publisher);
+                    this.publisher = Titles.DefaultPublisher;
+                    ItemCatalog.errorList.Add(Titles.PublisherError + this.publisher);
                 }
             }
         }
@@ -56,7 +59,7 @@
                 else
                 {
                     this.year = Newspaper.DefaultYear;
-                    ItemCatalog.errorList.Add(AboutObject.YearError + this.year);
+                    ItemCatalog.errorList.Add(Titles.YearError + this.year);
                 }
 
             }
@@ -77,7 +80,7 @@
                 else
                 {
                     this.number = Newspaper.DefaultNumber;
-                    ItemCatalog.errorList.Add(AboutObject.NumberNewsError + this.number);
+                    ItemCatalog.errorList.Add(Titles.NumberNewsError + this.number);
                 }
             }
         }
@@ -97,7 +100,7 @@
                 else
                 {
                     this.date = DateTime.Today;
-                    ItemCatalog.errorList.Add(AboutObject.DateNewsError + this.date.ToShortDateString());
+                    ItemCatalog.errorList.Add(Titles.DateNewsError + this.date.ToShortDateString());
                 }
             }
         }
@@ -116,45 +119,46 @@
         {
             StringBuilder allinfo = new StringBuilder();
 
-            allinfo.AppendLine(ItemCatalog.Charp + this.Id.ToString() + InfoObject.TypeNews);
+            allinfo.AppendLine(string.Format(Titles.AboutItem, ItemCatalog.Charp, this.Id.ToString(), Titles.TypeNews));
 
-            allinfo.AppendLine(InfoObject.Title);
+            allinfo.AppendLine(Titles.Title);
             allinfo.AppendLine(this.Title);
 
-            allinfo.AppendLine(InfoObject.City);
+            allinfo.AppendLine(Titles.City);
             allinfo.AppendLine(this.PublisherCity);
 
-            allinfo.AppendLine(InfoObject.Publisher);
+            allinfo.AppendLine(Titles.Publisher);
             allinfo.AppendLine(this.Publisher);
 
-            allinfo.AppendLine(InfoObject.Year);
+            allinfo.AppendLine(Titles.Year);
             allinfo.AppendLine(this.Year.ToString());
 
 
-            allinfo.AppendLine(InfoObject.PageCount);
+            allinfo.AppendLine(Titles.PageCount);
             allinfo.AppendLine(this.PageCount.ToString());
 
-            allinfo.AppendLine(InfoObject.Note);
+            allinfo.AppendLine(Titles.Note);
             allinfo.AppendLine(this.Note);
 
-            allinfo.AppendLine(InfoObject.Number);
+            allinfo.AppendLine(Titles.Number);
             allinfo.AppendLine(this.Number.ToString());
 
-            allinfo.AppendLine(InfoObject.Date);
+            allinfo.AppendLine(Titles.Date);
             allinfo.AppendLine(this.Date.ToShortDateString());
 
-            allinfo.AppendLine(InfoObject.ISSN);
+            allinfo.AppendLine(Titles.ISSN);
             allinfo.AppendLine(this.ISSN);
 
             return allinfo.ToString();
         }
 
-        protected override void Create(string[] aboutItemCatalog)
+        protected internal override void Create(List<string> aboutItemCatalog)
         {
+            errorList.Clear();
+
             var intValue = 0;
             DateTime date;
 
-            this.Id = ItemCatalog.GetId();
             this.Title = aboutItemCatalog[0];
             this.PublisherCity = aboutItemCatalog[1];
             this.Publisher = aboutItemCatalog[2];
@@ -174,6 +178,14 @@
             this.Date = date;
 
             this.ISSN = aboutItemCatalog[8];
+        }
+
+        public override List<string> GetQuestionAboutItem
+        {
+            get
+            {
+                return Helper.GetyQuestions(Titles.AskAboutNewspaper);
+            }
         }
     }
 }

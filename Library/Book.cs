@@ -1,26 +1,27 @@
 ﻿namespace Library
 {
+    using Helper;
+    using Resource;
     using System;
     using System.Collections.Generic;
     using System.Text;
 
     public class Book : ItemCatalog
     {
-        private const char COMMA = ',';
         private const int DefaultYear = 2000;
         private const int YearPublication = 1900;
-        private string[] authors;
+        private List<string> authors;
         private string publisherCity;
         private string publisher;
         private int year;
 
-        public Book(string[] aboutItemCatalog)
+        public Book(List<string> aboutItemCatalog)
         {
-            errorList.Clear();
+            this.Id = ItemCatalog.GetId();
             this.Create(aboutItemCatalog);
         }
 
-        public string[] Authors
+        public List<string> Authors
         {
             get
             {
@@ -28,15 +29,15 @@
             }
             set
             {
-                if (value.Length != 0)
+                if (value.Count != 0)
                 {
                     this.authors = value;
                 }
                 else
                 {
-                    this.authors = new string[1];
-                    this.authors[0] = AboutObject.DefaultAuthor;
-                    ItemCatalog.errorList.Add(AboutObject.AuthorsError + this.authors[0]);
+                    this.authors = new List<string>(1);
+                    this.authors.Add(Titles.DefaultAuthor);
+                    ItemCatalog.errorList.Add(Titles.AuthorsError + this.authors[0]);
                 }
             }
         }
@@ -55,8 +56,8 @@
                 }
                 else
                 {
-                    this.publisherCity = AboutObject.DefaultCity;
-                    ItemCatalog.errorList.Add(AboutObject.CityError + this.publisherCity);
+                    this.publisherCity = Titles.DefaultCity;
+                    ItemCatalog.errorList.Add(Titles.CityError + this.publisherCity);
                 }
             }
         }
@@ -75,8 +76,8 @@
                 }
                 else
                 {
-                    this.publisher = AboutObject.DefaultPublisher;
-                    ItemCatalog.errorList.Add(AboutObject.PublisherError + this.publisher);
+                    this.publisher = Titles.DefaultPublisher;
+                    ItemCatalog.errorList.Add(Titles.PublisherError + this.publisher);
                 }
             }
         }
@@ -96,7 +97,7 @@
                 else
                 {
                     this.year = Book.DefaultYear;
-                    ItemCatalog.errorList.Add(AboutObject.YearError + this.year);
+                    ItemCatalog.errorList.Add(Titles.YearError + this.year);
                 }
 
             }
@@ -116,45 +117,49 @@
         {
             StringBuilder allinfo = new StringBuilder();
 
-            allinfo.AppendLine(ItemCatalog.Charp + this.Id.ToString() + InfoObject.TypeBook);
+            allinfo.AppendLine(string.Format(Titles.AboutItem, ItemCatalog.Charp, this.Id.ToString(), Titles.TypeBook));
 
-            allinfo.AppendLine(InfoObject.Title);
+            allinfo.AppendLine(Titles.Title);
             allinfo.AppendLine(this.Title);
 
-            allinfo.AppendLine(InfoObject.Authors);
-            allinfo.AppendLine(
-                string.Join(COMMA.ToString(), this.Authors));
+            allinfo.AppendLine(Titles.Authors);
+            allinfo.AppendLine(string.Join(ItemCatalog.Comma.ToString(), this.Authors));
 
-            allinfo.AppendLine(InfoObject.City);
+            allinfo.AppendLine(Titles.City);
             allinfo.AppendLine(this.PublisherCity);
 
-            allinfo.AppendLine(InfoObject.Publisher);
+            allinfo.AppendLine(Titles.Publisher);
             allinfo.AppendLine(this.Publisher);
 
-            allinfo.AppendLine(InfoObject.Year);
+            allinfo.AppendLine(Titles.Year);
             allinfo.AppendLine(this.Year.ToString());
 
-            allinfo.AppendLine(InfoObject.PageCount);
+            allinfo.AppendLine(Titles.PageCount);
             allinfo.AppendLine(this.PageCount.ToString());
 
-            allinfo.AppendLine(InfoObject.Note);
+            allinfo.AppendLine(Titles.Note);
             allinfo.AppendLine(this.Note);
 
-            allinfo.AppendLine(InfoObject.ISBN);
+            allinfo.AppendLine(Titles.ISBN);
             allinfo.AppendLine(this.ISBN);
 
             return allinfo.ToString();
         }
 
-        protected override void Create(string[] aboutItemCatalog)
+        protected internal override void Create(List<string> aboutItemCatalog)
         {
+            errorList.Clear();
+
+            var authors = new List<string>(Helper
+                           .DeleteWhitespace(aboutItemCatalog[1])
+                           .Split(ItemCatalog.Comma));
+
+
             var intValue = 0;
 
-            this.Id = ItemCatalog.GetId();
             this.Title = aboutItemCatalog[0];
-            this.Authors = Helper
-                           .DeleteWhitespace(aboutItemCatalog[1])
-                           .Split(Helper.Comma, StringSplitOptions.RemoveEmptyEntries);
+            this.Authors = Helper.DeleteEmpty(authors);
+
 
             this.PublisherCity = aboutItemCatalog[2];
             this.Publisher = aboutItemCatalog[3];
@@ -167,6 +172,14 @@
 
             this.Note = aboutItemCatalog[6];
             this.ISBN = aboutItemCatalog[7];
+        }
+
+        public override List<string> GetQuestionAboutItem
+        {
+            get
+            {
+                return Helper.GetyQuestions(Titles.AskAboutBook);
+            }
         }
     }
 }
