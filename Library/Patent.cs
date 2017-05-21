@@ -37,7 +37,7 @@
                 {
                     this.inventors = new List<string>(1);
                     this.inventors.Add(Titles.DefaultInventor);
-                    ItemCatalog.errorList.Add(Titles.InventorError + this.inventors[0]);
+                    ItemCatalog.errorList.Add(string.Format(Titles.InventorError, this.inventors[0]));
                 }
             }
         }
@@ -57,7 +57,7 @@
                 else
                 {
                     this.сountry = Titles.DefaultCountry;
-                    ItemCatalog.errorList.Add(Titles.CountryError + this.сountry);
+                    ItemCatalog.errorList.Add(string.Format(Titles.CountryError, this.сountry));
                 }
             }
         }
@@ -79,7 +79,7 @@
                 else
                 {
                     this.dateRequest = Patent.defaultDate;
-                    ItemCatalog.errorList.Add(Titles.DateRPatentError + this.dateRequest.ToShortDateString());
+                    ItemCatalog.errorList.Add(string.Format(Titles.DateRPatentError, this.dateRequest.ToShortDateString()));
                 }
 
             }
@@ -100,7 +100,7 @@
                 else
                 {
                     this.datePublication = Patent.defaultDate;
-                    ItemCatalog.errorList.Add(Titles.DatePPatentError + this.datePublication.ToShortDateString());
+                    ItemCatalog.errorList.Add(string.Format(Titles.DatePPatentError, this.datePublication.ToShortDateString()));
                 }
 
             }

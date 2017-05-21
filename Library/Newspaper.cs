@@ -39,7 +39,7 @@
                 else
                 {
                     this.publisher = Titles.DefaultPublisher;
-                    ItemCatalog.errorList.Add(Titles.PublisherError + this.publisher);
+                    ItemCatalog.errorList.Add(string.Format(Titles.PublisherError, this.publisher));
                 }
             }
         }
@@ -59,7 +59,7 @@
                 else
                 {
                     this.year = Newspaper.DefaultYear;
-                    ItemCatalog.errorList.Add(Titles.YearError + this.year);
+                    ItemCatalog.errorList.Add(string.Format(Titles.YearError, this.year));
                 }
 
             }
@@ -80,7 +80,7 @@
                 else
                 {
                     this.number = Newspaper.DefaultNumber;
-                    ItemCatalog.errorList.Add(Titles.NumberNewsError + this.number);
+                    ItemCatalog.errorList.Add(string.Format(Titles.NumberNewsError, this.number));
                 }
             }
         }
@@ -100,7 +100,7 @@
                 else
                 {
                     this.date = DateTime.Today;
-                    ItemCatalog.errorList.Add(Titles.DateNewsError + this.date.ToShortDateString());
+                    ItemCatalog.errorList.Add(string.Format(Titles.DateNewsError, this.date.ToShortDateString()));
                 }
             }
         }

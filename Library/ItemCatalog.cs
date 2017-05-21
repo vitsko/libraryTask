@@ -30,7 +30,7 @@
                 else
                 {
                     this.title = Titles.DefaultTitle;
-                    ItemCatalog.errorList.Add(Titles.TitleError + this.title);
+                    ItemCatalog.errorList.Add(string.Format(Titles.TitleError, this.title));
                 }
             }
         }
@@ -50,7 +50,7 @@
                 else
                 {
                     this.pageCount = ItemCatalog.DefaultPageCount;
-                    ItemCatalog.errorList.Add(Titles.PageCountError + this.pageCount);
+                    ItemCatalog.errorList.Add(string.Format(Titles.PageCountError, this.pageCount));
                 }
             }
         }

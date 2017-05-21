@@ -37,7 +37,7 @@
                 {
                     this.authors = new List<string>(1);
                     this.authors.Add(Titles.DefaultAuthor);
-                    ItemCatalog.errorList.Add(Titles.AuthorsError + this.authors[0]);
+                    ItemCatalog.errorList.Add(string.Format(Titles.AuthorsError, this.authors[0]));
                 }
             }
         }
@@ -57,7 +57,7 @@
                 else
                 {
                     this.publisherCity = Titles.DefaultCity;
-                    ItemCatalog.errorList.Add(Titles.CityError + this.publisherCity);
+                    ItemCatalog.errorList.Add(string.Format(Titles.CityError, this.publisherCity));
                 }
             }
         }
@@ -77,7 +77,7 @@
                 else
                 {
                     this.publisher = Titles.DefaultPublisher;
-                    ItemCatalog.errorList.Add(Titles.PublisherError + this.publisher);
+                    ItemCatalog.errorList.Add(string.Format(Titles.PublisherError, this.publisher));
                 }
             }
         }
@@ -97,7 +97,7 @@
                 else
                 {
                     this.year = Book.DefaultYear;
-                    ItemCatalog.errorList.Add(Titles.YearError + this.year);
+                    ItemCatalog.errorList.Add(string.Format(Titles.YearError, this.year));
                 }
 
             }

@@ -142,7 +142,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы не указали Автора книги. Вместо него указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы не указали Автора книги. Вместо него указано значение по умолчанию: {0}..
         /// </summary>
         public static string AuthorsError {
             get {
@@ -170,7 +170,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы не указали Место издания (город). Вместо него указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы не указали Место издания (город). Вместо него указано значение по умолчанию: {0}..
         /// </summary>
         public static string CityError {
             get {
@@ -188,7 +188,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы не указали Страну патента. Вместо нее указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы не указали Страну патента. Вместо нее указано значение по умолчанию: {0}..
         /// </summary>
         public static string CountryError {
             get {
@@ -206,7 +206,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы указали Дату газеты не в формате дд.мм.гггг. Вместо нее указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы указали Дату газеты не в формате дд.мм.гггг. Вместо нее указано значение по умолчанию: {0}..
         /// </summary>
         public static string DateNewsError {
             get {
@@ -215,7 +215,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы указали Дату публикации не в формате дд.мм.гггг или год ранее 1950. Вместо нее указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы указали Дату публикации не в формате дд.мм.гггг или год ранее 1950. Вместо нее указано значение по умолчанию: {0}..
         /// </summary>
         public static string DatePPatentError {
             get {
@@ -242,7 +242,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы указали Дату подачи заявки не в формате дд.мм.гггг или год ранее 1950. Вместо нее указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы указали Дату подачи заявки не в формате дд.мм.гггг или год ранее 1950. Вместо нее указано значение по умолчанию: {0}..
         /// </summary>
         public static string DateRPatentError {
             get {
@@ -342,7 +342,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы не указали Изобретателя патента. Вместо него указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы не указали Изобретателя патента. Вместо него указано значение по умолчанию: {0}..
         /// </summary>
         public static string InventorError {
             get {
@@ -462,7 +462,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы указали Номер газеты меньше, чем 0. Вместо него указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы указали Номер газеты меньше, чем 0. Вместо него указано значение по умолчанию: {0}..
         /// </summary>
         public static string NumberNewsError {
             get {
@@ -480,7 +480,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы указали Количество страниц меньше, чем 0. Вместо него указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы указали Количество страниц меньше, чем 0. Вместо него указано значение по умолчанию: {0}..
         /// </summary>
         public static string PageCountError {
             get {
@@ -507,7 +507,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы не указали Издательство. Вместо него указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы не указали Издательство. Вместо него указано значение по умолчанию: {0}..
         /// </summary>
         public static string PublisherError {
             get {
@@ -597,7 +597,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы не указали Название. Вместо него указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы не указали Название. Вместо него указано значение по умолчанию: {0}..
         /// </summary>
         public static string TitleError {
             get {
@@ -642,7 +642,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вы указали Год издания меньше, чем 1900. Вместо него указано значение по умолчанию: .
+        ///   Looks up a localized string similar to Вы указали Год издания меньше, чем 1900. Вместо него указано значение по умолчанию: {0}..
         /// </summary>
         public static string YearError {
             get {
