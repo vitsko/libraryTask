@@ -39,7 +39,7 @@
                 else
                 {
                     this.publisher = Titles.DefaultPublisher;
-                    ItemCatalog.errorList.Add(string.Format(Titles.PublisherError, this.publisher));
+                    this.errorList.Add(string.Format(Titles.PublisherError, this.publisher));
                 }
             }
         }
@@ -59,7 +59,7 @@
                 else
                 {
                     this.year = Newspaper.DefaultYear;
-                    ItemCatalog.errorList.Add(string.Format(Titles.YearError, this.year));
+                    this.errorList.Add(string.Format(Titles.YearError, this.year));
                 }
 
             }
@@ -80,7 +80,7 @@
                 else
                 {
                     this.number = Newspaper.DefaultNumber;
-                    ItemCatalog.errorList.Add(string.Format(Titles.NumberNewsError, this.number));
+                    this.errorList.Add(string.Format(Titles.NumberNewsError, this.number));
                 }
             }
         }
@@ -100,7 +100,7 @@
                 else
                 {
                     this.date = DateTime.Today;
-                    ItemCatalog.errorList.Add(string.Format(Titles.DateNewsError, this.date.ToShortDateString()));
+                    this.errorList.Add(string.Format(Titles.DateNewsError, this.date.ToShortDateString()));
                 }
             }
         }
@@ -115,47 +115,52 @@
             }
         }
 
+        public override string TypeItem
+        {
+            get
+            {
+                return Titles.TypeNews;
+            }
+
+        }
+
+        protected override Dictionary<string, string> TitleasAndValuesItem
+        {
+            get
+            {
+                Dictionary<string, string> titleasAndValuesItem = new Dictionary<string, string>();
+
+                titleasAndValuesItem.Add(Titles.Title, this.Title);
+                titleasAndValuesItem.Add(Titles.City, this.PublisherCity);
+                titleasAndValuesItem.Add(Titles.Publisher, this.Publisher);
+                titleasAndValuesItem.Add(Titles.Year, this.Year.ToString());
+                titleasAndValuesItem.Add(Titles.PageCount, this.PageCount.ToString());
+                titleasAndValuesItem.Add(Titles.Note, this.Note);
+                titleasAndValuesItem.Add(Titles.Number, this.Number.ToString());
+                titleasAndValuesItem.Add(Titles.Date, this.Date.ToShortDateString());
+                titleasAndValuesItem.Add(Titles.ISSN, this.ISSN);
+
+                return titleasAndValuesItem;
+            }
+        }
+
+        public override List<string> GetQuestionAboutItem
+        {
+            get
+            {
+                return Helper.GetyQuestions(Titles.AskAboutNewspaper);
+            }
+        }
+
         public override string ToString()
         {
-            StringBuilder allinfo = new StringBuilder();
-
-            allinfo.AppendLine(string.Format(Titles.AboutItem, ItemCatalog.Charp, this.Id.ToString(), Titles.TypeNews));
-
-            allinfo.AppendLine(Titles.Title);
-            allinfo.AppendLine(this.Title);
-
-            allinfo.AppendLine(Titles.City);
-            allinfo.AppendLine(this.PublisherCity);
-
-            allinfo.AppendLine(Titles.Publisher);
-            allinfo.AppendLine(this.Publisher);
-
-            allinfo.AppendLine(Titles.Year);
-            allinfo.AppendLine(this.Year.ToString());
-
-
-            allinfo.AppendLine(Titles.PageCount);
-            allinfo.AppendLine(this.PageCount.ToString());
-
-            allinfo.AppendLine(Titles.Note);
-            allinfo.AppendLine(this.Note);
-
-            allinfo.AppendLine(Titles.Number);
-            allinfo.AppendLine(this.Number.ToString());
-
-            allinfo.AppendLine(Titles.Date);
-            allinfo.AppendLine(this.Date.ToShortDateString());
-
-            allinfo.AppendLine(Titles.ISSN);
-            allinfo.AppendLine(this.ISSN);
-
-            return allinfo.ToString();
+            return base.ToString()
+                       .Insert(0,
+                       string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypeNews));
         }
 
         protected internal override void Create(List<string> aboutItemCatalog)
         {
-            errorList.Clear();
-
             var intValue = 0;
             DateTime date;
 
@@ -180,12 +185,9 @@
             this.ISSN = aboutItemCatalog[8];
         }
 
-        public override List<string> GetQuestionAboutItem
+        internal override string GetInfoToSave()
         {
-            get
-            {
-                return Helper.GetyQuestions(Titles.AskAboutNewspaper);
-            }
+            return base.GetInfoToSave().Insert(0, Titles.TypeNews);
         }
     }
 }

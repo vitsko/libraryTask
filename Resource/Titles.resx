@@ -118,9 +118,9 @@
 [7]-- Поиск книг по автору
 [8]-- Поиск и группировка книг по издательству
 [9]-- Группировать материалы по году выпуска
-[0]-- Внешний источник
+[0]-- Экспорт \ Импорт Каталога
 
-[Q] - Закончить работу с Каталогом</value>
+[Q]-- Закончить работу с Каталогом</value>
     </data>
   <data name="MenuToAdd" xml:space="preserve">
     <value>Добавить в Каталог:
@@ -128,14 +128,28 @@
 [2]-- Газета
 [3]-- Патент
 
-[Q] - Перейти в Главное меню</value>
+[Q]-- Перейти в Главное меню</value>
   </data>
   <data name="MenuToSortYear" xml:space="preserve">
     <value>Сортировать по году выпуска:
 [1]-- По возрастанию
 [2]-- По убыванию
 
-[Q] - Перейти в Главное меню</value>
+[Q]-- Перейти в Главное меню</value>
+  </data>
+  <data name="MenuToFiles" xml:space="preserve">
+    <value>Работа с файлами:
+[1]-- Экспорт
+[2]-- Импорт
+
+[Q]-- Перейти в Главное меню</value>
+  </data>
+  <data name="MenuToImport" xml:space="preserve">
+    <value>Загрузка файлов:
+[1]-- Недопустимы ошибки
+[2]-- Загрузить с ошибками
+
+[Q]-- Перейти в Главное меню</value>
   </data>
   <data name="AskToDelete" xml:space="preserve">
     <value>Укажите номер записи для удаления из Каталога:</value>
@@ -147,7 +161,7 @@
 <value>Укажите номер записи для редактирования:</value>
     </data>
   <data name="NoExist" xml:space="preserve">
-<value>Не существует записи #{0}.</value>
+<value>Не существует запись #{0}.</value>
     </data>
   <data name="EmptyCatalog" xml:space="preserve">
 <value>Каталог пуст.
@@ -182,7 +196,7 @@
 <value>---Данные объекта Каталога---</value>
     </data>
   <data name="ListError" xml:space="preserve">
-<value>---Вы допустили ошибки при добавлении \ редактировании объекта Каталога---</value>
+<value>---Вы допустили ошибки при создании объекта Каталога---</value>
     </data>
   <data name="AboutEdit" xml:space="preserve">
 <value>---Вы редактируете объект---</value>
@@ -191,11 +205,12 @@
 <value>---------------------------------</value>
     </data>
   <data name="AboutItem" xml:space="preserve">
-<value>{0}{1}{2}</value>
+<value>#{0}{1}
+</value>
     </data>
   <!--О книге-->
   <data name="TypeBook" xml:space="preserve">
-<value>#Книга</value>
+<value>#Книга#</value>
 </data>
   <data name="Title" xml:space="preserve">
 <value>Название:</value>
@@ -223,7 +238,7 @@
 </data>
   <!--О газете -->
   <data name="TypeNews" xml:space="preserve">
-<value>#Газета</value>
+<value>#Газета#</value>
 </data>
   <data name="Number" xml:space="preserve">
 <value>Номер:</value>
@@ -236,7 +251,7 @@
 </data>
   <!--О Патенте-->
   <data name="TypePatent" xml:space="preserve">
-<value>#Патент</value>
+<value>#Патент#</value>
 </data>
   <data name="Inventors" xml:space="preserve">
 <value>Изобретатели:</value>
@@ -315,5 +330,62 @@
 </data>
   <data name="DatePPatentError" xml:space="preserve">
 <value>Вы указали Дату публикации не в формате дд.мм.гггг или год ранее 1950. Вместо нее указано значение по умолчанию: {0}.</value>
+</data>
+  <!--Для выгрузки в файл-->
+  <data name="FullPath" xml:space="preserve">
+<value>{0}\{1}</value>
+</data>
+  <data name="CatalogToFile" xml:space="preserve">
+<value>SavedFiles</value>
+</data>
+  <data name="FileToSaveWithPath" xml:space="preserve">
+<value>.\SavedFiles\SavedFile.txt</value>
+</data>
+  <data name="FileToSave" xml:space="preserve">
+<value>SavedFile.txt</value>
+</data>
+  <data name="MessageOfSaveFile" xml:space="preserve">
+<value>Вы выгрузили Каталог в файл:
+{0}\{1}
+
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="NoExistFile" xml:space="preserve">
+<value>Не существует файла:
+{0}\{1}
+
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="CorrectImport" xml:space="preserve">
+<value>Все записи из файла {0}\{1} загружены в Каталог.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="NoParseItem" xml:space="preserve">
+<value>В файле {0}\{1} не все записи соответствуют типу объекта Каталога.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="ItemIsIncorrectInFile" xml:space="preserve">
+<value>В файле {0}\{1} не все записи корректны.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="FileToLogWithPath" xml:space="preserve">
+<value>.\SavedFiles\LogImport.txt</value>
+</data>
+  <data name="AboutIncorrectTypeItem" xml:space="preserve">
+<value>Запись содержит некорректный тип:</value>
+</data>
+  <data name="AboutErrorToImport" xml:space="preserve">
+<value>При создании объекта #{0}{1} произошли следующие ошибки:</value>
+</data>
+  <data name="AboutCorrectItem" xml:space="preserve">
+<value>Объект #{0}{1} загружен без ошибок.</value>
+</data>
+  <data name="CorrectImportWithLog" xml:space="preserve">
+<value>Записи из файла {0}\{1} загружены в Каталог.
+Лог проверки загрузки смотрите в файле {0}\{2}.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="FileOfLog" xml:space="preserve">
+<value>LogImport.txt</value>
 </data>
 </root>

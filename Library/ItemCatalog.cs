@@ -1,17 +1,24 @@
 ﻿namespace Library
 {
+    using Helper;
     using Resource;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     public abstract class ItemCatalog : IComparable<ItemCatalog>
     {
         protected const char Comma = ',';
-        protected const char Charp = '#';
         protected const int DefaultPageCount = 100;
-        protected static List<string> errorList = new List<string>();
+        protected List<string> errorList = new List<string>();
 
+        private const char Sharp = '#';
+        private const string SplitToSave = ": ";
+        private const int countForBookAndPatent = 8;
+        private const int countForNews = 9;
+
+        private static int countOfItem = 0;
         private string title;
         private int pageCount;
 
@@ -30,7 +37,7 @@
                 else
                 {
                     this.title = Titles.DefaultTitle;
-                    ItemCatalog.errorList.Add(string.Format(Titles.TitleError, this.title));
+                    this.errorList.Add(string.Format(Titles.TitleError, this.title));
                 }
             }
         }
@@ -50,7 +57,7 @@
                 else
                 {
                     this.pageCount = ItemCatalog.DefaultPageCount;
-                    ItemCatalog.errorList.Add(string.Format(Titles.PageCountError, this.pageCount));
+                    this.errorList.Add(string.Format(Titles.PageCountError, this.pageCount));
                 }
             }
         }
@@ -60,6 +67,8 @@
         public int Id { get; protected set; }
 
         internal abstract int PublishedYear { get; }
+
+        public abstract string TypeItem { get; }
 
         public int CompareTo(ItemCatalog other)
         {
@@ -76,23 +85,84 @@
             return 0;
         }
 
-        public static bool IsCorrectCreating()
+        public bool IsCorrectCreating()
         {
-            return ItemCatalog.errorList.Count == 0;
+            return this.errorList.Count == 0;
         }
 
-        public static List<string> GetListOfError()
+        public List<string> GetListOfError()
         {
-            return ItemCatalog.errorList;
+            return this.errorList;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder allinfo = new StringBuilder();
+
+            foreach (var item in this.TitleasAndValuesItem)
+            {
+                allinfo.AppendLine(item.Key);
+                allinfo.AppendLine(item.Value);
+            }
+
+            return allinfo.ToString();
         }
 
         protected static int GetId()
         {
-            return Catalog.Count == 0 ? 1 : Catalog.AllItem.ElementAt(Catalog.Count - 1).Id + 1;
+            return ++countOfItem;
         }
 
         protected internal abstract void Create(List<string> aboutItemCatalog);
 
         public abstract List<string> GetQuestionAboutItem { get; }
+
+        protected abstract Dictionary<string, string> TitleasAndValuesItem { get; }
+
+        internal virtual string GetInfoToSave()
+        {
+            StringBuilder toSave = new StringBuilder();
+
+            foreach (var item in this.TitleasAndValuesItem)
+            {
+                toSave.Append(item.Key);
+                toSave.Append(item.Value);
+                toSave.Append(ItemCatalog.Sharp);
+            }
+
+            return toSave.ToString();
+        }
+
+        internal static ItemCatalog CreateFromFile(List<string> aboutItemCatalog)
+        {
+            var type = aboutItemCatalog.ElementAt(0);
+            ItemCatalog fromImport = null;
+
+            switch (Helper.GetTypeItem(type))
+            {
+                case (byte)Helper.TypeItem.Book:
+                    {
+                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.countForBookAndPatent);
+                        fromImport = new Book(aboutItemCatalog.FindAll(item => !item.Equals(type)));
+                        break;
+                    }
+
+                case (byte)Helper.TypeItem.Newspaper:
+                    {
+                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.countForNews);
+                        fromImport = new Newspaper(aboutItemCatalog.FindAll(item => !item.Equals(type)));
+                        break;
+                    }
+
+                case (byte)Helper.TypeItem.Patent:
+                    {
+                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.countForBookAndPatent);
+                        fromImport = new Patent(aboutItemCatalog.FindAll(item => !item.Equals(type)));
+                        break;
+                    }
+            }
+
+            return fromImport;
+        }
     }
 }

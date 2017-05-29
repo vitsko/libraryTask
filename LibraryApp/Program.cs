@@ -1,8 +1,11 @@
 ﻿namespace LibraryApp
 {
     using System;
+    using Helper;
     using Library;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Security.AccessControl;
     using Resource;
 
     internal class Program
@@ -23,7 +26,6 @@
                     case ConsoleKey.D1:
                         {
                             bool exitMenuAdd = false;
-                            var isCorrectAdd = false;
 
                             ConsoleKey selectCreateditem = ConsoleKey.Q;
 
@@ -40,21 +42,21 @@
                                 {
                                     case ConsoleKey.D1:
                                         {
-                                            isCorrectAdd = Catalog.Add(new Library.Book(aboutItemCatalog));
+                                            Catalog.Add(new Library.Book(aboutItemCatalog));
                                             exitMenuAdd = true;
                                             break;
                                         }
 
                                     case ConsoleKey.D2:
                                         {
-                                            isCorrectAdd = Catalog.Add(new Library.Newspaper(aboutItemCatalog));
+                                            Catalog.Add(new Library.Newspaper(aboutItemCatalog));
                                             exitMenuAdd = true;
                                             break;
                                         }
 
                                     case ConsoleKey.D3:
                                         {
-                                            isCorrectAdd = Catalog.Add(new Library.Patent(aboutItemCatalog));
+                                            Catalog.Add(new Library.Patent(aboutItemCatalog));
                                             exitMenuAdd = true;
                                             break;
                                         }
@@ -73,7 +75,7 @@
                             if (selectCreateditem == ConsoleKey.D1 || selectCreateditem == ConsoleKey.D2 || selectCreateditem == ConsoleKey.D3)
                             {
                                 Console.Clear();
-                                Screen.ShowResultAddOrEdit(isCorrectAdd, Catalog.AllItem[Catalog.Count - 1]);
+                                Screen.ShowResultAddOrEdit(Catalog.AllItem[Catalog.Count - 1]);
                                 Console.ReadKey();
                             }
 
@@ -84,10 +86,8 @@
                         {
                             Console.Clear();
 
-                            if (Catalog.Count != 0)
+                            if (Catalog.IsNotEmpty)
                             {
-                                var isCorrectEdit = false;
-
                                 Screen.ShowText(Titles.AskToEdit);
                                 var indexToEdit = Console.ReadLine();
 
@@ -104,8 +104,8 @@
 
                                     var aboutItem = Screen.InputInfoAboutItemCatalog(itemForEdit.GetQuestionAboutItem);
 
-                                    isCorrectEdit = Catalog.Edit(itemForEdit, aboutItem);
-                                    Screen.ShowResultAddOrEdit(isCorrectEdit, itemForEdit);
+                                    Catalog.Edit(itemForEdit, aboutItem);
+                                    Screen.ShowResultAddOrEdit(itemForEdit);
                                 }
                                 else
                                 {
@@ -125,7 +125,7 @@
                         {
                             Console.Clear();
 
-                            if (Catalog.Count != 0)
+                            if (Catalog.IsNotEmpty)
                             {
                                 Screen.ShowText(Titles.AskToDelete);
 
@@ -165,7 +165,7 @@
                         {
                             Console.Clear();
 
-                            if (Catalog.Count != 0)
+                            if (Catalog.IsNotEmpty)
                             {
                                 var info = Catalog.GetInfoCatalog();
                                 Screen.ShowText(Titles.ShowCatalog, info, Titles.PressAnyKey);
@@ -183,7 +183,7 @@
                         {
                             Console.Clear();
 
-                            if (Catalog.Count != 0)
+                            if (Catalog.IsNotEmpty)
                             {
                                 Screen.ShowText(Titles.InputSeachRequest);
                                 var searchTitle = Console.ReadLine();
@@ -213,7 +213,7 @@
                         {
                             Console.Clear();
 
-                            if (Catalog.Count != 0)
+                            if (Catalog.IsNotEmpty)
                             {
                                 bool exitSortYear = false;
                                 List<ItemCatalog> catalogAfterSort = new List<ItemCatalog>();
@@ -268,7 +268,7 @@
                         {
                             Console.Clear();
 
-                            if (Catalog.Count != 0 && Catalog.HasBook)
+                            if (Catalog.IsNotEmpty && Catalog.HasBook)
                             {
                                 Screen.ShowText(Titles.InputSeachRequest);
                                 var searchByAuthor = Console.ReadLine();
@@ -297,7 +297,7 @@
                         {
                             Console.Clear();
 
-                            if (Catalog.Count != 0 && Catalog.HasBook)
+                            if (Catalog.IsNotEmpty && Catalog.HasBook)
                             {
                                 Screen.ShowText(Titles.InputSeachRequest);
                                 var searchByPublisher = Console.ReadLine();
@@ -326,7 +326,7 @@
                         {
                             Console.Clear();
 
-                            if (Catalog.Count != 0)
+                            if (Catalog.IsNotEmpty)
                             {
                                 var groupedCatalogByYear = Catalog.GroupByYear();
                                 var info = Catalog.GetInfoItemByGrouping(groupedCatalogByYear, Catalog.GroupingBy.Year);
@@ -338,6 +338,196 @@
                             }
 
                             Console.ReadKey();
+                            break;
+                        }
+
+                    case ConsoleKey.D0:
+                        {
+                            Console.Clear();
+
+                            Screen.ShowText(Titles.MenuToFiles);
+
+                            bool exitMenuFiles = false;
+                            string fullPath = string.Format(Titles.FullPath, Environment.CurrentDirectory, Titles.CatalogToFile);
+
+                            ConsoleKey selectSortMenu = ConsoleKey.Q;
+
+                            while (!exitMenuFiles)
+                            {
+                                Console.Clear();
+                                Screen.ShowText(Titles.MenuToFiles);
+                                selectSortMenu = Console.ReadKey().Key;
+
+                                Console.Clear();
+
+                                switch (selectSortMenu)
+                                {
+                                    case ConsoleKey.D1:
+                                        {
+                                            if (Catalog.IsNotEmpty)
+                                            {
+                                                var folder = Directory.CreateDirectory(fullPath);
+
+                                                StreamWriter writer = new StreamWriter(Titles.FileToSaveWithPath);
+
+                                                writer.Write(Catalog.Save());
+                                                writer.Close();
+
+                                                Screen.ShowText(string.Format(Titles.MessageOfSaveFile, fullPath, Titles.FileToSave));
+                                            }
+                                            else
+                                            {
+                                                Screen.ShowText(Titles.EmptyCatalog);
+                                            }
+
+                                            exitMenuFiles = true;
+
+                                            Console.ReadKey();
+                                            break;
+                                        }
+
+                                    case ConsoleKey.D2:
+                                        {
+                                            if (File.Exists(Titles.FileToSaveWithPath))
+                                            {
+                                                Screen.ShowText(Titles.MenuToImport);
+
+                                                bool exitMenuImport = false;
+
+                                                while (!exitMenuImport)
+                                                {
+                                                    Console.Clear();
+                                                    Screen.ShowText(Titles.MenuToImport);
+                                                    selectSortMenu = Console.ReadKey().Key;
+                                                    StreamReader reader = null;
+                                                    List<List<string>> stringsFromFile = null;
+
+                                                    if (selectSortMenu == ConsoleKey.D1 || selectSortMenu == ConsoleKey.D2)
+                                                    {
+                                                        reader = new StreamReader(Titles.FileToSaveWithPath);
+                                                        stringsFromFile = new List<List<string>>();
+                                                    }
+
+                                                    switch (selectSortMenu)
+                                                    {
+                                                        case ConsoleKey.D1:
+                                                            {
+                                                                Console.Clear();
+
+                                                                bool resultImport = false;
+                                                                int countOfString = 0;
+
+                                                                while (reader.Peek() >= 0)
+                                                                {
+                                                                    var aboutItem = reader.ReadLine();
+                                                                    countOfString++;
+
+                                                                    List<string> afterParsing;
+
+                                                                    if (Helper.IsTypeOfItemCatalog(aboutItem, out afterParsing))
+                                                                    {
+                                                                        stringsFromFile.Add(Helper.ParseStringToItem(afterParsing));
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Screen.ShowText(string.Format(Titles.NoParseItem, fullPath, Titles.FileToSave));
+                                                                        break;
+                                                                    }
+                                                                }
+
+                                                                reader.Close();
+
+                                                                if (countOfString == stringsFromFile.Count)
+                                                                {
+                                                                    resultImport = Catalog.LoadWithoutError(stringsFromFile);
+
+                                                                    if (resultImport)
+                                                                    {
+                                                                        Screen.ShowText(string.Format(Titles.CorrectImport, fullPath, Titles.FileToSave));
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Screen.ShowText(string.Format(Titles.ItemIsIncorrectInFile, fullPath, Titles.FileToSave));
+                                                                    }
+                                                                }
+
+                                                                exitMenuImport = true;
+
+                                                                Console.ReadKey();
+                                                                break;
+                                                            }
+
+                                                        case ConsoleKey.D2:
+                                                            {
+                                                                Console.Clear();
+
+                                                                var writer = new StreamWriter(Titles.FileToLogWithPath);
+
+                                                                while (reader.Peek() >= 0)
+                                                                {
+                                                                    var aboutItem = reader.ReadLine();
+
+                                                                    List<string> afterParsing;
+
+                                                                    if (Helper.IsTypeOfItemCatalog(aboutItem, out afterParsing))
+                                                                    {
+                                                                        stringsFromFile.Add(Helper.ParseStringToItem(afterParsing));
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        writer.WriteLine(Titles.AboutIncorrectTypeItem);
+                                                                        writer.WriteLine(aboutItem);
+
+                                                                        continue;
+                                                                    }
+                                                                }
+
+                                                                reader.Close();
+
+                                                                if (stringsFromFile.Count != 0)
+                                                                {
+                                                                    Catalog.Load(stringsFromFile);
+                                                                    writer.Write(Screen.ResultImportToLog());
+                                                                }
+
+                                                                writer.Close();
+
+                                                                Screen.ShowText(string.Format(Titles.CorrectImportWithLog, fullPath, Titles.FileToSave, Titles.FileOfLog));
+
+                                                                exitMenuImport = true;
+
+                                                                Console.ReadKey();
+                                                                break;
+                                                            }
+
+                                                        case ConsoleKey.Q:
+                                                            exitMenuImport = true;
+                                                            break;
+
+                                                        default:
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Screen.ShowText(string.Format(Titles.NoExistFile, fullPath, Titles.FileToSave));
+                                                Console.ReadKey();
+                                            }
+
+                                            exitMenuFiles = true;
+                                            break;
+                                        }
+
+                                    case ConsoleKey.Q:
+                                        exitMenuFiles = true;
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                            }
+
                             break;
                         }
 

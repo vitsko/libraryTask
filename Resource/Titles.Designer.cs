@@ -61,11 +61,29 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Объект #{0}{1} загружен без ошибок..
+        /// </summary>
+        public static string AboutCorrectItem {
+            get {
+                return ResourceManager.GetString("AboutCorrectItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ---Вы редактируете объект---.
         /// </summary>
         public static string AboutEdit {
             get {
                 return ResourceManager.GetString("AboutEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to При создании объекта #{0}{1} произошли следующие ошибки:.
+        /// </summary>
+        public static string AboutErrorToImport {
+            get {
+                return ResourceManager.GetString("AboutErrorToImport", resourceCulture);
             }
         }
         
@@ -79,7 +97,17 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}{1}{2}.
+        ///   Looks up a localized string similar to Запись содержит некорректный тип:.
+        /// </summary>
+        public static string AboutIncorrectTypeItem {
+            get {
+                return ResourceManager.GetString("AboutIncorrectTypeItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #{0}{1}
+        ///.
         /// </summary>
         public static string AboutItem {
             get {
@@ -161,6 +189,15 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SavedFiles.
+        /// </summary>
+        public static string CatalogToFile {
+            get {
+                return ResourceManager.GetString("CatalogToFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Место издательства (Город):.
         /// </summary>
         public static string City {
@@ -175,6 +212,27 @@ namespace Resource {
         public static string CityError {
             get {
                 return ResourceManager.GetString("CityError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Все записи из файла {0}\{1} загружены в Каталог.
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        public static string CorrectImport {
+            get {
+                return ResourceManager.GetString("CorrectImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Записи из файла {0}\{1} загружены в Каталог.
+        ///Лог проверки загрузки смотрите в файле {0}\{2}.
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        public static string CorrectImportWithLog {
+            get {
+                return ResourceManager.GetString("CorrectImportWithLog", resourceCulture);
             }
         }
         
@@ -324,6 +382,51 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LogImport.txt.
+        /// </summary>
+        public static string FileOfLog {
+            get {
+                return ResourceManager.GetString("FileOfLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .\SavedFiles\LogImport.txt.
+        /// </summary>
+        public static string FileToLogWithPath {
+            get {
+                return ResourceManager.GetString("FileToLogWithPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SavedFile.txt.
+        /// </summary>
+        public static string FileToSave {
+            get {
+                return ResourceManager.GetString("FileToSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .\SavedFiles\SavedFile.txt.
+        /// </summary>
+        public static string FileToSaveWithPath {
+            get {
+                return ResourceManager.GetString("FileToSaveWithPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}\{1}.
+        /// </summary>
+        public static string FullPath {
+            get {
+                return ResourceManager.GetString("FullPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нет данных для группировки..
         /// </summary>
         public static string GroupingIsUnavailable {
@@ -378,7 +481,17 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ---Вы допустили ошибки при добавлении \ редактировании объекта Каталога---.
+        ///   Looks up a localized string similar to В файле {0}\{1} не все записи корректны.
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        public static string ItemIsIncorrectInFile {
+            get {
+                return ResourceManager.GetString("ItemIsIncorrectInFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ---Вы допустили ошибки при создании объекта Каталога---.
         /// </summary>
         public static string ListError {
             get {
@@ -397,9 +510,9 @@ namespace Resource {
         ///[7]-- Поиск книг по автору
         ///[8]-- Поиск и группировка книг по издательству
         ///[9]-- Группировать материалы по году выпуска
-        ///[0]-- Внешний источник
+        ///[0]-- Экспорт \ Импорт Каталога
         ///
-        ///[Q] - Закончить работу с Каталогом.
+        ///[Q]-- Закончить работу с Каталогом.
         /// </summary>
         public static string MainMenu {
             get {
@@ -413,7 +526,7 @@ namespace Resource {
         ///[2]-- Газета
         ///[3]-- Патент
         ///
-        ///[Q] - Перейти в Главное меню.
+        ///[Q]-- Перейти в Главное меню.
         /// </summary>
         public static string MenuToAdd {
             get {
@@ -422,11 +535,37 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Работа с файлами:
+        ///[1]-- Экспорт
+        ///[2]-- Импорт
+        ///
+        ///[Q]-- Перейти в Главное меню.
+        /// </summary>
+        public static string MenuToFiles {
+            get {
+                return ResourceManager.GetString("MenuToFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Загрузка файлов:
+        ///[1]-- Недопустимы ошибки
+        ///[2]-- Загрузить с ошибками
+        ///
+        ///[Q]-- Перейти в Главное меню.
+        /// </summary>
+        public static string MenuToImport {
+            get {
+                return ResourceManager.GetString("MenuToImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Сортировать по году выпуска:
         ///[1]-- По возрастанию
         ///[2]-- По убыванию
         ///
-        ///[Q] - Перейти в Главное меню.
+        ///[Q]-- Перейти в Главное меню.
         /// </summary>
         public static string MenuToSortYear {
             get {
@@ -435,11 +574,45 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не существует записи #{0}..
+        ///   Looks up a localized string similar to Вы выгрузили Каталог в файл:
+        ///{0}\{1}
+        ///
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        public static string MessageOfSaveFile {
+            get {
+                return ResourceManager.GetString("MessageOfSaveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не существует запись #{0}..
         /// </summary>
         public static string NoExist {
             get {
                 return ResourceManager.GetString("NoExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не существует файла:
+        ///{0}\{1}
+        ///
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        public static string NoExistFile {
+            get {
+                return ResourceManager.GetString("NoExistFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to В файле {0}\{1} не все записи соответствуют типу объекта Каталога.
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        public static string NoParseItem {
+            get {
+                return ResourceManager.GetString("NoParseItem", resourceCulture);
             }
         }
         
@@ -606,7 +779,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #Книга.
+        ///   Looks up a localized string similar to #Книга#.
         /// </summary>
         public static string TypeBook {
             get {
@@ -615,7 +788,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #Газета.
+        ///   Looks up a localized string similar to #Газета#.
         /// </summary>
         public static string TypeNews {
             get {
@@ -624,7 +797,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #Патент.
+        ///   Looks up a localized string similar to #Патент#.
         /// </summary>
         public static string TypePatent {
             get {

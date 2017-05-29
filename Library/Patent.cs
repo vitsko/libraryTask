@@ -37,7 +37,7 @@
                 {
                     this.inventors = new List<string>(1);
                     this.inventors.Add(Titles.DefaultInventor);
-                    ItemCatalog.errorList.Add(string.Format(Titles.InventorError, this.inventors[0]));
+                    this.errorList.Add(string.Format(Titles.InventorError, this.inventors[0]));
                 }
             }
         }
@@ -57,7 +57,7 @@
                 else
                 {
                     this.сountry = Titles.DefaultCountry;
-                    ItemCatalog.errorList.Add(string.Format(Titles.CountryError, this.сountry));
+                    this.errorList.Add(string.Format(Titles.CountryError, this.сountry));
                 }
             }
         }
@@ -79,7 +79,7 @@
                 else
                 {
                     this.dateRequest = Patent.defaultDate;
-                    ItemCatalog.errorList.Add(string.Format(Titles.DateRPatentError, this.dateRequest.ToShortDateString()));
+                    this.errorList.Add(string.Format(Titles.DateRPatentError, this.dateRequest.ToShortDateString()));
                 }
 
             }
@@ -100,7 +100,7 @@
                 else
                 {
                     this.datePublication = Patent.defaultDate;
-                    ItemCatalog.errorList.Add(string.Format(Titles.DatePPatentError, this.datePublication.ToShortDateString()));
+                    this.errorList.Add(string.Format(Titles.DatePPatentError, this.datePublication.ToShortDateString()));
                 }
 
             }
@@ -114,44 +114,51 @@
             }
         }
 
+        public override string TypeItem
+        {
+            get
+            {
+                return Titles.TypePatent;
+            }
+
+        }
+
+        protected override Dictionary<string, string> TitleasAndValuesItem
+        {
+            get
+            {
+                Dictionary<string, string> titleasAndValuesItem = new Dictionary<string, string>();
+
+                titleasAndValuesItem.Add(Titles.Title, this.Title);
+                titleasAndValuesItem.Add(Titles.Inventors, string.Join(ItemCatalog.Comma.ToString(), this.Inventors));
+                titleasAndValuesItem.Add(Titles.Country, this.Country);
+                titleasAndValuesItem.Add(Titles.RegNumber, this.RegNumber);
+                titleasAndValuesItem.Add(Titles.DateRequest, this.DateRequest.ToShortDateString());
+                titleasAndValuesItem.Add(Titles.DatePublication, this.DatePublication.ToShortDateString());
+                titleasAndValuesItem.Add(Titles.PageCount, this.PageCount.ToString());
+                titleasAndValuesItem.Add(Titles.Note, this.Note);
+
+                return titleasAndValuesItem;
+            }
+        }
+
+        public override List<string> GetQuestionAboutItem
+        {
+            get
+            {
+                return Helper.GetyQuestions(Titles.AskAboutPatent);
+            }
+        }
+
         public override string ToString()
         {
-            StringBuilder allinfo = new StringBuilder();
-
-            allinfo.AppendLine(string.Format(Titles.AboutItem, ItemCatalog.Charp, this.Id.ToString(), Titles.TypePatent));
-
-            allinfo.AppendLine(Titles.Title);
-            allinfo.AppendLine(this.Title);
-
-            allinfo.AppendLine(Titles.Inventors);
-            allinfo.AppendLine(string.Join(ItemCatalog.Comma.ToString(), this.Inventors));
-
-            allinfo.AppendLine(Titles.Country);
-            allinfo.AppendLine(this.Country);
-
-            allinfo.AppendLine(Titles.RegNumber);
-            allinfo.AppendLine(this.RegNumber);
-
-            allinfo.AppendLine(Titles.DateRequest);
-            allinfo.AppendLine(this.DateRequest.ToShortDateString());
-
-            allinfo.AppendLine(Titles.DatePublication);
-            allinfo.AppendLine(this.DatePublication.ToShortDateString());
-
-
-            allinfo.AppendLine(Titles.PageCount);
-            allinfo.AppendLine(this.PageCount.ToString());
-
-            allinfo.AppendLine(Titles.Note);
-            allinfo.AppendLine(this.Note);
-
-            return allinfo.ToString();
+            return base.ToString()
+                       .Insert(0,
+                       string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypePatent));
         }
 
         protected internal override void Create(List<string> aboutItemCatalog)
         {
-            errorList.Clear();
-
             var inventors = new List<string>(Helper
                            .DeleteWhitespace(aboutItemCatalog[1])
                            .Split(ItemCatalog.Comma));
@@ -177,12 +184,9 @@
             this.Note = aboutItemCatalog[7];
         }
 
-        public override List<string> GetQuestionAboutItem
+        internal override string GetInfoToSave()
         {
-            get
-            {
-                return Helper.GetyQuestions(Titles.AskAboutPatent);
-            }
+            return base.GetInfoToSave().Insert(0, Titles.TypePatent);
         }
     }
 }

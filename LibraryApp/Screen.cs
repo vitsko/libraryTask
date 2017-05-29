@@ -5,19 +5,20 @@
     using Resource;
     using System;
     using System.Collections.Generic;
+    using System.Text;
 
     internal static class Screen
     {
         private static char[] comma = { ',' };
 
-        internal static void ShowResultAddOrEdit(bool isCorrectAdd, ItemCatalog item)
+        internal static void ShowResultAddOrEdit(ItemCatalog item)
         {
             Console.Clear();
 
-            if (!isCorrectAdd)
+            if (!item.IsCorrectCreating())
             {
                 Console.WriteLine(Titles.ListError);
-                foreach (var error in ItemCatalog.GetListOfError())
+                foreach (var error in item.GetListOfError())
                 {
                     Console.WriteLine(error);
                 }
@@ -79,6 +80,34 @@
             }
 
             return infoAboutItemCatalog;
+        }
+
+        internal static string ResultImportToLog()
+        {
+            var result = new StringBuilder();
+
+            foreach (var item in Catalog.AllItem)
+            {
+                if (!item.IsCorrectCreating())
+                {
+                    result.AppendFormat(Titles.AboutErrorToImport, item.Id.ToString(), item.TypeItem);
+                    result.AppendLine();
+
+                    foreach (var error in item.GetListOfError())
+                    {
+                        result.AppendLine(error);
+                    }
+
+                    result.AppendLine();
+                }
+                else
+                {
+                    result.AppendFormat(Titles.AboutCorrectItem, item.Id.ToString(), item.TypeItem);
+                    result.AppendLine();
+                }
+            }
+
+            return result.ToString();
         }
     }
 }
