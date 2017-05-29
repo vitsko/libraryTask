@@ -1,12 +1,11 @@
 ﻿namespace Library
 {
     using Helper;
+    using Resource;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Text.RegularExpressions;
-    using Resource;
 
     public static class Catalog
     {
@@ -48,10 +47,17 @@
             }
         }
 
-        public static bool Add(ItemCatalog item)
+        public static bool IsNotEmpty
+        {
+            get
+            {
+                return Catalog.Count != 0;
+            }
+        }
+
+        public static void Add(ItemCatalog item)
         {
             Catalog.libraryItem.Add(item);
-            return ItemCatalog.IsCorrectCreating();
         }
 
         public static bool Delete(int id)
@@ -83,10 +89,9 @@
             }
         }
 
-        public static bool Edit(ItemCatalog itemForEdit, List<string> aboutItemCatalog)
+        public static void Edit(ItemCatalog itemForEdit, List<string> aboutItemCatalog)
         {
             itemForEdit.Create(aboutItemCatalog);
-            return ItemCatalog.IsCorrectCreating();
         }
 
         public static List<ItemCatalog> GetItemWithTitle(string title)
@@ -196,6 +201,67 @@
             return aboutGroupedItems.ToString();
         }
 
+        public static string Save()
+        {
+            StringBuilder lines = new StringBuilder();
+
+            foreach (var item in Catalog.libraryItem)
+            {
+                lines.AppendLine(item.GetInfoToSave());
+            }
+
+            return lines.ToString();
+        }
+
+        public static bool LoadWithoutError(List<List<string>> stringsFromFile)
+        {
+            List<ItemCatalog> tempCatalog = null;
+
+            foreach (var item in stringsFromFile)
+            {
+                var toCatalog = ItemCatalog.CreateFromFile(item);
+
+                if (toCatalog.IsCorrectCreating())
+                {
+                    if (tempCatalog == null)
+                    {
+                        tempCatalog = new List<ItemCatalog>();
+                    }
+
+                    tempCatalog.Add(toCatalog);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            Catalog.libraryItem.Clear();
+            Catalog.libraryItem = new List<ItemCatalog>(tempCatalog);
+
+            return true;
+        }
+
+        public static void Load(List<List<string>> stringsFromFile)
+        {
+            List<ItemCatalog> tempCatalog = null;
+
+            foreach (var item in stringsFromFile)
+            {
+                var toCatalog = ItemCatalog.CreateFromFile(item);
+
+                if (tempCatalog == null)
+                {
+                    tempCatalog = new List<ItemCatalog>();
+                }
+
+                tempCatalog.Add(toCatalog);
+            }
+
+            Catalog.libraryItem.Clear();
+            Catalog.libraryItem = new List<ItemCatalog>(tempCatalog);
+        }
+
         private static string GetKeyForgrouping(dynamic group, GroupingBy propertyToGrouping)
         {
             var key = string.Empty;
@@ -210,25 +276,6 @@
             }
 
             return key;
-        }
-
-        private static int GetIndexByID(int id)
-        {
-            int index = 0;
-
-            foreach (var item in Catalog.libraryItem)
-            {
-                if (item.Id != id)
-                {
-                    index++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return index;
         }
     }
 }
