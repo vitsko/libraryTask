@@ -1,99 +1,192 @@
 ﻿namespace Library
 {
     using System;
-    using System.Globalization;
-    using System.Text;
+    using System.Collections.Generic;
+    using Helper;
+    using Resource;
 
     public class Patent : ItemCatalog
     {
-        public Patent(string[] aboutItemCatalog)
+        private static DateTime defaultDate = new DateTime(1950, 01, 01);
+        private List<string> inventors;
+        private string сountry;
+        private DateTime dateRequest;
+        private DateTime datePublication;
+
+        public Patent(List<string> aboutItemCatalog)
         {
+            this.Id = ItemCatalog.GetId();
+            this.errorList = new List<string>();
             this.Create(aboutItemCatalog);
         }
 
-        public string[] Inventors { get; set; }
+        public List<string> Inventors
+        {
+            get
+            {
+                return this.inventors;
+            }
 
-        public string Country { get; set; }
+            set
+            {
+                if (value.Count != 0)
+                {
+                    this.inventors = value;
+                }
+                else
+                {
+                    this.inventors = new List<string>(1);
+                    this.inventors.Add(Titles.DefaultInventor);
+                    this.errorList.Add(string.Format(Titles.InventorError, this.inventors[0]));
+                }
+            }
+        }
+
+        public string Country
+        {
+            get
+            {
+                return this.сountry;
+            }
+
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    this.сountry = value;
+                }
+                else
+                {
+                    this.сountry = Titles.DefaultCountry;
+                    this.errorList.Add(string.Format(Titles.CountryError, this.сountry));
+                }
+            }
+        }
 
         public string RegNumber { get; set; }
 
-        public string DateRequest { get; set; }
+        public DateTime DateRequest
+        {
+            get
+            {
+                return this.dateRequest;
+            }
 
-        public string DatePublication { get; set; }
+            set
+            {
+                if (value >= Patent.defaultDate)
+                {
+                    this.dateRequest = value;
+                }
+                else
+                {
+                    this.dateRequest = Patent.defaultDate;
+                    this.errorList.Add(string.Format(Titles.DateRPatentError, this.dateRequest.ToShortDateString()));
+                }
+            }
+        }
+
+        public DateTime DatePublication
+        {
+            get
+            {
+                return this.datePublication;
+            }
+
+            set
+            {
+                if (value >= Patent.defaultDate)
+                {
+                    this.datePublication = value;
+                }
+                else
+                {
+                    this.datePublication = Patent.defaultDate;
+                    this.errorList.Add(string.Format(Titles.DatePPatentError, this.datePublication.ToShortDateString()));
+                }
+            }
+        }
+
+        public override string TypeItem
+        {
+            get
+            {
+                return Titles.TypePatent;
+            }
+        }
+
+        public override List<string> GetQuestionAboutItem
+        {
+            get
+            {
+                return Helper.GetyQuestions(Titles.AskAboutPatent);
+            }
+        }
 
         internal override int PublishedYear
         {
             get
             {
-                CultureInfo newCulture = new CultureInfo("en-US", true);
-                newCulture.DateTimeFormat.ShortDatePattern = "dd.MM.yyyy";
+                return this.DatePublication.Year;
+            }
+        }
 
-                DateTime enterDate;
+        protected override Dictionary<string, string> TitleasAndValuesItem
+        {
+            get
+            {
+                Dictionary<string, string> titleasAndValuesItem = new Dictionary<string, string>();
 
-                bool result = DateTime.TryParseExact(this.DatePublication, newCulture.DateTimeFormat.ShortDatePattern, newCulture, DateTimeStyles.AllowWhiteSpaces, out enterDate);
+                titleasAndValuesItem.Add(Titles.Title, this.Title);
+                titleasAndValuesItem.Add(Titles.Inventors, string.Join(ItemCatalog.Comma.ToString(), this.Inventors));
+                titleasAndValuesItem.Add(Titles.Country, this.Country);
+                titleasAndValuesItem.Add(Titles.RegNumber, this.RegNumber);
+                titleasAndValuesItem.Add(Titles.DateRequest, this.DateRequest.ToShortDateString());
+                titleasAndValuesItem.Add(Titles.DatePublication, this.DatePublication.ToShortDateString());
+                titleasAndValuesItem.Add(Titles.PageCount, this.PageCount.ToString());
+                titleasAndValuesItem.Add(Titles.Note, this.Note);
 
-                if (result)
-                {
-                    return enterDate.Year;
-                }
-
-                return DateTime.Today.Year;
+                return titleasAndValuesItem;
             }
         }
 
         public override string ToString()
         {
-            StringBuilder allinfo = new StringBuilder();
-
-            allinfo.AppendLine(ItemCatalog.Charp + this.Id.ToString() + InfoObject.TypePatent);
-
-            allinfo.AppendLine(InfoObject.Title);
-            allinfo.AppendLine(this.Title);
-
-            allinfo.AppendLine(InfoObject.Inventors);
-            allinfo.AppendLine(string.Join(Helper.Comma.ToString(), this.Inventors));
-
-            allinfo.AppendLine(InfoObject.Country);
-            allinfo.AppendLine(this.Country);
-
-            allinfo.AppendLine(InfoObject.RegNumber);
-            allinfo.AppendLine(this.RegNumber);
-
-            allinfo.AppendLine(InfoObject.DateRequest);
-            allinfo.AppendLine(this.DateRequest);
-
-            allinfo.AppendLine(InfoObject.DatePublication);
-
-            if (this.DatePublication == string.Empty)
-            {
-                allinfo.AppendLine(DateTime.Today.ToShortDateString());
-            }
-            else
-            {
-                allinfo.AppendLine(this.DatePublication);
-            }
-
-            allinfo.AppendLine(InfoObject.PageCount);
-            allinfo.AppendLine(this.PageCount);
-
-            allinfo.AppendLine(InfoObject.Note);
-            allinfo.AppendLine(this.Note);
-
-            return allinfo.ToString();
+            return base.ToString()
+                       .Insert(
+                       0,
+                       string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypePatent));
         }
 
-        protected override void Create(string[] aboutItemCatalog)
+        internal override string GetInfoToSave()
         {
-            this.Id = ItemCatalog.GetId();
-            this.Title = aboutItemCatalog[0];
-            this.Inventors = Helper
+            return base.GetInfoToSave().Insert(0, Titles.TypePatent);
+        }
+
+        protected internal override void Create(List<string> aboutItemCatalog)
+        {
+            var inventors = new List<string>(Helper
                            .DeleteWhitespace(aboutItemCatalog[1])
-                           .Split(Helper.Comma, StringSplitOptions.RemoveEmptyEntries);
+                           .Split(ItemCatalog.Comma));
+
+            int intValue = 0;
+            DateTime date;
+
+            this.Title = aboutItemCatalog[0];
+            this.Inventors = Helper.DeleteEmpty(inventors);
+
             this.Country = aboutItemCatalog[2];
             this.RegNumber = aboutItemCatalog[3];
-            this.DateRequest = aboutItemCatalog[4];
-            this.DatePublication = aboutItemCatalog[5];
-            this.PageCount = aboutItemCatalog[6];
+
+            Helper.IsDateAsDDMMYYYY(aboutItemCatalog[4], out date);
+            this.DateRequest = date;
+
+            Helper.IsDateAsDDMMYYYY(aboutItemCatalog[5], out date);
+            this.DatePublication = date;
+
+            Helper.IsIntMoreThanZero(aboutItemCatalog[6], out intValue);
+            this.PageCount = intValue;
+
             this.Note = aboutItemCatalog[7];
         }
     }

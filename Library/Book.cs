@@ -1,95 +1,188 @@
 ﻿namespace Library
 {
-    using System;
-    using System.Text;
+    using System.Collections.Generic;
+    using Helper;
+    using Resource;
 
     public class Book : ItemCatalog
     {
-        private const char COMMA = ',';
+        private const int DefaultYear = 2000;
+        private const int YearPublication = 1900;
+        private List<string> authors;
+        private string publisherCity;
+        private string publisher;
+        private int year;
 
-        public Book(string[] aboutItemCatalog)
+        public Book(List<string> aboutItemCatalog)
         {
+            this.Id = ItemCatalog.GetId();
+            this.errorList = new List<string>();
             this.Create(aboutItemCatalog);
         }
 
-        public string[] Authors { get; set; }
+        public List<string> Authors
+        {
+            get
+            {
+                return this.authors;
+            }
 
-        public string PublisherCity { get; set; }
+            set
+            {
+                if (value.Count != 0)
+                {
+                    this.authors = value;
+                }
+                else
+                {
+                    this.authors = new List<string>(1);
+                    this.authors.Add(Titles.DefaultAuthor);
+                    this.errorList.Add(string.Format(Titles.AuthorsError, this.authors[0]));
+                }
+            }
+        }
 
-        public string Publisher { get; set; }
+        public string PublisherCity
+        {
+            get
+            {
+                return this.publisherCity;
+            }
 
-        public string Year { get; set; }
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    this.publisherCity = value;
+                }
+                else
+                {
+                    this.publisherCity = Titles.DefaultCity;
+                    this.errorList.Add(string.Format(Titles.CityError, this.publisherCity));
+                }
+            }
+        }
+
+        public string Publisher
+        {
+            get
+            {
+                return this.publisher;
+            }
+
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    this.publisher = value;
+                }
+                else
+                {
+                    this.publisher = Titles.DefaultPublisher;
+                    this.errorList.Add(string.Format(Titles.PublisherError, this.publisher));
+                }
+            }
+        }
+
+        public int Year
+        {
+            get
+            {
+                return this.year;
+            }
+
+            set
+            {
+                if (value >= Book.YearPublication)
+                {
+                    this.year = value;
+                }
+                else
+                {
+                    this.year = Book.DefaultYear;
+                    this.errorList.Add(string.Format(Titles.YearError, this.year));
+                }
+            }
+        }
 
         public string ISBN { get; set; }
+
+        public override string TypeItem
+        {
+            get
+            {
+                return Titles.TypeBook;
+            }
+        }
+
+        public override List<string> GetQuestionAboutItem
+        {
+            get
+            {
+                return Helper.GetyQuestions(Titles.AskAboutBook);
+            }
+        }
 
         internal override int PublishedYear
         {
             get
             {
-                int yearParse;
-                bool result = int.TryParse(this.Year, out yearParse);
+                return this.Year;
+            }
+        }
 
-                if (result && yearParse > 0)
-                {
-                    return yearParse;
-                }
+        protected override Dictionary<string, string> TitleasAndValuesItem
+        {
+            get
+            {
+                Dictionary<string, string> titleasAndValuesItem = new Dictionary<string, string>();
 
-                return DateTime.Today.Year;
+                titleasAndValuesItem.Add(Titles.Title, this.Title);
+                titleasAndValuesItem.Add(Titles.Authors, string.Join(ItemCatalog.Comma.ToString(), this.Authors));
+                titleasAndValuesItem.Add(Titles.City, this.PublisherCity);
+                titleasAndValuesItem.Add(Titles.Publisher, this.Publisher);
+                titleasAndValuesItem.Add(Titles.Year, this.Year.ToString());
+                titleasAndValuesItem.Add(Titles.PageCount, this.PageCount.ToString());
+                titleasAndValuesItem.Add(Titles.Note, this.Note);
+                titleasAndValuesItem.Add(Titles.ISBN, this.ISBN);
+
+                return titleasAndValuesItem;
             }
         }
 
         public override string ToString()
         {
-            StringBuilder allinfo = new StringBuilder();
-
-            allinfo.AppendLine(ItemCatalog.Charp + this.Id.ToString() + InfoObject.TypeBook);
-
-            allinfo.AppendLine(InfoObject.Title);
-            allinfo.AppendLine(this.Title);
-
-            allinfo.AppendLine(InfoObject.Authors);
-            allinfo.AppendLine(string.Join(COMMA.ToString(), this.Authors));
-
-            allinfo.AppendLine(InfoObject.City);
-            allinfo.AppendLine(this.PublisherCity);
-
-            allinfo.AppendLine(InfoObject.Publisher);
-            allinfo.AppendLine(this.Publisher);
-
-            allinfo.AppendLine(InfoObject.Year);
-
-            if (this.Year == string.Empty)
-            {
-                allinfo.AppendLine(this.PublishedYear.ToString());
-            }
-            else
-            {
-                allinfo.AppendLine(this.Year);
-            }
-
-            allinfo.AppendLine(InfoObject.PageCount);
-            allinfo.AppendLine(this.PageCount);
-
-            allinfo.AppendLine(InfoObject.Note);
-            allinfo.AppendLine(this.Note);
-
-            allinfo.AppendLine(InfoObject.ISBN);
-            allinfo.AppendLine(this.ISBN);
-
-            return allinfo.ToString();
+            return base.ToString()
+                       .Insert(
+                       0,
+                       string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypeBook));
         }
 
-        protected override void Create(string[] aboutItemCatalog)
+        internal override string GetInfoToSave()
         {
-            this.Id = ItemCatalog.GetId();
+            return base.GetInfoToSave().Insert(0, Titles.TypeBook);
+        }
+
+        protected internal override void Create(List<string> aboutItemCatalog)
+        {
+            var authors = new List<string>(Helper
+                 .DeleteWhitespace(aboutItemCatalog[1])
+                 .Split(ItemCatalog.Comma));
+
+            var intValue = 0;
+
             this.Title = aboutItemCatalog[0];
-            this.Authors = Helper
-                           .DeleteWhitespace(aboutItemCatalog[1])
-                           .Split(Helper.Comma, StringSplitOptions.RemoveEmptyEntries);
+            this.Authors = Helper.DeleteEmpty(authors);
+
             this.PublisherCity = aboutItemCatalog[2];
             this.Publisher = aboutItemCatalog[3];
-            this.Year = aboutItemCatalog[4];
-            this.PageCount = aboutItemCatalog[5];
+
+            Helper.IsIntMoreThanZero(aboutItemCatalog[4], out intValue);
+            this.Year = intValue;
+
+            Helper.IsIntMoreThanZero(aboutItemCatalog[5], out intValue);
+            this.PageCount = intValue;
+
             this.Note = aboutItemCatalog[6];
             this.ISBN = aboutItemCatalog[7];
         }

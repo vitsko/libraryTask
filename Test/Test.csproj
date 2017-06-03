@@ -60,6 +60,10 @@
       <Project>{67f2dc48-3e98-484e-97bd-412f529e773c}</Project>
       <Name>Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Resource\Resource.csproj">
+      <Project>{63EEA463-2F08-4C36-8988-9994405F5039}</Project>
+      <Name>Resource</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

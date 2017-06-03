@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AskAboutBook" xml:space="preserve">
+    <value>Укажите название книги:,Укажите авторов книги:,Укажите город издания книги:,Укажите название издательства книги:,Укажите год издания книги:,Укажите количество страниц книги:,Укажите примечание к книге:,Укажите ISBN книги:</value>
+  </data>
+  <data name="AskAboutNewspaper" xml:space="preserve">
+    <value>Укажите название газеты:,Укажите город издания газеты:,Укажите название издательства газеты:,Укажите год издания газеты:,Укажите количество страниц газеты:,Укажите примечание к газете:,Укажите номер газеты:,Укажите дату газеты:,Укажите ISSN газеты:</value>
+  </data>
+  <data name="AskAboutPatent" xml:space="preserve">
+    <value>Укажите название патента:,Укажите изобретателей патента:,Укажите страну патента:,Укажите регистрационный номер патента:,Укажите дату подачи заяки патента:,Укажите дату публикации патента:,Укажите количество страниц патента:,Укажите примечание к патенту:</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>Главное меню:
+[1]-- Добавить запись в Каталог
+[2]-- Редактировать запись
+[3]-- Удалить запись из Каталога
+[4]-- Просмотр Каталога
+[5]-- Поиск по названию
+[6]-- Сортировать по году выпуска
+[7]-- Поиск книг по автору
+[8]-- Поиск и группировка книг по издательству
+[9]-- Группировать материалы по году выпуска
+[0]-- Экспорт \ Импорт Каталога
+
+[Q]-- Закончить работу с Каталогом</value>
+    </data>
+  <data name="MenuToAdd" xml:space="preserve">
+    <value>Добавить в Каталог:
+[1]-- Книга
+[2]-- Газета
+[3]-- Патент
+
+[Q]-- Перейти в Главное меню</value>
+  </data>
+  <data name="MenuToSortYear" xml:space="preserve">
+    <value>Сортировать по году выпуска:
+[1]-- По возрастанию
+[2]-- По убыванию
+
+[Q]-- Перейти в Главное меню</value>
+  </data>
+  <data name="MenuToFiles" xml:space="preserve">
+    <value>Работа с файлами:
+[1]-- Экспорт
+[2]-- Импорт
+
+[Q]-- Перейти в Главное меню</value>
+  </data>
+  <data name="MenuToImport" xml:space="preserve">
+    <value>Загрузка файлов:
+[1]-- Недопустимы ошибки
+[2]-- Загрузить с ошибками
+
+[Q]-- Перейти в Главное меню</value>
+  </data>
+  <data name="AskToDelete" xml:space="preserve">
+    <value>Укажите номер записи для удаления из Каталога:</value>
+    </data>
+  <data name="Delete" xml:space="preserve">
+<value>Вы удалили запись #{0}.</value>
+    </data>
+  <data name="AskToEdit" xml:space="preserve">
+<value>Укажите номер записи для редактирования:</value>
+    </data>
+  <data name="NoExist" xml:space="preserve">
+<value>Не существует запись #{0}.</value>
+    </data>
+  <data name="EmptyCatalog" xml:space="preserve">
+<value>Каталог пуст.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+    </data>
+  <data name="CatalogIsEmptyOrHasNotBook" xml:space="preserve">
+<value>Каталог пуст или не содержит книг.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+    </data>
+  <data name="ShowCatalog" xml:space="preserve">
+<value>---КАТАЛОГ---</value>
+    </data>
+  <data name="PressAnyKey" xml:space="preserve">
+<value>Нажмите любую кнопку для выходя в Главное меню...</value>
+    </data>
+  <data name="ResultSearchOfTitle" xml:space="preserve">
+<value>Результат поиска по названию '{0}'.</value>
+    </data>
+  <data name="InputSeachRequest" xml:space="preserve">
+<value>Введите поисковый запрос:</value>
+    </data>
+  <data name="ResultSearchOfAuthors" xml:space="preserve">
+<value>Результат поиска книги по автору '{0}'.</value>
+    </data>
+  <data name="ResultGroupByPublisher" xml:space="preserve">
+<value>Результат поиска с группировкой книги по издательству '{0}'.</value>
+    </data>
+  <data name="ResultGroupByYear" xml:space="preserve">
+<value>---Каталог сгруппированный по годам выпуска материалов---</value>
+    </data>
+  <data name="ResultAddorEdit" xml:space="preserve">
+<value>---Данные объекта Каталога---</value>
+    </data>
+  <data name="ListError" xml:space="preserve">
+<value>---Вы допустили ошибки при создании объекта Каталога---</value>
+    </data>
+  <data name="AboutEdit" xml:space="preserve">
+<value>---Вы редактируете объект---</value>
+    </data>
+  <data name="Split" xml:space="preserve">
+<value>---------------------------------</value>
+    </data>
+  <data name="AboutItem" xml:space="preserve">
+<value>#{0}{1}
+</value>
+    </data>
+  <!--О книге-->
+  <data name="TypeBook" xml:space="preserve">
+<value>#Книга#</value>
+</data>
+  <data name="Title" xml:space="preserve">
+<value>Название:</value>
+</data>
+  <data name="Authors" xml:space="preserve">
+<value>Авторы:</value>
+</data>
+  <data name="City" xml:space="preserve">
+<value>Место издательства (Город):</value>
+</data>
+  <data name="Publisher" xml:space="preserve">
+<value>Издательство:</value>
+</data>
+  <data name="Year" xml:space="preserve">
+<value>Год издания:</value>
+</data>
+  <data name="PageCount" xml:space="preserve">
+<value>Количество страниц:</value>
+</data>
+  <data name="Note" xml:space="preserve">
+<value>Примечание:</value>
+</data>
+  <data name="ISBN" xml:space="preserve">
+<value>Международный стандартный номер книги (ISBN):</value>
+</data>
+  <!--О газете -->
+  <data name="TypeNews" xml:space="preserve">
+<value>#Газета#</value>
+</data>
+  <data name="Number" xml:space="preserve">
+<value>Номер:</value>
+</data>
+  <data name="Date" xml:space="preserve">
+<value>Дата:</value>
+</data>
+  <data name="ISSN" xml:space="preserve">
+<value>Международный стандартный номер серийного издания (ISSN):</value>
+</data>
+  <!--О Патенте-->
+  <data name="TypePatent" xml:space="preserve">
+<value>#Патент#</value>
+</data>
+  <data name="Inventors" xml:space="preserve">
+<value>Изобретатели:</value>
+</data>
+  <data name="Country" xml:space="preserve">
+<value>Страна:</value>
+</data>
+  <data name="RegNumber" xml:space="preserve">
+<value>Регистрационный номер:</value>
+</data>
+  <data name="DateRequest" xml:space="preserve">
+<value>Дата подачи заявки:</value>
+</data>
+  <data name="DatePublication" xml:space="preserve">
+<value>Дата публикации:</value>
+</data>
+  <!--Для группироки-->
+  <data name="AboutGrouping" xml:space="preserve">
+<value>Группировка по '{0}':</value>
+</data>
+  <data name="GroupingIsUnavailable" xml:space="preserve">
+<value>Нет данных для группировки.</value>
+</data>
+  <!--Значения по умолчанию для свойств объектов Каталога-->
+  <data name="DefaultTitle" xml:space="preserve">
+<value>Название по умолчанию</value>
+</data>
+  <data name="DefaultAuthor" xml:space="preserve">
+<value>Автор по умолчанию</value>
+</data>
+  <data name="DefaultCity" xml:space="preserve">
+<value>Город по умолчанию</value>
+</data>
+  <data name="DefaultPublisher" xml:space="preserve">
+<value>Издательство по умолчанию</value>
+</data>
+  <data name="DefaultInventor" xml:space="preserve">
+<value>Изобретатель по умолчанию</value>
+</data>
+  <data name="DefaultCountry" xml:space="preserve">
+<value>Страна по умолчанию</value>
+</data>
+  <!--Сообщения об ошибках создания объекта Каталога-->
+  <data name="TitleError" xml:space="preserve">
+<value>Вы не указали Название. Вместо него указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="AuthorsError" xml:space="preserve">
+<value>Вы не указали Автора книги. Вместо него указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="CityError" xml:space="preserve">
+<value>Вы не указали Место издания (город). Вместо него указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="PublisherError" xml:space="preserve">
+<value>Вы не указали Издательство. Вместо него указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="YearError" xml:space="preserve">
+<value>Вы указали Год издания меньше, чем 1900. Вместо него указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="PageCountError" xml:space="preserve">
+<value>Вы указали Количество страниц меньше, чем 0. Вместо него указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="NumberNewsError" xml:space="preserve">
+<value>Вы указали Номер газеты меньше, чем 0. Вместо него указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="DateNewsError" xml:space="preserve">
+<value>Вы указали Дату газеты не в формате дд.мм.гггг. Вместо нее указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="InventorError" xml:space="preserve">
+<value>Вы не указали Изобретателя патента. Вместо него указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="CountryError" xml:space="preserve">
+<value>Вы не указали Страну патента. Вместо нее указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="DateRPatentError" xml:space="preserve">
+<value>Вы указали Дату подачи заявки не в формате дд.мм.гггг или год ранее 1950. Вместо нее указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="DatePPatentError" xml:space="preserve">
+<value>Вы указали Дату публикации не в формате дд.мм.гггг или год ранее 1950. Вместо нее указано значение по умолчанию: {0}.</value>
+</data>
+  <!--Для выгрузки в файл-->
+  <data name="FullPath" xml:space="preserve">
+<value>{0}\{1}</value>
+</data>
+  <data name="CatalogToFile" xml:space="preserve">
+<value>SavedFiles</value>
+</data>
+  <data name="FileToSaveWithPath" xml:space="preserve">
+<value>.\SavedFiles\SavedFile.txt</value>
+</data>
+  <data name="FileToSave" xml:space="preserve">
+<value>SavedFile.txt</value>
+</data>
+  <data name="MessageOfSaveFile" xml:space="preserve">
+<value>Вы выгрузили Каталог в файл:
+{0}\{1}
+
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="NoExistFile" xml:space="preserve">
+<value>Не существует файла:
+{0}\{1}
+
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="CorrectImport" xml:space="preserve">
+<value>Все записи из файла {0}\{1} загружены в Каталог.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="NoParseItem" xml:space="preserve">
+<value>В файле {0}\{1} не все записи соответствуют типу объекта Каталога.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="ItemIsIncorrectInFile" xml:space="preserve">
+<value>В файле {0}\{1} не все записи корректны.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="FileToLogWithPath" xml:space="preserve">
+<value>.\SavedFiles\LogImport.txt</value>
+</data>
+  <data name="AboutIncorrectTypeItem" xml:space="preserve">
+<value>Запись содержит некорректный тип:</value>
+</data>
+  <data name="AboutErrorToImport" xml:space="preserve">
+<value>При создании объекта #{0}{1} произошли следующие ошибки:</value>
+</data>
+  <data name="AboutCorrectItem" xml:space="preserve">
+<value>Объект #{0}{1} загружен без ошибок.</value>
+</data>
+  <data name="CorrectImportWithLog" xml:space="preserve">
+<value>Записи из файла {0}\{1} загружены в Каталог.
+Лог проверки загрузки смотрите в файле {0}\{2}.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="FileOfLog" xml:space="preserve">
+<value>LogImport.txt</value>
+</data>
+</root>

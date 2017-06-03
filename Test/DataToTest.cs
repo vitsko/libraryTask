@@ -1,14 +1,79 @@
 ﻿namespace Test
 {
+    using System.Collections.Generic;
+
     internal static class DataToTest
     {
-        internal static string[][] InfoToCatalog()
-        {
-            string[][] data = new string[6][];
+        internal const string ToCompareForSave = "#Книга#Название:Название книги#Авторы:Другой автор-1,Михаил Булгаков,Толстой#Место издательства (Город):Ижевск#Издательство:Московский вестник#Год издания:2000#Количество страниц:250#Примечание:Примечание для книги#Международный стандартный номер книги (ISBN):9780141180100#\r\n";
 
-            data[0] = new string[]
+        internal static List<List<string>> ToLoad
+        {
+            get
             {
-            "Мастер и Маргарита",
+                var data = new List<string>
+            {
+                "Книга",
+                "Название книги",
+                "Другой автор-1,Михаил Булгаков,Толстой",
+                "Ижевск",
+                "Московский вестник",
+                "2000",
+                "250",
+                "Примечание для книги",
+                "9780141180100"
+             };
+
+                var toLoad = new List<List<string>>
+                {
+                    data
+                };
+
+                return toLoad;
+            }
+        }
+
+        internal static List<List<string>> IncorrectToLoad
+        {
+            get
+            {
+                var data = new List<string>
+            {
+                "Книга",
+                string.Empty,
+                "Другой автор-1,Михаил Булгаков,Толстой",
+                "Ижевск",
+                "Московский вестник",
+                "2000",
+                "250",
+                "Примечание для книги",
+                "9780141180100"
+             };
+
+                var toLoad = new List<List<string>>
+                {
+                    data
+                };
+
+                return toLoad;
+            }
+        }
+
+        internal static List<List<string>> InfoToCatalog()
+        {
+            List<List<string>> data = new List<List<string>>
+            {
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            };
+
+            data[0] = new List<string>
+            {
+            string.Empty,
             "Михаил Булгаков",
             "Екатеринбург",
             "Москва",
@@ -18,7 +83,7 @@
             "9780141180144"
             };
 
-            data[1] = new string[]
+            data[1] = new List<string>
             {
             "Советский Спорт",
             "Москва",
@@ -31,7 +96,7 @@
             "84025613"
             };
 
-            data[2] = new string[]
+            data[2] = new List<string>
             {
             "Способ запуска объекта с космодрома в космосе",
             "Ломанов А.А.",
@@ -43,10 +108,10 @@
             "Изобретение относится к области космической техники и, в частности, к средствам запуска космических объектов"
              };
 
-            data[3] = new string[]
+            data[3] = new List<string>
             {
             "Название книги",
-            "Другой автор-1, Михаил Булгаков, Толстой",
+            "Другой автор-1,Михаил Булгаков,Толстой",
             "Ижевск",
             "Московский вестник",
             "2000",
@@ -55,7 +120,7 @@
             "9780141180100"
              };
 
-            data[4] = new string[]
+            data[4] = new List<string>
             {
             "Спорт",
             "Санкт-Петербург",
@@ -68,7 +133,7 @@
             "84025677"
             };
 
-            data[5] = new string[]
+            data[5] = new List<string>
             {
             "Патент",
             "Ломанов А.А., Еще один изобретатель",
@@ -79,6 +144,19 @@
             "300",
             "Примечание к патерну за номером 2241677-2012/4"
             };
+
+            // Данные для редактирования
+            data[6] = new List<string>
+            {
+            "Мастер",
+            "Михаил Булгаков",
+            "Екатеринбург",
+            "Москва",
+            "1980",
+            "310",
+            "Роман в 32 главы",
+            "9780141180144"
+           };
 
             return data;
         }
