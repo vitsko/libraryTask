@@ -1,22 +1,22 @@
 ﻿namespace Library
 {
-    using Helper;
-    using Resource;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Helper;
+    using Resource;
 
     public abstract class ItemCatalog : IComparable<ItemCatalog>
     {
         protected const char Comma = ',';
         protected const int DefaultPageCount = 100;
-        protected List<string> errorList = new List<string>();
+        protected List<string> errorList;
 
         private const char Sharp = '#';
         private const string SplitToSave = ": ";
-        private const int countForBookAndPatent = 8;
-        private const int countForNews = 9;
+        private const int CountForBookAndPatent = 8;
+        private const int CountForNews = 9;
 
         private static int countOfItem = 0;
         private string title;
@@ -28,6 +28,7 @@
             {
                 return this.title;
             }
+
             set
             {
                 if (!string.IsNullOrWhiteSpace(value))
@@ -48,6 +49,7 @@
             {
                 return this.pageCount;
             }
+
             set
             {
                 if (value != 0)
@@ -66,9 +68,21 @@
 
         public int Id { get; protected set; }
 
-        internal abstract int PublishedYear { get; }
+        public List<string> ErrorList
+        {
+            get
+            {
+                return this.errorList;
+            }
+        }
 
         public abstract string TypeItem { get; }
+
+        public abstract List<string> GetQuestionAboutItem { get; }
+
+        internal abstract int PublishedYear { get; }
+
+        protected abstract Dictionary<string, string> TitleasAndValuesItem { get; }
 
         public int CompareTo(ItemCatalog other)
         {
@@ -87,12 +101,7 @@
 
         public bool IsCorrectCreating()
         {
-            return this.errorList.Count == 0;
-        }
-
-        public List<string> GetListOfError()
-        {
-            return this.errorList;
+            return this.ErrorList.Count == 0;
         }
 
         public override string ToString()
@@ -108,16 +117,37 @@
             return allinfo.ToString();
         }
 
-        protected static int GetId()
+        internal static ItemCatalog CreateFromFile(List<string> aboutItemCatalog)
         {
-            return ++countOfItem;
+            var type = aboutItemCatalog.ElementAt(0);
+            ItemCatalog fromImport = null;
+
+            switch (Helper.GetTypeItem(type))
+            {
+                case (byte)Helper.TypeItem.Book:
+                    {
+                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.CountForBookAndPatent);
+                        fromImport = new Book(aboutItemCatalog.FindAll(item => !item.Equals(type)));
+                        break;
+                    }
+
+                case (byte)Helper.TypeItem.Newspaper:
+                    {
+                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.CountForNews);
+                        fromImport = new Newspaper(aboutItemCatalog.FindAll(item => !item.Equals(type)));
+                        break;
+                    }
+
+                case (byte)Helper.TypeItem.Patent:
+                    {
+                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.CountForBookAndPatent);
+                        fromImport = new Patent(aboutItemCatalog.FindAll(item => !item.Equals(type)));
+                        break;
+                    }
+            }
+
+            return fromImport;
         }
-
-        protected internal abstract void Create(List<string> aboutItemCatalog);
-
-        public abstract List<string> GetQuestionAboutItem { get; }
-
-        protected abstract Dictionary<string, string> TitleasAndValuesItem { get; }
 
         internal virtual string GetInfoToSave()
         {
@@ -133,36 +163,11 @@
             return toSave.ToString();
         }
 
-        internal static ItemCatalog CreateFromFile(List<string> aboutItemCatalog)
+        protected internal abstract void Create(List<string> aboutItemCatalog);
+
+        protected static int GetId()
         {
-            var type = aboutItemCatalog.ElementAt(0);
-            ItemCatalog fromImport = null;
-
-            switch (Helper.GetTypeItem(type))
-            {
-                case (byte)Helper.TypeItem.Book:
-                    {
-                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.countForBookAndPatent);
-                        fromImport = new Book(aboutItemCatalog.FindAll(item => !item.Equals(type)));
-                        break;
-                    }
-
-                case (byte)Helper.TypeItem.Newspaper:
-                    {
-                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.countForNews);
-                        fromImport = new Newspaper(aboutItemCatalog.FindAll(item => !item.Equals(type)));
-                        break;
-                    }
-
-                case (byte)Helper.TypeItem.Patent:
-                    {
-                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.countForBookAndPatent);
-                        fromImport = new Patent(aboutItemCatalog.FindAll(item => !item.Equals(type)));
-                        break;
-                    }
-            }
-
-            return fromImport;
+            return ++countOfItem;
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿namespace LibraryApp
 {
     using System;
-    using Helper;
-    using Library;
     using System.Collections.Generic;
     using System.IO;
-    using System.Security.AccessControl;
+    using Helper;
+    using Library;
     using Resource;
+    using static Library.Catalog;
 
     internal class Program
     {
@@ -193,7 +193,9 @@
 
                                 if (searchTitle != string.Empty)
                                 {
-                                    resultCatalog = Catalog.GetItemWithTitle(searchTitle);
+                                    var seacher = Catalog.GetItemWithTitle;
+
+                                    resultCatalog = Catalog.Search(seacher, searchTitle);
                                     info = Catalog.GetInfoSelectedItem(resultCatalog);
                                 }
 
@@ -227,15 +229,23 @@
                                     Screen.ShowText(Titles.MenuToSortYear);
                                     selectSortMenu = Console.ReadKey().Key;
 
+                                    Sorter sortByYear = null;
+
                                     switch (selectSortMenu)
                                     {
                                         case ConsoleKey.D1:
-                                            catalogAfterSort = Catalog.SortByYearASC();
+
+                                            sortByYear = Catalog.SortByYearASC;
+                                            catalogAfterSort = Catalog.Sort(sortByYear);
+
                                             exitSortYear = true;
                                             break;
 
                                         case ConsoleKey.D2:
-                                            catalogAfterSort = Catalog.SortByYearDESC();
+
+                                            sortByYear = Catalog.SortByYearDESC;
+                                            catalogAfterSort = Catalog.Sort(sortByYear);
+
                                             exitSortYear = true;
                                             break;
 
@@ -272,12 +282,13 @@
                             {
                                 Screen.ShowText(Titles.InputSeachRequest);
                                 var searchByAuthor = Console.ReadLine();
-                                List<ItemCatalog> booksbyAuthor;
                                 var info = string.Empty;
 
                                 if (searchByAuthor != string.Empty)
                                 {
-                                    booksbyAuthor = Catalog.GetBookByAuthor(searchByAuthor);
+                                    var seacher = Catalog.GetBookByAuthor;
+                                    var booksbyAuthor = Catalog.Search(seacher, searchByAuthor);
+
                                     info = Catalog.GetInfoSelectedItem(booksbyAuthor);
                                 }
 
@@ -301,12 +312,13 @@
                             {
                                 Screen.ShowText(Titles.InputSeachRequest);
                                 var searchByPublisher = Console.ReadLine();
-                                dynamic books;
                                 var info = string.Empty;
 
                                 if (searchByPublisher != string.Empty)
                                 {
-                                    books = Catalog.GroupBooksByPublisher(searchByPublisher);
+                                    var seacher = Catalog.GroupBooksByPublisher;
+                                    var books = Catalog.Search(seacher, searchByPublisher);
+
                                     info = Catalog.GetInfoItemByGrouping(books, Catalog.GroupingBy.Publisher);
                                 }
 
@@ -328,8 +340,9 @@
 
                             if (Catalog.IsNotEmpty)
                             {
-                                var groupedCatalogByYear = Catalog.GroupByYear();
-                                var info = Catalog.GetInfoItemByGrouping(groupedCatalogByYear, Catalog.GroupingBy.Year);
+                                var groupedCatalogByYear = Catalog.GroupByYear;
+                                var resultGrouping = Catalog.Sort(groupedCatalogByYear);
+                                var info = Catalog.GetInfoItemByGrouping(resultGrouping, Catalog.GroupingBy.Year);
                                 Screen.ShowText(Titles.ResultGroupByYear, info, Titles.PressAnyKey);
                             }
                             else

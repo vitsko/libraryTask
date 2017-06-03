@@ -51,11 +51,11 @@
 
             var newItem = new List<string>();
 
-            item.ForEach(delegate (string oneItem)
-                {
-                    oneItem = Helper.DeleteWhitespace(oneItem);
-                    newItem.Add(oneItem);
-                });
+            item.ForEach(delegate(string oneItem)
+            {
+                oneItem = Helper.DeleteWhitespace(oneItem);
+                newItem.Add(oneItem);
+            });
 
             return newItem;
         }
@@ -107,9 +107,7 @@
                     {
                         valuesOfItemCatalog.Add(stringValue[1]);
                     }
-
                 }
-
             }
 
             return valuesOfItemCatalog;
@@ -135,7 +133,6 @@
             }
 
             return (byte)TypeItem.Default;
-
         }
 
         public static void AddValuesForCheckImport(List<string> aboutItemCatalog, int countOfValues)
@@ -148,7 +145,6 @@
                 count++;
             }
         }
-
 
         private static List<string> ParseToSign(string toParse, string[] spliter)
         {

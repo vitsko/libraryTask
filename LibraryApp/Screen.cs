@@ -1,11 +1,11 @@
 ﻿namespace LibraryApp
 {
-    using Helper;
-    using Library;
-    using Resource;
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Helper;
+    using Library;
+    using Resource;
 
     internal static class Screen
     {
@@ -18,10 +18,11 @@
             if (!item.IsCorrectCreating())
             {
                 Console.WriteLine(Titles.ListError);
-                foreach (var error in item.GetListOfError())
+                foreach (var error in item.ErrorList)
                 {
                     Console.WriteLine(error);
                 }
+
                 Console.WriteLine();
             }
 
@@ -46,7 +47,7 @@
             {
                 case ConsoleKey.D1:
                     {
-                        questions = Helper.GetyQuestions(Titles.AskAboutBook); ;
+                        questions = Helper.GetyQuestions(Titles.AskAboutBook);
                         break;
                     }
 
@@ -68,7 +69,7 @@
             return InputInfoAboutItemCatalog(questions);
         }
 
-        public static List<string> InputInfoAboutItemCatalog(List<string> questions)
+        internal static List<string> InputInfoAboutItemCatalog(List<string> questions)
         {
             List<string> infoAboutItemCatalog = new List<string>();
 
@@ -93,7 +94,7 @@
                     result.AppendFormat(Titles.AboutErrorToImport, item.Id.ToString(), item.TypeItem);
                     result.AppendLine();
 
-                    foreach (var error in item.GetListOfError())
+                    foreach (var error in item.ErrorList)
                     {
                         result.AppendLine(error);
                     }

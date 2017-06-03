@@ -1,11 +1,9 @@
 ﻿namespace Library
 {
-    using Helper;
-    using Resource;
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
-    using System.Text;
+    using Helper;
+    using Resource;
 
     public class Patent : ItemCatalog
     {
@@ -18,6 +16,7 @@
         public Patent(List<string> aboutItemCatalog)
         {
             this.Id = ItemCatalog.GetId();
+            this.errorList = new List<string>();
             this.Create(aboutItemCatalog);
         }
 
@@ -27,6 +26,7 @@
             {
                 return this.inventors;
             }
+
             set
             {
                 if (value.Count != 0)
@@ -48,6 +48,7 @@
             {
                 return this.сountry;
             }
+
             set
             {
                 if (!string.IsNullOrWhiteSpace(value))
@@ -70,6 +71,7 @@
             {
                 return this.dateRequest;
             }
+
             set
             {
                 if (value >= Patent.defaultDate)
@@ -81,7 +83,6 @@
                     this.dateRequest = Patent.defaultDate;
                     this.errorList.Add(string.Format(Titles.DateRPatentError, this.dateRequest.ToShortDateString()));
                 }
-
             }
         }
 
@@ -91,6 +92,7 @@
             {
                 return this.datePublication;
             }
+
             set
             {
                 if (value >= Patent.defaultDate)
@@ -102,15 +104,6 @@
                     this.datePublication = Patent.defaultDate;
                     this.errorList.Add(string.Format(Titles.DatePPatentError, this.datePublication.ToShortDateString()));
                 }
-
-            }
-        }
-
-        internal override int PublishedYear
-        {
-            get
-            {
-                return this.DatePublication.Year;
             }
         }
 
@@ -120,7 +113,22 @@
             {
                 return Titles.TypePatent;
             }
+        }
 
+        public override List<string> GetQuestionAboutItem
+        {
+            get
+            {
+                return Helper.GetyQuestions(Titles.AskAboutPatent);
+            }
+        }
+
+        internal override int PublishedYear
+        {
+            get
+            {
+                return this.DatePublication.Year;
+            }
         }
 
         protected override Dictionary<string, string> TitleasAndValuesItem
@@ -142,19 +150,17 @@
             }
         }
 
-        public override List<string> GetQuestionAboutItem
-        {
-            get
-            {
-                return Helper.GetyQuestions(Titles.AskAboutPatent);
-            }
-        }
-
         public override string ToString()
         {
             return base.ToString()
-                       .Insert(0,
+                       .Insert(
+                       0,
                        string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypePatent));
+        }
+
+        internal override string GetInfoToSave()
+        {
+            return base.GetInfoToSave().Insert(0, Titles.TypePatent);
         }
 
         protected internal override void Create(List<string> aboutItemCatalog)
@@ -182,11 +188,6 @@
             this.PageCount = intValue;
 
             this.Note = aboutItemCatalog[7];
-        }
-
-        internal override string GetInfoToSave()
-        {
-            return base.GetInfoToSave().Insert(0, Titles.TypePatent);
         }
     }
 }

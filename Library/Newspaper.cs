@@ -1,10 +1,9 @@
 ﻿namespace Library
 {
-    using Helper;
-    using Resource;
     using System;
     using System.Collections.Generic;
-    using System.Text;
+    using Helper;
+    using Resource;
 
     public class Newspaper : ItemCatalog
     {
@@ -19,6 +18,7 @@
         public Newspaper(List<string> aboutItemCatalog)
         {
             this.Id = ItemCatalog.GetId();
+            this.errorList = new List<string>();
             this.Create(aboutItemCatalog);
         }
 
@@ -30,6 +30,7 @@
             {
                 return this.publisher;
             }
+
             set
             {
                 if (!string.IsNullOrWhiteSpace(value))
@@ -50,6 +51,7 @@
             {
                 return this.year;
             }
+
             set
             {
                 if (value >= Newspaper.YearPublication)
@@ -61,7 +63,6 @@
                     this.year = Newspaper.DefaultYear;
                     this.errorList.Add(string.Format(Titles.YearError, this.year));
                 }
-
             }
         }
 
@@ -69,8 +70,9 @@
         {
             get
             {
-                return number;
+                return this.number;
             }
+
             set
             {
                 if (value > 0)
@@ -89,8 +91,9 @@
         {
             get
             {
-                return date;
+                return this.date;
             }
+
             set
             {
                 if (value != DateTime.MinValue)
@@ -107,21 +110,28 @@
 
         public string ISSN { get; set; }
 
-        internal override int PublishedYear
-        {
-            get
-            {
-                return this.Year;
-            }
-        }
-
         public override string TypeItem
         {
             get
             {
                 return Titles.TypeNews;
             }
+        }
 
+        public override List<string> GetQuestionAboutItem
+        {
+            get
+            {
+                return Helper.GetyQuestions(Titles.AskAboutNewspaper);
+            }
+        }
+
+        internal override int PublishedYear
+        {
+            get
+            {
+                return this.Year;
+            }
         }
 
         protected override Dictionary<string, string> TitleasAndValuesItem
@@ -144,19 +154,17 @@
             }
         }
 
-        public override List<string> GetQuestionAboutItem
-        {
-            get
-            {
-                return Helper.GetyQuestions(Titles.AskAboutNewspaper);
-            }
-        }
-
         public override string ToString()
         {
             return base.ToString()
-                       .Insert(0,
+                       .Insert(
+                       0,
                        string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypeNews));
+        }
+
+        internal override string GetInfoToSave()
+        {
+            return base.GetInfoToSave().Insert(0, Titles.TypeNews);
         }
 
         protected internal override void Create(List<string> aboutItemCatalog)
@@ -183,11 +191,6 @@
             this.Date = date;
 
             this.ISSN = aboutItemCatalog[8];
-        }
-
-        internal override string GetInfoToSave()
-        {
-            return base.GetInfoToSave().Insert(0, Titles.TypeNews);
         }
     }
 }

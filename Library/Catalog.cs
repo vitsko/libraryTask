@@ -1,20 +1,84 @@
 ﻿namespace Library
 {
-    using Helper;
-    using Resource;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Helper;
+    using Resource;
 
     public static class Catalog
     {
+        public static Searcher GetItemWithTitle = title =>
+        {
+            return Catalog.libraryItem.FindAll(item => item.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+        };
+
+        public static Sorter SortByYearASC = () =>
+        {
+            var result = Catalog.libraryItem.ToList();
+            result.Sort();
+            return result;
+        };
+
+        public static Sorter SortByYearDESC = () =>
+        {
+            var catalogToSort = SortByYearASC();
+            catalogToSort.Reverse();
+            return catalogToSort;
+        };
+
+        public static Searcher GetBookByAuthor = authorForSearch =>
+        {
+            IEqualityComparer<string> comparator = new Comparator();
+
+            return Catalog.OnlyBooks.FindAll(book => ((Book)book).Authors.Contains(authorForSearch, comparator));
+        };
+
+        public static Searcher GroupBooksByPublisher = publisher =>
+        {
+            IEnumerable<IGrouping<string, Book>> emptyResult = null;
+
+            if (Catalog.OnlyBooks.Count != 0)
+            {
+                var booksWithResult = new List<Book>();
+
+                foreach (var book in Catalog.OnlyBooks)
+                {
+                    var onlyBook = (Book)book;
+
+                    if (string.Compare(onlyBook.Publisher, 0, publisher, 0, publisher.Length, StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        booksWithResult.Add(onlyBook);
+                    }
+                }
+
+                if (booksWithResult.Count != 0)
+                {
+                    return from book in booksWithResult
+                           group book by book.Publisher;
+                }
+            }
+
+            return emptyResult;
+        };
+
+        public static Sorter GroupByYear = () =>
+        {
+            return from items in Catalog.libraryItem
+                   group items by items.PublishedYear;
+        };
+
         private static List<ItemCatalog> libraryItem;
 
         static Catalog()
         {
             libraryItem = new List<ItemCatalog>();
         }
+
+        public delegate dynamic Searcher(string criterionSerch);
+
+        public delegate dynamic Sorter();
 
         public enum GroupingBy
         {
@@ -55,6 +119,14 @@
             }
         }
 
+        private static List<ItemCatalog> OnlyBooks
+        {
+            get
+            {
+                return Catalog.libraryItem.Where(item => item is Book).ToList();
+            }
+        }
+
         public static void Add(ItemCatalog item)
         {
             Catalog.libraryItem.Add(item);
@@ -80,13 +152,7 @@
 
         public static void DeleteAll()
         {
-            for (int index = 0; index < Catalog.Count; index++)
-            {
-                if (Catalog.libraryItem[index] != null)
-                {
-                    Catalog.libraryItem[index] = null;
-                }
-            }
+            Catalog.libraryItem.Clear();
         }
 
         public static void Edit(ItemCatalog itemForEdit, List<string> aboutItemCatalog)
@@ -94,67 +160,14 @@
             itemForEdit.Create(aboutItemCatalog);
         }
 
-        public static List<ItemCatalog> GetItemWithTitle(string title)
+        public static dynamic Search(Searcher searcher, string toSearch)
         {
-            return Catalog.libraryItem.FindAll(item => item.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+            return searcher(toSearch);
         }
 
-        public static List<ItemCatalog> SortByYearASC()
+        public static dynamic Sort(Sorter sort)
         {
-            var catalogToSort = Catalog.libraryItem.ToList();
-            catalogToSort.Sort();
-
-            return catalogToSort;
-        }
-
-        public static List<ItemCatalog> SortByYearDESC()
-        {
-            var catalogToSort = SortByYearASC();
-            catalogToSort.Reverse();
-            return catalogToSort;
-        }
-
-        public static List<ItemCatalog> GetBookByAuthor(string authorForSearch)
-        {
-            IEqualityComparer<string> comparator = new Comparator();
-            var books = Catalog.libraryItem.Where(item => item is Book).ToList();
-
-            return books.FindAll(book => ((Book)book).Authors.Contains(authorForSearch, comparator));
-        }
-
-        public static dynamic GroupBooksByPublisher(string publisher)
-        {
-            var books = Catalog.libraryItem.Where(item => item is Book == true).ToList();
-            IEnumerable<IGrouping<string, Book>> emptyResult = null;
-
-            if (books.Count != 0)
-            {
-                var booksWithResult = new List<Book>();
-
-                foreach (var book in books)
-                {
-                    var onlyBook = (Book)book;
-
-                    if (string.Compare(onlyBook.Publisher, 0, publisher, 0, publisher.Length, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        booksWithResult.Add(onlyBook);
-                    }
-                }
-
-                if (booksWithResult.Count != 0)
-                {
-                    return from book in booksWithResult
-                           group book by book.Publisher;
-                }
-            }
-
-            return emptyResult;
-        }
-
-        public static dynamic GroupByYear()
-        {
-            return from items in Catalog.libraryItem
-                   group items by items.PublishedYear;
+            return sort();
         }
 
         public static string GetInfoCatalog()
@@ -264,18 +277,9 @@
 
         private static string GetKeyForgrouping(dynamic group, GroupingBy propertyToGrouping)
         {
-            var key = string.Empty;
-
-            if (propertyToGrouping == GroupingBy.Publisher)
-            {
-                key = ((IGrouping<string, Book>)group).Key.ToString();
-            }
-            else
-            {
-                key = ((IGrouping<int, ItemCatalog>)group).Key.ToString();
-            }
-
-            return key;
+            return propertyToGrouping == GroupingBy.Publisher ?
+                   ((IGrouping<string, Book>)group).Key :
+                   ((IGrouping<int, ItemCatalog>)group).Key.ToString();
         }
     }
 }

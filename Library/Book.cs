@@ -1,10 +1,8 @@
 ﻿namespace Library
 {
+    using System.Collections.Generic;
     using Helper;
     using Resource;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     public class Book : ItemCatalog
     {
@@ -18,6 +16,7 @@
         public Book(List<string> aboutItemCatalog)
         {
             this.Id = ItemCatalog.GetId();
+            this.errorList = new List<string>();
             this.Create(aboutItemCatalog);
         }
 
@@ -27,6 +26,7 @@
             {
                 return this.authors;
             }
+
             set
             {
                 if (value.Count != 0)
@@ -48,6 +48,7 @@
             {
                 return this.publisherCity;
             }
+
             set
             {
                 if (!string.IsNullOrWhiteSpace(value))
@@ -68,6 +69,7 @@
             {
                 return this.publisher;
             }
+
             set
             {
                 if (!string.IsNullOrWhiteSpace(value))
@@ -88,6 +90,7 @@
             {
                 return this.year;
             }
+
             set
             {
                 if (value >= Book.YearPublication)
@@ -99,19 +102,10 @@
                     this.year = Book.DefaultYear;
                     this.errorList.Add(string.Format(Titles.YearError, this.year));
                 }
-
             }
         }
 
         public string ISBN { get; set; }
-
-        internal override int PublishedYear
-        {
-            get
-            {
-                return this.Year;
-            }
-        }
 
         public override string TypeItem
         {
@@ -119,7 +113,22 @@
             {
                 return Titles.TypeBook;
             }
+        }
 
+        public override List<string> GetQuestionAboutItem
+        {
+            get
+            {
+                return Helper.GetyQuestions(Titles.AskAboutBook);
+            }
+        }
+
+        internal override int PublishedYear
+        {
+            get
+            {
+                return this.Year;
+            }
         }
 
         protected override Dictionary<string, string> TitleasAndValuesItem
@@ -140,19 +149,18 @@
                 return titleasAndValuesItem;
             }
         }
-        public override List<string> GetQuestionAboutItem
-        {
-            get
-            {
-                return Helper.GetyQuestions(Titles.AskAboutBook);
-            }
-        }
 
         public override string ToString()
         {
             return base.ToString()
-                       .Insert(0,
+                       .Insert(
+                       0,
                        string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypeBook));
+        }
+
+        internal override string GetInfoToSave()
+        {
+            return base.GetInfoToSave().Insert(0, Titles.TypeBook);
         }
 
         protected internal override void Create(List<string> aboutItemCatalog)
@@ -166,7 +174,6 @@
             this.Title = aboutItemCatalog[0];
             this.Authors = Helper.DeleteEmpty(authors);
 
-
             this.PublisherCity = aboutItemCatalog[2];
             this.Publisher = aboutItemCatalog[3];
 
@@ -178,11 +185,6 @@
 
             this.Note = aboutItemCatalog[6];
             this.ISBN = aboutItemCatalog[7];
-        }
-
-        internal override string GetInfoToSave()
-        {
-            return base.GetInfoToSave().Insert(0, Titles.TypeBook);
         }
     }
 }

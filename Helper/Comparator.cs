@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Helper
+﻿namespace Helper
 {
+    using System;
+    using System.Collections.Generic;
+
     public class Comparator : IEqualityComparer<string>
     {
         public bool Equals(string withinStr, string search)

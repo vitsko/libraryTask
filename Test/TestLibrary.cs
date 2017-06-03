@@ -1,5 +1,6 @@
 ﻿namespace Test
 {
+    using System.Linq;
     using Library;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,6 +18,7 @@
         private const string PublisherForGrouping = "Моск";
         private const int CountOfGroupForPublisher = 2;
         private const int CountOfGroupForYear = 4;
+        private const int CountLoadedItem = 1;
 
         [TestMethod]
         public void CheckAdd()
@@ -29,7 +31,8 @@
         public void CheckDelete()
         {
             TestLibrary.GetDataToTest();
-            Catalog.Delete(0);
+
+            Catalog.Delete(1);
             Catalog.Delete(-1);
             Catalog.Delete(1);
             Catalog.Delete(7);
@@ -39,10 +42,35 @@
         }
 
         [TestMethod]
+        public void CheckEdit()
+        {
+            TestLibrary.GetDataToTest();
+
+            var newData = DataToTest.InfoToCatalog().ElementAt(6);
+
+            var toEdit = Catalog.AllItem.ElementAt(0);
+            var oldTitle = toEdit.Title;
+
+            Catalog.Edit(toEdit, newData);
+
+            Assert.IsTrue(!toEdit.Title.Equals(oldTitle));
+        }
+
+        [TestMethod]
+        public void CheckValidate()
+        {
+            TestLibrary.GetDataToTest();
+
+            Assert.IsTrue(Catalog.AllItem.ElementAt(0).IsCorrectCreating() == false);
+        }
+
+        [TestMethod]
         public void CheckSearchByTitle()
         {
             TestLibrary.GetDataToTest();
-            var result = Catalog.GetItemWithTitle(SearchTitle);
+
+            var seacher = Catalog.GetItemWithTitle;
+            var result = Catalog.Search(seacher, SearchTitle);
 
             Assert.IsTrue(result[0].Id == IdByTitleSearch);
         }
@@ -51,7 +79,9 @@
         public void CheckSortByYearASC()
         {
             TestLibrary.GetDataToTest();
-            var result = Catalog.SortByYearASC();
+
+            var sortByYear = Catalog.SortByYearASC;
+            var result = Catalog.Sort(sortByYear);
 
             Assert.IsTrue(result[0].Id == TestLibrary.IdBySortYearASC);
         }
@@ -60,7 +90,9 @@
         public void CheckSortByYearDESC()
         {
             TestLibrary.GetDataToTest();
-            var result = Catalog.SortByYearDESC();
+
+            var sortByYear = Catalog.SortByYearDESC;
+            var result = Catalog.Sort(sortByYear);
 
             Assert.IsTrue(result[0].Id == TestLibrary.IdBySortYearDESC);
         }
@@ -69,8 +101,11 @@
         public void CheckSearchBookByAuthor()
         {
             TestLibrary.GetDataToTest();
-            var book = Catalog.GetBookByAuthor(TestLibrary.SearchByAuthor);
-            Assert.IsTrue(book.Count == TestLibrary.CountBookByAuthor);
+
+            var seacher = Catalog.GetBookByAuthor;
+            var booksbyAuthor = Catalog.Search(seacher, TestLibrary.SearchByAuthor);
+
+            Assert.IsTrue(booksbyAuthor.Count == TestLibrary.CountBookByAuthor);
         }
 
         [TestMethod]
@@ -78,8 +113,10 @@
         {
             TestLibrary.GetDataToTest();
 
-            var bookWithGrouping = Catalog.GroupBooksByPublisher(PublisherForGrouping);
-            Assert.IsTrue(TestLibrary.CountOfGroup(bookWithGrouping) == TestLibrary.CountOfGroupForPublisher);
+            var seacher = Catalog.GroupBooksByPublisher;
+            var books = Catalog.Search(seacher, PublisherForGrouping);
+
+            Assert.IsTrue(TestLibrary.CountOfGroup(books) == TestLibrary.CountOfGroupForPublisher);
         }
 
         [TestMethod]
@@ -87,8 +124,54 @@
         {
             TestLibrary.GetDataToTest();
 
-            var catalogWithGrouping = Catalog.GroupByYear();
-            Assert.IsTrue(TestLibrary.CountOfGroup(catalogWithGrouping) == TestLibrary.CountOfGroupForYear);
+            var groupedCatalogByYear = Catalog.GroupByYear;
+            var resultGrouping = Catalog.Sort(groupedCatalogByYear);
+
+            Assert.IsTrue(TestLibrary.CountOfGroup(resultGrouping) == TestLibrary.CountOfGroupForYear);
+        }
+
+        [TestMethod]
+        public void CheckSave()
+        {
+            Catalog.Add(new Book(DataToTest.InfoToCatalog().ElementAt(3)));
+
+            string toSave = Catalog.Save();
+            string toCompare = DataToTest.ToCompareForSave;
+
+            Assert.IsTrue(toSave.Equals(toCompare));
+        }
+
+        [TestMethod]
+        public void CheckLoadWithoutError()
+        {
+            TestLibrary.GetDataToTest();
+
+            var aboutItemsToLoad = DataToTest.ToLoad;
+            var isLoad = Catalog.LoadWithoutError(aboutItemsToLoad);
+
+            Assert.IsTrue(isLoad);
+        }
+
+        [TestMethod]
+        public void CheckWithoutLoad()
+        {
+            TestLibrary.GetDataToTest();
+
+            var aboutItemsToLoad = DataToTest.IncorrectToLoad;
+            var isLoad = Catalog.LoadWithoutError(aboutItemsToLoad);
+
+            Assert.IsTrue(!isLoad);
+        }
+
+        [TestMethod]
+        public void CheckLoad()
+        {
+            TestLibrary.GetDataToTest();
+
+            var aboutItemsToLoad = DataToTest.IncorrectToLoad;
+            Catalog.Load(aboutItemsToLoad);
+
+            Assert.IsTrue(Catalog.Count == TestLibrary.CountLoadedItem);
         }
 
         private static int CountOfGroup(dynamic resultOfGrouping)
