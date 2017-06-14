@@ -382,6 +382,16 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Файл {0}\{1} пуст.
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        public static string EmptyFile {
+            get {
+                return ResourceManager.GetString("EmptyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LogImport.txt.
         /// </summary>
         public static string FileOfLog {
@@ -739,6 +749,15 @@ namespace Resource {
         public static string ResultSearchOfTitle {
             get {
                 return ResourceManager.GetString("ResultSearchOfTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #Тип записи:{0}#.
+        /// </summary>
+        public static string SaveType {
+            get {
+                return ResourceManager.GetString("SaveType", resourceCulture);
             }
         }
         

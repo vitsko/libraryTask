@@ -52,7 +52,7 @@
 
             set
             {
-                if (value != 0)
+                if (value > 0)
                 {
                     this.pageCount = value;
                 }
@@ -120,33 +120,28 @@
         internal static ItemCatalog CreateFromFile(List<string> aboutItemCatalog)
         {
             var type = aboutItemCatalog.ElementAt(0);
-            ItemCatalog fromImport = null;
+            int typeByInt = 0;
 
-            switch (Helper.GetTypeItem(type))
+            ItemCatalog toCatalog = null;
+
+            if (Helper.IsIntMoreThanZero(type, out typeByInt))
             {
-                case (byte)Helper.TypeItem.Book:
-                    {
-                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.CountForBookAndPatent);
-                        fromImport = new Book(aboutItemCatalog.FindAll(item => !item.Equals(type)));
-                        break;
-                    }
+                switch (typeByInt)
+                {
+                    case (int)Helper.TypeItem.Book:
+                        return new Book(aboutItemCatalog.FindAll(item => !item.Equals(type)));
 
-                case (byte)Helper.TypeItem.Newspaper:
-                    {
-                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.CountForNews);
-                        fromImport = new Newspaper(aboutItemCatalog.FindAll(item => !item.Equals(type)));
-                        break;
-                    }
 
-                case (byte)Helper.TypeItem.Patent:
-                    {
-                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.CountForBookAndPatent);
-                        fromImport = new Patent(aboutItemCatalog.FindAll(item => !item.Equals(type)));
-                        break;
-                    }
+                    case (int)Helper.TypeItem.Newspaper:
+                        return new Newspaper(aboutItemCatalog.FindAll(item => !item.Equals(type)));
+
+
+                    case (int)Helper.TypeItem.Patent:
+                        return new Patent(aboutItemCatalog.FindAll(item => !item.Equals(type)));
+                }
             }
 
-            return fromImport;
+            return toCatalog;
         }
 
         internal virtual string GetInfoToSave()
@@ -156,7 +151,9 @@
             foreach (var item in this.TitleasAndValuesItem)
             {
                 toSave.Append(item.Key);
+                ///toSave.Append("\x0022");
                 toSave.Append(item.Value);
+                ///toSave.Append("\x0022");
                 toSave.Append(ItemCatalog.Sharp);
             }
 
@@ -168,6 +165,14 @@
         protected static int GetId()
         {
             return ++countOfItem;
+        }
+
+        protected void ToConstructor(List<string> aboutItemCatalog, int CountOfData)
+        {
+            Helper.AddStringsForCheck(aboutItemCatalog, CountOfData);
+            this.Id = ItemCatalog.GetId();
+            this.errorList = new List<string>();
+            this.Create(aboutItemCatalog);
         }
     }
 }

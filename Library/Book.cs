@@ -8,6 +8,7 @@
     {
         private const int DefaultYear = 2000;
         private const int YearPublication = 1900;
+        private const int CountOfData = 8;
         private List<string> authors;
         private string publisherCity;
         private string publisher;
@@ -15,9 +16,7 @@
 
         public Book(List<string> aboutItemCatalog)
         {
-            this.Id = ItemCatalog.GetId();
-            this.errorList = new List<string>();
-            this.Create(aboutItemCatalog);
+            this.ToConstructor(aboutItemCatalog, CountOfData);
         }
 
         public List<string> Authors
@@ -160,11 +159,13 @@
 
         internal override string GetInfoToSave()
         {
-            return base.GetInfoToSave().Insert(0, Titles.TypeBook);
+            return base.GetInfoToSave().Insert(0, string.Format(Titles.SaveType, (byte)Helper.TypeItem.Book));
         }
 
         protected internal override void Create(List<string> aboutItemCatalog)
         {
+            this.errorList.Clear();
+
             var authors = new List<string>(Helper
                  .DeleteWhitespace(aboutItemCatalog[1])
                  .Split(ItemCatalog.Comma));

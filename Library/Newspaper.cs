@@ -10,6 +10,7 @@
         private const int YearPublication = 1900;
         private const int DefaultYear = 2000;
         private const byte DefaultNumber = 1;
+        private const int CountOfData = 9;
         private string publisher;
         private int year;
         private int number;
@@ -17,9 +18,7 @@
 
         public Newspaper(List<string> aboutItemCatalog)
         {
-            this.Id = ItemCatalog.GetId();
-            this.errorList = new List<string>();
-            this.Create(aboutItemCatalog);
+            this.ToConstructor(aboutItemCatalog, CountOfData);
         }
 
         public string PublisherCity { get; set; }
@@ -164,11 +163,13 @@
 
         internal override string GetInfoToSave()
         {
-            return base.GetInfoToSave().Insert(0, Titles.TypeNews);
+            return base.GetInfoToSave().Insert(0, string.Format(Titles.SaveType, (byte)Helper.TypeItem.Newspaper));
         }
 
         protected internal override void Create(List<string> aboutItemCatalog)
         {
+            this.errorList.Clear();
+
             var intValue = 0;
             DateTime date;
 
@@ -187,7 +188,7 @@
             Helper.IsIntMoreThanZero(aboutItemCatalog[6], out intValue);
             this.Number = intValue;
 
-            Helper.IsDateAsDDMMYYYY(aboutItemCatalog[7], out date);
+            Helper.IsDate(aboutItemCatalog[7], out date);
             this.Date = date;
 
             this.ISSN = aboutItemCatalog[8];

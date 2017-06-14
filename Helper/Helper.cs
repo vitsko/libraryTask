@@ -12,14 +12,12 @@
         private static string oneSpace = @" ";
         private static string[] charp = { "#" };
         private static string[] colon = { ":" };
-        private static string[] typeItem = { "книга", "газета", "патент" };
 
         public enum TypeItem
         {
             Book = 1,
-            Newspaper,
-            Patent,
-            Default
+            Newspaper = 2,
+            Patent = 3
         }
 
         public static List<string> GetyQuestions(string questions)
@@ -51,7 +49,7 @@
 
             var newItem = new List<string>();
 
-            item.ForEach(delegate(string oneItem)
+            item.ForEach(delegate (string oneItem)
             {
                 oneItem = Helper.DeleteWhitespace(oneItem);
                 newItem.Add(oneItem);
@@ -62,10 +60,10 @@
 
         public static bool IsIntMoreThanZero(string parseToInt, out int intValue)
         {
-            return int.TryParse(parseToInt, out intValue) && intValue > 0 ? true : false;
+            return int.TryParse(parseToInt, out intValue) && intValue > 0;// ? true : false;
         }
 
-        public static bool IsDateAsDDMMYYYY(string date, out DateTime enterDate)
+        public static bool IsDate(string date, out DateTime enterDate)
         {
             CultureInfo newCulture = new CultureInfo("ru-RU", true);
 
@@ -74,14 +72,24 @@
 
         public static bool IsTypeOfItemCatalog(string fromFile, out List<string> afterParsing)
         {
-            var toCompare = fromFile.ToLower();
-
-            afterParsing = Helper.ParseToSign(toCompare, charp);
+            afterParsing = Helper.ParseToSign(fromFile, charp);
             var type = afterParsing.ElementAt(0);
+            var toParse = Helper.ParseToSign(type, colon);
 
-            return type.Equals(typeItem[0])
-                || type.Equals(typeItem[1])
-                || type.Equals(typeItem[2]);
+            int typebyInt = 0;
+
+            if (toParse.Count() == 2)
+            {
+
+                if (Helper.IsIntMoreThanZero(toParse[1], out typebyInt))
+                {
+                    return typebyInt.Equals((int)TypeItem.Book)
+                        || typebyInt.Equals((int)TypeItem.Newspaper)
+                        || typebyInt.Equals((int)TypeItem.Patent);
+                }
+            }
+
+            return false;
         }
 
         public static List<string> ParseStringToItem(List<string> oneStringValue)
@@ -90,59 +98,38 @@
 
             for (var index = 0; index < oneStringValue.Count; index++)
             {
-                if (index == 0)
+                var stringValue = Helper.ParseToSign(oneStringValue[index], Helper.colon);
+
+                if (stringValue.Count != 2)
                 {
-                    valuesOfItemCatalog.Add(oneStringValue[index]);
+                    valuesOfItemCatalog.Add(string.Empty);
                 }
-
-                if (index != 0)
+                else
                 {
-                    var stringValue = Helper.ParseToSign(oneStringValue[index], Helper.colon);
-
-                    if (stringValue.Count == 0 || stringValue.Count == 1)
-                    {
-                        valuesOfItemCatalog.Add(string.Empty);
-                    }
-                    else
-                    {
-                        valuesOfItemCatalog.Add(stringValue[1]);
-                    }
+                    valuesOfItemCatalog.Add(stringValue[1]);
                 }
             }
 
             return valuesOfItemCatalog;
         }
 
-        public static byte GetTypeItem(string typeItemCatalog)
+        public static void AddStringsForCheck(List<string> aboutItemCatalog, int countOfValues)
         {
-            var type = typeItemCatalog.ToLower();
+            var diff = countOfValues - aboutItemCatalog.Count;
 
-            if (type.Equals(typeItem[0]))
+            if (diff > 0)
             {
-                return (byte)TypeItem.Book;
+                for (var i = 0; i < diff; i++)
+                {
+                    aboutItemCatalog.Add(string.Empty);
+                }
             }
-
-            if (type.Equals(typeItem[1]))
+            else
             {
-                return (byte)TypeItem.Newspaper;
-            }
-
-            if (type.Equals(typeItem[2]))
-            {
-                return (byte)TypeItem.Patent;
-            }
-
-            return (byte)TypeItem.Default;
-        }
-
-        public static void AddValuesForCheckImport(List<string> aboutItemCatalog, int countOfValues)
-        {
-            var count = aboutItemCatalog.Count - 1;
-
-            while (countOfValues != count)
-            {
-                aboutItemCatalog.Add(string.Empty);
-                count++;
+                if (diff < 0)
+                {
+                    aboutItemCatalog.RemoveRange(countOfValues, -1 * diff);
+                }
             }
         }
 

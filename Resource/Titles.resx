@@ -388,4 +388,11 @@
   <data name="FileOfLog" xml:space="preserve">
 <value>LogImport.txt</value>
 </data>
+  <data name="SaveType" xml:space="preserve">
+<value>#Тип записи:{0}#</value>
+</data>
+  <data name="EmptyFile" xml:space="preserve">
+<value>Файл {0}\{1} пуст.
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
 </root>

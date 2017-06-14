@@ -7,6 +7,7 @@
 
     public class Patent : ItemCatalog
     {
+        private const int CountOfData = 8;
         private static DateTime defaultDate = new DateTime(1950, 01, 01);
         private List<string> inventors;
         private string сountry;
@@ -15,9 +16,7 @@
 
         public Patent(List<string> aboutItemCatalog)
         {
-            this.Id = ItemCatalog.GetId();
-            this.errorList = new List<string>();
-            this.Create(aboutItemCatalog);
+            this.ToConstructor(aboutItemCatalog, CountOfData);
         }
 
         public List<string> Inventors
@@ -160,11 +159,13 @@
 
         internal override string GetInfoToSave()
         {
-            return base.GetInfoToSave().Insert(0, Titles.TypePatent);
+            return base.GetInfoToSave().Insert(0, string.Format(Titles.SaveType, (byte)Helper.TypeItem.Patent));
         }
 
         protected internal override void Create(List<string> aboutItemCatalog)
         {
+            this.errorList.Clear();
+
             var inventors = new List<string>(Helper
                            .DeleteWhitespace(aboutItemCatalog[1])
                            .Split(ItemCatalog.Comma));
@@ -178,10 +179,10 @@
             this.Country = aboutItemCatalog[2];
             this.RegNumber = aboutItemCatalog[3];
 
-            Helper.IsDateAsDDMMYYYY(aboutItemCatalog[4], out date);
+            Helper.IsDate(aboutItemCatalog[4], out date);
             this.DateRequest = date;
 
-            Helper.IsDateAsDDMMYYYY(aboutItemCatalog[5], out date);
+            Helper.IsDate(aboutItemCatalog[5], out date);
             this.DatePublication = date;
 
             Helper.IsIntMoreThanZero(aboutItemCatalog[6], out intValue);
