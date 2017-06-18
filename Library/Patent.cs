@@ -8,11 +8,13 @@
     public class Patent : ItemCatalog
     {
         private const int CountOfData = 8;
+        private static string defaultRegNumber = string.Format(Titles.DefaultRegNumber, "1", DateTime.Today.Year, "1");
         private static DateTime defaultDate = new DateTime(1950, 01, 01);
         private List<string> inventors;
         private string сountry;
         private DateTime dateRequest;
         private DateTime datePublication;
+        private string regNumber;
 
         public Patent(List<string> aboutItemCatalog)
         {
@@ -62,7 +64,26 @@
             }
         }
 
-        public string RegNumber { get; set; }
+        public string RegNumber
+        {
+            get
+            {
+                return this.regNumber;
+            }
+
+            set
+            {
+                if (Helper.IsRegNum(value))
+                {
+                    this.regNumber = value;
+                }
+                else
+                {
+                    this.regNumber = Patent.defaultRegNumber;
+                    this.errorList.Add(string.Format(Titles.PatentRegNumberError, this.regNumber));
+                }
+            }
+        }
 
         public DateTime DateRequest
         {
@@ -170,7 +191,7 @@
                            .DeleteWhitespace(aboutItemCatalog[1])
                            .Split(ItemCatalog.Comma));
 
-            int intValue = 0;
+            var intValue = 0d;
             DateTime date;
 
             this.Title = aboutItemCatalog[0];
@@ -185,8 +206,8 @@
             Helper.IsDate(aboutItemCatalog[5], out date);
             this.DatePublication = date;
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[6], out intValue);
-            this.PageCount = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[6], out intValue);
+            this.PageCount = (int)intValue;
 
             this.Note = aboutItemCatalog[7];
         }

@@ -294,6 +294,9 @@
   <data name="DefaultCountry" xml:space="preserve">
 <value>Страна по умолчанию</value>
 </data>
+  <data name="DefaultRegNumber" xml:space="preserve">
+<value>{0}-{1}/{2}</value>
+</data>
   <!--Сообщения об ошибках создания объекта Каталога-->
   <data name="TitleError" xml:space="preserve">
 <value>Вы не указали Название. Вместо него указано значение по умолчанию: {0}.</value>
@@ -330,6 +333,15 @@
 </data>
   <data name="DatePPatentError" xml:space="preserve">
 <value>Вы указали Дату публикации не в формате дд.мм.гггг или год ранее 1950. Вместо нее указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="ISBNError" xml:space="preserve">
+<value>Вы  указали некорректный ISBN. Вместо него указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="ISSNError" xml:space="preserve">
+<value>Вы  указали некорректный ISSN. Вместо него указано значение по умолчанию: {0}.</value>
+</data>
+  <data name="PatentRegNumberError" xml:space="preserve">
+<value>Вы указали некорректный регистрационный номер патента. Вместо него указано значение по умолчанию: {0}.</value>
 </data>
   <!--Для выгрузки в файл-->
   <data name="FullPath" xml:space="preserve">

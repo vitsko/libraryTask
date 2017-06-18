@@ -6,6 +6,7 @@
 
     public class Book : ItemCatalog
     {
+        private const string ISBNDefault = "0000000000000";
         private const int DefaultYear = 2000;
         private const int YearPublication = 1900;
         private const int CountOfData = 8;
@@ -13,6 +14,7 @@
         private string publisherCity;
         private string publisher;
         private int year;
+        private string isbn;
 
         public Book(List<string> aboutItemCatalog)
         {
@@ -104,7 +106,26 @@
             }
         }
 
-        public string ISBN { get; set; }
+        public string ISBN
+        {
+            get
+            {
+                return this.isbn;
+            }
+
+            set
+            {
+                if (Helper.IsISBN(value))
+                {
+                    this.isbn = value;
+                }
+                else
+                {
+                    this.isbn = Book.ISBNDefault;
+                    this.errorList.Add(string.Format(Titles.ISBNError, this.isbn));
+                }
+            }
+        }
 
         public override string TypeItem
         {
@@ -170,7 +191,7 @@
                  .DeleteWhitespace(aboutItemCatalog[1])
                  .Split(ItemCatalog.Comma));
 
-            var intValue = 0;
+            var intValue = 0d;
 
             this.Title = aboutItemCatalog[0];
             this.Authors = Helper.DeleteEmpty(authors);
@@ -178,11 +199,12 @@
             this.PublisherCity = aboutItemCatalog[2];
             this.Publisher = aboutItemCatalog[3];
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[4], out intValue);
-            this.Year = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[4], out intValue);
+            this.Year = (int)intValue;
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[5], out intValue);
-            this.PageCount = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[5], out intValue);
+            this.PageCount = (int)intValue;
+
 
             this.Note = aboutItemCatalog[6];
             this.ISBN = aboutItemCatalog[7];

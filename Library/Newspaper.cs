@@ -7,6 +7,7 @@
 
     public class Newspaper : ItemCatalog
     {
+        private const string ISSNDefault = "00000000";
         private const int YearPublication = 1900;
         private const int DefaultYear = 2000;
         private const byte DefaultNumber = 1;
@@ -15,6 +16,7 @@
         private int year;
         private int number;
         private DateTime date;
+        private string issn;
 
         public Newspaper(List<string> aboutItemCatalog)
         {
@@ -107,7 +109,26 @@
             }
         }
 
-        public string ISSN { get; set; }
+        public string ISSN
+        {
+            get
+            {
+                return this.issn;
+            }
+
+            set
+            {
+                if (Helper.IsISSN(value))
+                {
+                    this.issn = value;
+                }
+                else
+                {
+                    this.issn = Newspaper.ISSNDefault;
+                    this.errorList.Add(string.Format(Titles.ISSNError, this.issn));
+                }
+            }
+        }
 
         public override string TypeItem
         {
@@ -170,23 +191,23 @@
         {
             this.errorList.Clear();
 
-            var intValue = 0;
+            var intValue = 0d;
             DateTime date;
 
             this.Title = aboutItemCatalog[0];
             this.PublisherCity = aboutItemCatalog[1];
             this.Publisher = aboutItemCatalog[2];
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[3], out intValue);
-            this.Year = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[3], out intValue);
+            this.Year = (int)intValue;
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[4], out intValue);
-            this.PageCount = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[4], out intValue);
+            this.PageCount = (int)intValue;
 
             this.Note = aboutItemCatalog[5];
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[6], out intValue);
-            this.Number = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[6], out intValue);
+            this.Number = (int)intValue;
 
             Helper.IsDate(aboutItemCatalog[7], out date);
             this.Date = date;

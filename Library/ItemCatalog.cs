@@ -120,23 +120,23 @@
         internal static ItemCatalog CreateFromFile(List<string> aboutItemCatalog)
         {
             var type = aboutItemCatalog.ElementAt(0);
-            int typeByInt = 0;
+            var typeByInt = 0d;
 
             ItemCatalog toCatalog = null;
 
-            if (Helper.IsIntMoreThanZero(type, out typeByInt))
+            if (Helper.IsMoreThanZero(type, out typeByInt))
             {
-                switch (typeByInt)
+                switch ((byte)typeByInt)
                 {
-                    case (int)Helper.TypeItem.Book:
+                    case (byte)Helper.TypeItem.Book:
                         return new Book(aboutItemCatalog.FindAll(item => !item.Equals(type)));
 
 
-                    case (int)Helper.TypeItem.Newspaper:
+                    case (byte)Helper.TypeItem.Newspaper:
                         return new Newspaper(aboutItemCatalog.FindAll(item => !item.Equals(type)));
 
 
-                    case (int)Helper.TypeItem.Patent:
+                    case (byte)Helper.TypeItem.Patent:
                         return new Patent(aboutItemCatalog.FindAll(item => !item.Equals(type)));
                 }
             }

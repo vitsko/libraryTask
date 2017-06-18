@@ -354,6 +354,15 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}-{1}/{2}.
+        /// </summary>
+        public static string DefaultRegNumber {
+            get {
+                return ResourceManager.GetString("DefaultRegNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Название по умолчанию.
         /// </summary>
         public static string DefaultTitle {
@@ -482,11 +491,29 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы  указали некорректный ISBN. Вместо него указано значение по умолчанию: {0}..
+        /// </summary>
+        public static string ISBNError {
+            get {
+                return ResourceManager.GetString("ISBNError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Международный стандартный номер серийного издания (ISSN):.
         /// </summary>
         public static string ISSN {
             get {
                 return ResourceManager.GetString("ISSN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы  указали некорректный ISSN. Вместо него указано значение по умолчанию: {0}..
+        /// </summary>
+        public static string ISSNError {
+            get {
+                return ResourceManager.GetString("ISSNError", resourceCulture);
             }
         }
         
@@ -668,6 +695,15 @@ namespace Resource {
         public static string PageCountError {
             get {
                 return ResourceManager.GetString("PageCountError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы указали некорректный регистрационный номер патента. Вместо него указано значение по умолчанию: {0}..
+        /// </summary>
+        public static string PatentRegNumberError {
+            get {
+                return ResourceManager.GetString("PatentRegNumberError", resourceCulture);
             }
         }
         
