@@ -391,7 +391,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Файл {0}\{1} пуст.
+        ///   Looks up a localized string similar to Файл {0}\{1} пуст или не содержит записей Каталога.
         ///Нажмите любую кнопку для выходя в Главное меню....
         /// </summary>
         public static string EmptyFile {
@@ -419,20 +419,29 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SavedFile.txt.
-        /// </summary>
-        public static string FileToSave {
-            get {
-                return ResourceManager.GetString("FileToSave", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to .\SavedFiles\SavedFile.txt.
         /// </summary>
         public static string FileToSaveWithPath {
             get {
                 return ResourceManager.GetString("FileToSaveWithPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SavedFile.txt.
+        /// </summary>
+        public static string FileTXT {
+            get {
+                return ResourceManager.GetString("FileTXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SavedFile.xml.
+        /// </summary>
+        public static string FileXML {
+            get {
+                return ResourceManager.GetString("FileXML", resourceCulture);
             }
         }
         
@@ -623,6 +632,168 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        public static string NameForAuthor {
+            get {
+                return ResourceManager.GetString("NameForAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authors.
+        /// </summary>
+        public static string NameForAuthors {
+            get {
+                return ResourceManager.GetString("NameForAuthors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PublisherCity.
+        /// </summary>
+        public static string NameForCity {
+            get {
+                return ResourceManager.GetString("NameForCity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country.
+        /// </summary>
+        public static string NameForCountry {
+            get {
+                return ResourceManager.GetString("NameForCountry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string NameForDate {
+            get {
+                return ResourceManager.GetString("NameForDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DatePublication.
+        /// </summary>
+        public static string NameForDatePublication {
+            get {
+                return ResourceManager.GetString("NameForDatePublication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DateRequest.
+        /// </summary>
+        public static string NameForDateRequest {
+            get {
+                return ResourceManager.GetString("NameForDateRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventor.
+        /// </summary>
+        public static string NameForInventor {
+            get {
+                return ResourceManager.GetString("NameForInventor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventors.
+        /// </summary>
+        public static string NameForInventors {
+            get {
+                return ResourceManager.GetString("NameForInventors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ISBN.
+        /// </summary>
+        public static string NameForISBN {
+            get {
+                return ResourceManager.GetString("NameForISBN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ISSN.
+        /// </summary>
+        public static string NameForISSN {
+            get {
+                return ResourceManager.GetString("NameForISSN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note.
+        /// </summary>
+        public static string NameForNote {
+            get {
+                return ResourceManager.GetString("NameForNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number.
+        /// </summary>
+        public static string NameForNumber {
+            get {
+                return ResourceManager.GetString("NameForNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PageCount.
+        /// </summary>
+        public static string NameForPageCount {
+            get {
+                return ResourceManager.GetString("NameForPageCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publisher.
+        /// </summary>
+        public static string NameForPublisher {
+            get {
+                return ResourceManager.GetString("NameForPublisher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RegNumber.
+        /// </summary>
+        public static string NameForRegNumber {
+            get {
+                return ResourceManager.GetString("NameForRegNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string NameForTitle {
+            get {
+                return ResourceManager.GetString("NameForTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year.
+        /// </summary>
+        public static string NameForYear {
+            get {
+                return ResourceManager.GetString("NameForYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не существует запись #{0}..
         /// </summary>
         public static string NoExist {
@@ -708,6 +879,15 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .\SavedFiles\SavedFile.xml.
+        /// </summary>
+        public static string PathWithXMLtoSave {
+            get {
+                return ResourceManager.GetString("PathWithXMLtoSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нажмите любую кнопку для выходя в Главное меню....
         /// </summary>
         public static string PressAnyKey {
@@ -785,6 +965,19 @@ namespace Resource {
         public static string ResultSearchOfTitle {
             get {
                 return ResourceManager.GetString("ResultSearchOfTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сохранить в:
+        ///[1]-- Специальный формат
+        ///[2]-- XML
+        ///
+        ///[Q]-- Перейти в Главное меню.
+        /// </summary>
+        public static string SavedTypeMunu {
+            get {
+                return ResourceManager.GetString("SavedTypeMunu", resourceCulture);
             }
         }
         

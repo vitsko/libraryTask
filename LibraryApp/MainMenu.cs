@@ -3,9 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Text;
+    using System.Xml;
+    using System.Xml.Serialization;
     using Helper;
     using Library;
     using Resource;
+
 
     internal static class MainMenu
     {
@@ -405,27 +409,78 @@
         {
             if (Catalog.IsNotEmpty)
             {
-                var folder = Directory.CreateDirectory(fullPath);
+                bool exitToUp = false;
+                Screen.ShowText(Titles.SavedTypeMunu);
+                ConsoleKey savedType = ConsoleKey.Q;
 
-                StreamWriter writer = new StreamWriter(Titles.FileToSaveWithPath);
+                while (!exitToUp)
+                {
+                    Console.Clear();
+                    Screen.ShowText(Titles.SavedTypeMunu);
+                    savedType = Console.ReadKey().Key;
 
-                writer.Write(Catalog.Save());
-                writer.Close();
+                    switch (savedType)
+                    {
+                        case ConsoleKey.D1:
+                        case ConsoleKey.NumPad1:
+                            {
+                                Console.Clear();
 
-                Screen.ShowText(string.Format(Titles.MessageOfSaveFile, fullPath, Titles.FileToSave));
+                                var folder = Directory.CreateDirectory(fullPath);
+
+                                StreamWriter writer = new StreamWriter(Titles.FileToSaveWithPath);
+
+                                writer.Write(Catalog.Save());
+                                writer.Close();
+
+                                Screen.ShowText(string.Format(Titles.MessageOfSaveFile, fullPath, Titles.FileTXT));
+                                exitToUp = true;
+
+                                Console.ReadKey();
+                                break;
+                            }
+
+                        case ConsoleKey.D2:
+                        case ConsoleKey.NumPad2:
+                            {
+                                Console.Clear();
+
+                                var serializer = new XmlSerializer(typeof(List<ItemCatalog>));
+                                StreamWriter writer = new StreamWriter(Titles.PathWithXMLtoSave);
+                                serializer.Serialize(writer, Catalog.AllItem);
+                                writer.Close();
+
+                                Screen.ShowText(string.Format(Titles.MessageOfSaveFile, fullPath, Titles.FileXML));
+                                exitToUp = true;
+
+                                Console.ReadKey();
+                                break;
+                            }
+
+                        case ConsoleKey.Q:
+                            exitToUp = true;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
             }
             else
             {
                 Screen.ShowText(Titles.EmptyCatalog);
+                Console.ReadKey();
             }
 
             exitMenuFiles = true;
 
-            Console.ReadKey();
+
         }
 
         private static void Import(ConsoleKey selectMenu, out bool exitMenuFiles, string fullPath)
         {
+            StreamReader reader = null;
+
             if (File.Exists(Titles.FileToSaveWithPath))
             {
                 Screen.ShowText(Titles.MenuToImport);
@@ -437,7 +492,7 @@
                     Console.Clear();
                     Screen.ShowText(Titles.MenuToImport);
                     selectMenu = Console.ReadKey().Key;
-                    StreamReader reader = null;
+
                     List<List<string>> stringsFromFile = null;
 
                     if (MainMenu.ConditionToAdd(selectMenu))
@@ -473,7 +528,21 @@
             }
             else
             {
-                Screen.ShowText(string.Format(Titles.NoExistFile, fullPath, Titles.FileToSave));
+                if (File.Exists(Titles.PathWithXMLtoSave))
+                {
+                    var serializer = new XmlSerializer(typeof(List<ItemCatalog>));
+                    var xmlReader = XmlReader.Create(Titles.PathWithXMLtoSave);
+                    Helper.XmlRead = xmlReader;
+
+                    var catalog = (List<ItemCatalog>)serializer.Deserialize(Helper.XmlRead);
+
+
+                }
+                else
+                {
+
+                }
+                //Screen.ShowText(string.Format(Titles.NoExistFile, fullPath, Titles.FileTXT));
                 Console.ReadKey();
             }
 
@@ -500,7 +569,7 @@
                 }
                 else
                 {
-                    Screen.ShowText(string.Format(Titles.NoParseItem, fullPath, Titles.FileToSave));
+                    Screen.ShowText(string.Format(Titles.NoParseItem, fullPath, Titles.FileTXT));
                     break;
                 }
             }
@@ -515,17 +584,17 @@
 
                     if (resultImport)
                     {
-                        Screen.ShowText(string.Format(Titles.CorrectImport, fullPath, Titles.FileToSave));
+                        Screen.ShowText(string.Format(Titles.CorrectImport, fullPath, Titles.FileTXT));
                     }
                     else
                     {
-                        Screen.ShowText(string.Format(Titles.ItemIsIncorrectInFile, fullPath, Titles.FileToSave));
+                        Screen.ShowText(string.Format(Titles.ItemIsIncorrectInFile, fullPath, Titles.FileTXT));
                     }
                 }
             }
             else
             {
-                Screen.ShowText(string.Format(Titles.EmptyFile, fullPath, Titles.FileToSave));
+                Screen.ShowText(string.Format(Titles.EmptyFile, fullPath, Titles.FileTXT));
             }
 
             exitMenuImport = true;
@@ -564,11 +633,11 @@
             {
                 Catalog.Load(stringsFromFile);
                 writer.Write(Screen.ResultImportToLog());
-                Screen.ShowText(string.Format(Titles.CorrectImportWithLog, fullPath, Titles.FileToSave, Titles.FileOfLog));
+                Screen.ShowText(string.Format(Titles.CorrectImportWithLog, fullPath, Titles.FileTXT, Titles.FileOfLog));
             }
             else
             {
-                Screen.ShowText(string.Format(Titles.EmptyFile, fullPath, Titles.FileToSave));
+                Screen.ShowText(string.Format(Titles.EmptyFile, fullPath, Titles.FileTXT));
             }
 
             writer.Close();

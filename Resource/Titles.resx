@@ -144,6 +144,13 @@
 
 [Q]-- Перейти в Главное меню</value>
   </data>
+  <data name="SavedTypeMunu" xml:space="preserve">
+    <value>Сохранить в:
+[1]-- Специальный формат
+[2]-- XML
+
+[Q]-- Перейти в Главное меню</value>
+  </data>
   <data name="MenuToImport" xml:space="preserve">
     <value>Загрузка файлов:
 [1]-- Недопустимы ошибки
@@ -353,8 +360,14 @@
   <data name="FileToSaveWithPath" xml:space="preserve">
 <value>.\SavedFiles\SavedFile.txt</value>
 </data>
-  <data name="FileToSave" xml:space="preserve">
+  <data name="PathWithXMLtoSave" xml:space="preserve">
+<value>.\SavedFiles\SavedFile.xml</value>
+</data>
+  <data name="FileTXT" xml:space="preserve">
 <value>SavedFile.txt</value>
+</data>
+  <data name="FileXML" xml:space="preserve">
+<value>SavedFile.xml</value>
 </data>
   <data name="MessageOfSaveFile" xml:space="preserve">
 <value>Вы выгрузили Каталог в файл:
@@ -404,7 +417,62 @@
 <value>#Тип записи:{0}#</value>
 </data>
   <data name="EmptyFile" xml:space="preserve">
-<value>Файл {0}\{1} пуст.
+<value>Файл {0}\{1} пуст или не содержит записей Каталога.
 Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <!--Названия полей в XML-->
+  <data name="NameForTitle" xml:space="preserve">
+<value>Title</value>
+</data>
+  <data name="NameForPageCount" xml:space="preserve">
+<value>PageCount</value>
+</data>
+  <data name="NameForNote" xml:space="preserve">
+<value>Note</value>
+</data>
+  <data name="NameForAuthors" xml:space="preserve">
+<value>Authors</value>
+</data>
+  <data name="NameForAuthor" xml:space="preserve">
+<value>Author</value>
+</data>
+  <data name="NameForCity" xml:space="preserve">
+<value>PublisherCity</value>
+</data>
+  <data name="NameForPublisher" xml:space="preserve">
+<value>Publisher</value>
+</data>
+  <data name="NameForYear" xml:space="preserve">
+<value>Year</value>
+</data>
+  <data name="NameForISBN" xml:space="preserve">
+<value>ISBN</value>
+</data>
+  <data name="NameForNumber" xml:space="preserve">
+<value>Number</value>
+</data>
+  <data name="NameForDate" xml:space="preserve">
+<value>Date</value>
+</data>
+  <data name="NameForISSN" xml:space="preserve">
+<value>ISSN</value>
+</data>
+  <data name="NameForInventors" xml:space="preserve">
+<value>Inventors</value>
+</data>
+  <data name="NameForInventor" xml:space="preserve">
+<value>Inventor</value>
+</data>
+  <data name="NameForCountry" xml:space="preserve">
+<value>Country</value>
+</data>
+  <data name="NameForRegNumber" xml:space="preserve">
+<value>RegNumber</value>
+</data>
+  <data name="NameForDateRequest" xml:space="preserve">
+<value>DateRequest</value>
+</data>
+  <data name="NameForDatePublication" xml:space="preserve">
+<value>DatePublication</value>
 </data>
 </root>

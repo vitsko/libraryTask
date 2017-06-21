@@ -2,12 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Xml;
+    using System.Xml.Serialization;
     using Helper;
     using Resource;
 
     public class Newspaper : ItemCatalog
     {
-        private const string ISSNDefault = "00000000";
+        private const string ISSNDefault = "0378-5955";
         private const int YearPublication = 1900;
         private const int DefaultYear = 2000;
         private const byte DefaultNumber = 1;
@@ -18,13 +20,20 @@
         private DateTime date;
         private string issn;
 
+        public Newspaper()
+        {
+            this.ToConstructorForXML();
+        }
+
         public Newspaper(List<string> aboutItemCatalog)
         {
             this.ToConstructor(aboutItemCatalog, CountOfData);
         }
 
+        //[XmlElement(Order = 4)]
         public string PublisherCity { get; set; }
 
+        //[XmlElement(Order = 5)]
         public string Publisher
         {
             get
@@ -46,6 +55,7 @@
             }
         }
 
+        //[XmlElement(Order = 6)]
         public int Year
         {
             get
@@ -67,6 +77,7 @@
             }
         }
 
+        //[XmlElement(Order = 7)]
         public int Number
         {
             get
@@ -88,6 +99,7 @@
             }
         }
 
+        //[XmlElement(Order = 8)]
         public DateTime Date
         {
             get
@@ -109,6 +121,7 @@
             }
         }
 
+        //[XmlElement(Order = 9)]
         public string ISSN
         {
             get
@@ -130,6 +143,7 @@
             }
         }
 
+        [XmlIgnore]
         public override string TypeItem
         {
             get
@@ -138,6 +152,7 @@
             }
         }
 
+        [XmlIgnore]
         public override List<string> GetQuestionAboutItem
         {
             get
@@ -213,6 +228,30 @@
             this.Date = date;
 
             this.ISSN = aboutItemCatalog[8];
+        }
+
+        protected override void CreateFromXML()
+        {
+            base.CreateFromXML();
+
+            var intValue = 0d;
+            DateTime date;
+
+            this.PublisherCity = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForCity);
+            this.Publisher = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForPublisher);
+
+            Helper.IsMoreThanZero(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForYear), out intValue);
+            this.Year = (int)intValue;
+
+            Helper.IsMoreThanZero(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForNumber), out intValue);
+            this.Number = (int)intValue;
+
+            Helper.IsDate(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForDate), out date);
+            this.Date = date;
+
+            this.ISSN = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForISSN);
+
+            Helper.CurrentNode = Helper.CurrentNode.NextSibling;
         }
     }
 }

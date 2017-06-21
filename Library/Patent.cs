@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Xml;
+    using System.Xml.Serialization;
     using Helper;
     using Resource;
 
@@ -16,11 +18,17 @@
         private DateTime datePublication;
         private string regNumber;
 
+        public Patent()
+        {
+            this.ToConstructorForXML();
+        }
+
         public Patent(List<string> aboutItemCatalog)
         {
             this.ToConstructor(aboutItemCatalog, CountOfData);
         }
 
+        [XmlArray("Inventors"/*, Order = 4*/), XmlArrayItem("Inventor")]
         public List<string> Inventors
         {
             get
@@ -43,6 +51,7 @@
             }
         }
 
+        //[XmlElement(Order = 5)]
         public string Country
         {
             get
@@ -64,6 +73,7 @@
             }
         }
 
+        //[XmlElement(Order = 6)]
         public string RegNumber
         {
             get
@@ -85,6 +95,7 @@
             }
         }
 
+        //[XmlElement(Order = 7)]
         public DateTime DateRequest
         {
             get
@@ -106,6 +117,7 @@
             }
         }
 
+        //[XmlElement(Order = 8)]
         public DateTime DatePublication
         {
             get
@@ -127,6 +139,7 @@
             }
         }
 
+        [XmlIgnore]
         public override string TypeItem
         {
             get
@@ -135,6 +148,7 @@
             }
         }
 
+        [XmlIgnore]
         public override List<string> GetQuestionAboutItem
         {
             get
@@ -210,6 +224,25 @@
             this.PageCount = (int)intValue;
 
             this.Note = aboutItemCatalog[7];
+        }
+
+        protected override void CreateFromXML()
+        {
+            base.CreateFromXML();
+            DateTime date;
+
+            this.Inventors = Helper.GetListValues(Titles.NameForInventors, Titles.NameForInventor);
+
+            this.Country = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForCountry);
+            this.RegNumber = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForRegNumber);
+
+            Helper.IsDate(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForDateRequest), out date);
+            this.DateRequest = date;
+
+            Helper.IsDate(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForDatePublication), out date);
+            this.DatePublication = date;
+
+            Helper.CurrentNode = Helper.CurrentNode.NextSibling;
         }
     }
 }

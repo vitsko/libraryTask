@@ -1,13 +1,18 @@
 ﻿namespace Helper
 {
+    using Resource;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using System.Xml;
 
     public static class Helper
     {
+        public static XmlReader XmlRead;
+        public static XmlNode CurrentNode;
+        //public static XmlNode NextNode;
         private const char Comma = ',';
         private const byte LengthISBN10 = 10,
                            LengthISBN13 = 13,
@@ -50,7 +55,7 @@
             ///Паттерн поиска пробелов в начале\конце строки
             string patternBeginninrOrEndString = @"(^(\s+))?((\s+)$)?";
 
-            string deleteGapBetween = Regex.Replace(expression, patternBetween, OneSpace);
+            string deleteGapBetween = Regex.Replace(expression, patternBetween, Helper.OneSpace);
 
             return Regex.Replace(deleteGapBetween, patternBeginninrOrEndString, string.Empty);
         }
@@ -147,24 +152,27 @@
 
         public static bool IsISBN(string ISBN)
         {
-            return Helper.IsISBN10(ISBN) || IsISBN13(ISBN);
+            var toParse = Helper.OnlyDigitallyValue(ISBN);
+            return Helper.IsISBN10(toParse) || IsISBN13(toParse);
         }
 
         public static bool IsISSN(string ISSN)
         {
-            if (Helper.EqualsLength(ISSN, Helper.LengthISSN))
+            var toParse = Helper.OnlyDigitallyValue(ISSN);
+
+            if (Helper.EqualsLength(toParse, Helper.LengthISSN))
             {
                 var value = 0d;
 
-                if (Helper.IsMoreThanZero(ISSN, out value))
+                if (Helper.IsMoreThanZero(toParse, out value))
                 {
-                    var sum = Helper.SumOfDigitByPosition(ISSN, Helper.LengthISSN) -
-                              int.Parse(ISSN[ISSN.Length - 1].ToString());
+                    var sum = Helper.SumOfDigitByPosition(toParse, Helper.LengthISSN) -
+                              int.Parse(toParse[toParse.Length - 1].ToString());
 
                     var mod11 = (byte)(sum % Helper.Mod11);
                     byte check = 0;
 
-                    return Helper.ISCheckDigit(mod11, check, Helper.Mod11, ISSN);
+                    return Helper.ISCheckDigit(mod11, check, Helper.Mod11, toParse);
                 }
             }
 
@@ -177,6 +185,65 @@
                    Regex.IsMatch(regNumber, Helper.PatentWith6d) ||
                    Regex.IsMatch(regNumber, Helper.PatentWith7d) ||
                    Regex.IsMatch(regNumber, Helper.PatentByYear);
+        }
+
+        public static void ReadXMLNotes()
+        {
+            XmlDocument doc = new XmlDocument();
+            Helper.CurrentNode = doc.ReadNode(Helper.XmlRead);
+        }
+
+        public static string GetValueElement(XmlNode nodes, string elementName)
+        {
+            foreach (XmlNode item in nodes.ChildNodes)
+            {
+                if (item.Name.Equals(elementName))
+                {
+                    return item.InnerText;
+                }
+            }
+
+            return string.Empty;
+        }
+
+        public static List<string> GetListValues(string parentElement, string descendantElement)
+        {
+            var parentNode = Helper.CurrentNode.SelectSingleNode(parentElement);
+
+            if (parentNode != null)
+            {
+                var listofValue = Helper.GetValueListOfElement(parentNode.ChildNodes, descendantElement);
+
+                if (listofValue.Count != 0)
+                {
+                    return new List<string>(listofValue);
+                }
+            }
+
+            return new List<string>();
+        }
+
+        private static List<string> GetValueListOfElement(XmlNodeList listOfNodes, string nameElement)
+        {
+            List<string> value = new List<string>();
+            string toAdd;
+
+            foreach (XmlNode item in listOfNodes)
+            {
+                toAdd = item.InnerText;
+
+                if (item.Name.Equals(nameElement) && !toAdd.Equals(string.Empty))
+                {
+                    value.Add(toAdd);
+                }
+            }
+
+            return value;
+        }
+
+        private static string OnlyDigitallyValue(string value)
+        {
+            return Regex.Replace(value, @"-+", string.Empty);
         }
 
         private static bool EqualsLength(string toCompare, byte length)

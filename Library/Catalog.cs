@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Helper;
+    using System.Xml.Serialization;
     using Resource;
 
     public static class Catalog
@@ -22,6 +22,7 @@
             Year
         }
 
+        [XmlElement(ElementName = "Catalog")]
         public static List<ItemCatalog> AllItem
         {
             get

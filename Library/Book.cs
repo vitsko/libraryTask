@@ -1,12 +1,15 @@
 ﻿namespace Library
 {
+    using System;
     using System.Collections.Generic;
+    using System.Xml;
+    using System.Xml.Serialization;
     using Helper;
     using Resource;
 
     public class Book : ItemCatalog
     {
-        private const string ISBNDefault = "0000000000000";
+        private const string ISBNDefault = "978-3-16-148410-0";
         private const int DefaultYear = 2000;
         private const int YearPublication = 1900;
         private const int CountOfData = 8;
@@ -16,11 +19,17 @@
         private int year;
         private string isbn;
 
+        public Book()
+        {
+            this.ToConstructorForXML();
+        }
+
         public Book(List<string> aboutItemCatalog)
         {
             this.ToConstructor(aboutItemCatalog, CountOfData);
         }
 
+        [XmlArray("Authors"/*, Order = 4*/), XmlArrayItem("Author")]
         public List<string> Authors
         {
             get
@@ -43,6 +52,7 @@
             }
         }
 
+        //[XmlElement(Order = 5)]
         public string PublisherCity
         {
             get
@@ -64,6 +74,7 @@
             }
         }
 
+        //[XmlElement(Order = 6)]
         public string Publisher
         {
             get
@@ -85,6 +96,7 @@
             }
         }
 
+        //[XmlElement(Order = 7)]
         public int Year
         {
             get
@@ -106,6 +118,7 @@
             }
         }
 
+        //[XmlElement(Order = 8)]
         public string ISBN
         {
             get
@@ -127,6 +140,7 @@
             }
         }
 
+        [XmlIgnore]
         public override string TypeItem
         {
             get
@@ -135,6 +149,7 @@
             }
         }
 
+        [XmlIgnore]
         public override List<string> GetQuestionAboutItem
         {
             get
@@ -208,6 +223,25 @@
 
             this.Note = aboutItemCatalog[6];
             this.ISBN = aboutItemCatalog[7];
+        }
+
+        protected override void CreateFromXML()
+        {
+            base.CreateFromXML();
+
+            this.Authors = Helper.GetListValues(Titles.NameForAuthors, Titles.NameForAuthor);
+
+            var intValue = 0d;
+
+            this.PublisherCity = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForCity);
+            this.Publisher = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForPublisher);
+
+            Helper.IsMoreThanZero(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForYear), out intValue);
+            this.Year = (int)intValue;
+
+            this.ISBN = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForISBN);
+
+            Helper.CurrentNode = Helper.CurrentNode.NextSibling;
         }
     }
 }

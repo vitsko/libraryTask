@@ -4,9 +4,13 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Xml.Serialization;
     using Helper;
     using Resource;
+    using System.Xml;
 
+    [XmlType(TypeName = "Item")]
+    [XmlInclude(typeof(Book)), XmlInclude(typeof(Newspaper)), XmlInclude(typeof(Patent))]
     public abstract class ItemCatalog : IComparable<ItemCatalog>
     {
         protected const char Comma = ',';
@@ -22,6 +26,7 @@
         private string title;
         private int pageCount;
 
+        // [XmlElement(Order = 1)]
         public string Title
         {
             get
@@ -43,6 +48,7 @@
             }
         }
 
+        //  [XmlElement(Order = 2)]
         public int PageCount
         {
             get
@@ -64,10 +70,13 @@
             }
         }
 
+        //  [XmlElement(Order = 3)]
         public string Note { get; set; }
 
+        [XmlIgnore]
         public int Id { get; protected set; }
 
+        [XmlIgnore]
         public List<string> ErrorList
         {
             get
@@ -76,8 +85,10 @@
             }
         }
 
+        [XmlIgnore]
         public abstract string TypeItem { get; }
 
+        [XmlIgnore]
         public abstract List<string> GetQuestionAboutItem { get; }
 
         internal abstract int PublishedYear { get; }
@@ -162,6 +173,23 @@
 
         protected internal abstract void Create(List<string> aboutItemCatalog);
 
+        protected virtual void CreateFromXML()
+        {
+            if (Helper.CurrentNode == null)
+            {
+                Helper.ReadXMLNotes();
+            }
+
+            this.Title = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForTitle);
+
+            var intValue = 0d;
+
+            Helper.IsMoreThanZero(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForPageCount), out intValue);
+            this.PageCount = (int)intValue;
+
+            this.Note = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForNote);
+        }
+
         protected static int GetId()
         {
             return ++countOfItem;
@@ -173,6 +201,13 @@
             this.Id = ItemCatalog.GetId();
             this.errorList = new List<string>();
             this.Create(aboutItemCatalog);
+        }
+
+        protected void ToConstructorForXML()
+        {
+            this.Id = ItemCatalog.GetId();
+            this.errorList = new List<string>();
+            this.CreateFromXML();
         }
     }
 }
