@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Library
+﻿namespace Library
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class Sorter
     {
         public static Sorting SortByYearASC = (List<ItemCatalog> catalog) =>

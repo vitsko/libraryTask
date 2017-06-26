@@ -20,7 +20,7 @@
 
         public Patent()
         {
-            this.ToConstructorForXML();
+            this.CreateFromXML();
         }
 
         public Patent(List<string> aboutItemCatalog)
@@ -28,7 +28,7 @@
             this.ToConstructor(aboutItemCatalog, CountOfData);
         }
 
-        [XmlArray("Inventors"/*, Order = 4*/), XmlArrayItem("Inventor")]
+        [XmlArray("Inventors", Order = 4), XmlArrayItem("Inventor")]
         public List<string> Inventors
         {
             get
@@ -38,20 +38,26 @@
 
             set
             {
-                if (value.Count != 0)
+                if (Helper.XmlRead is XmlReader)
                 {
                     this.inventors = value;
                 }
                 else
                 {
-                    this.inventors = new List<string>(1);
-                    this.inventors.Add(Titles.DefaultInventor);
-                    this.errorList.Add(string.Format(Titles.InventorError, this.inventors[0]));
+                    if (value.Count != 0)
+                    {
+                        this.inventors = value;
+                    }
+                    else
+                    {
+                        this.inventors = new List<string>(1);
+                        this.GetDefAndErrorForArray(this.inventors, Titles.DefaultInventor, Titles.InventorError);
+                    }
                 }
             }
         }
 
-        //[XmlElement(Order = 5)]
+        [XmlElement(Order = 5)]
         public string Country
         {
             get
@@ -67,13 +73,12 @@
                 }
                 else
                 {
-                    this.сountry = Titles.DefaultCountry;
-                    this.errorList.Add(string.Format(Titles.CountryError, this.сountry));
+                    this.сountry = this.GetDefValueAndError(Titles.DefaultCountry, string.Format(Titles.CountryError, Titles.DefaultCountry));
                 }
             }
         }
 
-        //[XmlElement(Order = 6)]
+        [XmlElement(Order = 6)]
         public string RegNumber
         {
             get
@@ -89,13 +94,12 @@
                 }
                 else
                 {
-                    this.regNumber = Patent.defaultRegNumber;
-                    this.errorList.Add(string.Format(Titles.PatentRegNumberError, this.regNumber));
+                    this.regNumber = this.GetDefValueAndError(Patent.defaultRegNumber, string.Format(Titles.PatentRegNumberError, Patent.defaultRegNumber));
                 }
             }
         }
 
-        //[XmlElement(Order = 7)]
+        [XmlElement(Order = 7)]
         public DateTime DateRequest
         {
             get
@@ -111,13 +115,12 @@
                 }
                 else
                 {
-                    this.dateRequest = Patent.defaultDate;
-                    this.errorList.Add(string.Format(Titles.DateRPatentError, this.dateRequest.ToShortDateString()));
+                    this.dateRequest = this.GetDefValueAndError(Patent.defaultDate, string.Format(Titles.DateRPatentError, Patent.defaultDate.ToShortDateString()));
                 }
             }
         }
 
-        //[XmlElement(Order = 8)]
+        [XmlElement(Order = 8)]
         public DateTime DatePublication
         {
             get
@@ -133,8 +136,7 @@
                 }
                 else
                 {
-                    this.datePublication = Patent.defaultDate;
-                    this.errorList.Add(string.Format(Titles.DatePPatentError, this.datePublication.ToShortDateString()));
+                    this.datePublication = this.GetDefValueAndError(Patent.defaultDate, string.Format(Titles.DatePPatentError, Patent.defaultDate.ToShortDateString()));
                 }
             }
         }
@@ -192,6 +194,37 @@
                        string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypePatent));
         }
 
+        public override void CheckFromXML()
+        {
+            base.CheckFromXML();
+
+            if (this.Inventors.Count == 0)
+            {
+                this.inventors = new List<string>(1);
+                this.GetDefAndErrorForArray(this.inventors, Titles.DefaultInventor, Titles.InventorError);
+            }
+
+            if (this.Country == null)
+            {
+                this.Country = this.GetDefValueAndError(Titles.DefaultCountry, string.Format(Titles.CountryError, Titles.DefaultCountry));
+            }
+
+            if (this.RegNumber == null)
+            {
+                this.RegNumber = this.GetDefValueAndError(Patent.defaultRegNumber, string.Format(Titles.PatentRegNumberError, Patent.defaultRegNumber));
+            }
+
+            if (this.DateRequest < Patent.defaultDate)
+            {
+                this.DateRequest = this.GetDefValueAndError(Patent.defaultDate, string.Format(Titles.DateRPatentError, Patent.defaultDate.ToShortDateString()));
+            }
+
+            if (this.DatePublication < Patent.defaultDate)
+            {
+                this.DatePublication = this.GetDefValueAndError(Patent.defaultDate, string.Format(Titles.DatePPatentError, Patent.defaultDate.ToShortDateString()));
+            }
+        }
+
         internal override string GetInfoToSave()
         {
             return base.GetInfoToSave().Insert(0, string.Format(Titles.SaveType, (byte)Helper.TypeItem.Patent));
@@ -199,11 +232,9 @@
 
         protected internal override void Create(List<string> aboutItemCatalog)
         {
-            this.errorList.Clear();
-
             var inventors = new List<string>(Helper
-                           .DeleteWhitespace(aboutItemCatalog[1])
-                           .Split(ItemCatalog.Comma));
+                 .DeleteWhitespace(aboutItemCatalog[1])
+                 .Split(ItemCatalog.Comma));
 
             var intValue = 0d;
             DateTime date;
@@ -224,25 +255,6 @@
             this.PageCount = (int)intValue;
 
             this.Note = aboutItemCatalog[7];
-        }
-
-        protected override void CreateFromXML()
-        {
-            base.CreateFromXML();
-            DateTime date;
-
-            this.Inventors = Helper.GetListValues(Titles.NameForInventors, Titles.NameForInventor);
-
-            this.Country = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForCountry);
-            this.RegNumber = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForRegNumber);
-
-            Helper.IsDate(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForDateRequest), out date);
-            this.DateRequest = date;
-
-            Helper.IsDate(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForDatePublication), out date);
-            this.DatePublication = date;
-
-            Helper.CurrentNode = Helper.CurrentNode.NextSibling;
         }
     }
 }

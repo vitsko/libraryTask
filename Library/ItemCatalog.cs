@@ -4,10 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Xml;
     using System.Xml.Serialization;
     using Helper;
     using Resource;
-    using System.Xml;
 
     [XmlType(TypeName = "Item")]
     [XmlInclude(typeof(Book)), XmlInclude(typeof(Newspaper)), XmlInclude(typeof(Patent))]
@@ -26,7 +26,7 @@
         private string title;
         private int pageCount;
 
-        // [XmlElement(Order = 1)]
+        [XmlElement(Order = 1)]
         public string Title
         {
             get
@@ -42,13 +42,12 @@
                 }
                 else
                 {
-                    this.title = Titles.DefaultTitle;
-                    this.errorList.Add(string.Format(Titles.TitleError, this.title));
+                    this.title = this.GetDefValueAndError(Titles.DefaultTitle, string.Format(Titles.TitleError, Titles.DefaultTitle));
                 }
             }
         }
 
-        //  [XmlElement(Order = 2)]
+        [XmlElement(Order = 2)]
         public int PageCount
         {
             get
@@ -64,13 +63,12 @@
                 }
                 else
                 {
-                    this.pageCount = ItemCatalog.DefaultPageCount;
-                    this.errorList.Add(string.Format(Titles.PageCountError, this.pageCount));
+                    this.pageCount = this.GetDefValueAndError(ItemCatalog.DefaultPageCount, string.Format(Titles.PageCountError, ItemCatalog.DefaultPageCount));
                 }
             }
         }
 
-        //  [XmlElement(Order = 3)]
+        [XmlElement(Order = 3)]
         public string Note { get; set; }
 
         [XmlIgnore]
@@ -128,6 +126,19 @@
             return allinfo.ToString();
         }
 
+        public virtual void CheckFromXML()
+        {
+            if (this.Title == null)
+            {
+                this.Title = this.GetDefValueAndError(Titles.DefaultTitle, string.Format(Titles.TitleError, Titles.DefaultTitle));
+            }
+
+            if (this.PageCount == 0)
+            {
+                this.PageCount = this.GetDefValueAndError(ItemCatalog.DefaultPageCount, string.Format(Titles.PageCountError, ItemCatalog.DefaultPageCount));
+            }
+        }
+
         internal static ItemCatalog CreateFromFile(List<string> aboutItemCatalog)
         {
             var type = aboutItemCatalog.ElementAt(0);
@@ -142,10 +153,8 @@
                     case (byte)Helper.TypeItem.Book:
                         return new Book(aboutItemCatalog.FindAll(item => !item.Equals(type)));
 
-
                     case (byte)Helper.TypeItem.Newspaper:
                         return new Newspaper(aboutItemCatalog.FindAll(item => !item.Equals(type)));
-
 
                     case (byte)Helper.TypeItem.Patent:
                         return new Patent(aboutItemCatalog.FindAll(item => !item.Equals(type)));
@@ -162,9 +171,7 @@
             foreach (var item in this.TitleasAndValuesItem)
             {
                 toSave.Append(item.Key);
-                ///toSave.Append("\x0022");
                 toSave.Append(item.Value);
-                ///toSave.Append("\x0022");
                 toSave.Append(ItemCatalog.Sharp);
             }
 
@@ -173,41 +180,36 @@
 
         protected internal abstract void Create(List<string> aboutItemCatalog);
 
-        protected virtual void CreateFromXML()
-        {
-            if (Helper.CurrentNode == null)
-            {
-                Helper.ReadXMLNotes();
-            }
-
-            this.Title = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForTitle);
-
-            var intValue = 0d;
-
-            Helper.IsMoreThanZero(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForPageCount), out intValue);
-            this.PageCount = (int)intValue;
-
-            this.Note = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForNote);
-        }
-
         protected static int GetId()
         {
             return ++countOfItem;
         }
 
-        protected void ToConstructor(List<string> aboutItemCatalog, int CountOfData)
+        protected void CreateFromXML()
         {
-            Helper.AddStringsForCheck(aboutItemCatalog, CountOfData);
+            this.Id = ItemCatalog.GetId();
+            this.errorList = new List<string>();
+        }
+
+        protected void ToConstructor(List<string> aboutItemCatalog, int countOfData)
+        {
+            Helper.AddStringsForCheck(aboutItemCatalog, countOfData);
             this.Id = ItemCatalog.GetId();
             this.errorList = new List<string>();
             this.Create(aboutItemCatalog);
         }
 
-        protected void ToConstructorForXML()
+        protected dynamic GetDefValueAndError(dynamic defaultValue, string errorMessage)
         {
-            this.Id = ItemCatalog.GetId();
-            this.errorList = new List<string>();
-            this.CreateFromXML();
+            this.errorList.Add(errorMessage);
+
+            return defaultValue;
+        }
+
+        protected void GetDefAndErrorForArray(List<string> athorsOrInventors, string defaultValue, string message)
+        {
+            athorsOrInventors.Add(defaultValue);
+            this.errorList.Add(string.Format(message, athorsOrInventors[0]));
         }
     }
 }

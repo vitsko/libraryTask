@@ -1,6 +1,5 @@
 ﻿namespace Helper
 {
-    using Resource;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -11,8 +10,6 @@
     public static class Helper
     {
         public static XmlReader XmlRead;
-        public static XmlNode CurrentNode;
-        //public static XmlNode NextNode;
         private const char Comma = ',';
         private const byte LengthISBN10 = 10,
                            LengthISBN13 = 13,
@@ -97,7 +94,6 @@
 
             if (toParse.Count() == 2)
             {
-
                 if (Helper.IsMoreThanZero(toParse[1], out typebyInt))
                 {
                     return typebyInt.Equals((int)TypeItem.Book)
@@ -150,15 +146,15 @@
             }
         }
 
-        public static bool IsISBN(string ISBN)
+        public static bool IsISBN(string isbn)
         {
-            var toParse = Helper.OnlyDigitallyValue(ISBN);
+            var toParse = Helper.OnlyDigitallyValue(isbn);
             return Helper.IsISBN10(toParse) || IsISBN13(toParse);
         }
 
-        public static bool IsISSN(string ISSN)
+        public static bool IsISSN(string issn)
         {
-            var toParse = Helper.OnlyDigitallyValue(ISSN);
+            var toParse = Helper.OnlyDigitallyValue(issn);
 
             if (Helper.EqualsLength(toParse, Helper.LengthISSN))
             {
@@ -187,60 +183,6 @@
                    Regex.IsMatch(regNumber, Helper.PatentByYear);
         }
 
-        public static void ReadXMLNotes()
-        {
-            XmlDocument doc = new XmlDocument();
-            Helper.CurrentNode = doc.ReadNode(Helper.XmlRead);
-        }
-
-        public static string GetValueElement(XmlNode nodes, string elementName)
-        {
-            foreach (XmlNode item in nodes.ChildNodes)
-            {
-                if (item.Name.Equals(elementName))
-                {
-                    return item.InnerText;
-                }
-            }
-
-            return string.Empty;
-        }
-
-        public static List<string> GetListValues(string parentElement, string descendantElement)
-        {
-            var parentNode = Helper.CurrentNode.SelectSingleNode(parentElement);
-
-            if (parentNode != null)
-            {
-                var listofValue = Helper.GetValueListOfElement(parentNode.ChildNodes, descendantElement);
-
-                if (listofValue.Count != 0)
-                {
-                    return new List<string>(listofValue);
-                }
-            }
-
-            return new List<string>();
-        }
-
-        private static List<string> GetValueListOfElement(XmlNodeList listOfNodes, string nameElement)
-        {
-            List<string> value = new List<string>();
-            string toAdd;
-
-            foreach (XmlNode item in listOfNodes)
-            {
-                toAdd = item.InnerText;
-
-                if (item.Name.Equals(nameElement) && !toAdd.Equals(string.Empty))
-                {
-                    value.Add(toAdd);
-                }
-            }
-
-            return value;
-        }
-
         private static string OnlyDigitallyValue(string value)
         {
             return Regex.Replace(value, @"-+", string.Empty);
@@ -251,15 +193,15 @@
             return toCompare.Length == length;
         }
 
-        private static bool IsISBN10(string ISBN)
+        private static bool IsISBN10(string isbn)
         {
-            if (Helper.EqualsLength(ISBN, Helper.LengthISBN10))
+            if (Helper.EqualsLength(isbn, Helper.LengthISBN10))
             {
                 var value = 0d;
 
-                if (Helper.IsMoreThanZero(ISBN, out value))
+                if (Helper.IsMoreThanZero(isbn, out value))
                 {
-                    var sum = Helper.SumOfDigitByPosition(ISBN, Helper.LengthISBN10);
+                    var sum = Helper.SumOfDigitByPosition(isbn, Helper.LengthISBN10);
 
                     return sum % Helper.Mod11 == 0;
                 }
@@ -280,19 +222,19 @@
             return sum;
         }
 
-        private static bool IsISBN13(string ISBN)
+        private static bool IsISBN13(string isbn)
         {
-            if (Helper.EqualsLength(ISBN, Helper.LengthISBN13))
+            if (Helper.EqualsLength(isbn, Helper.LengthISBN13))
             {
                 var value = 0d;
 
-                if (Helper.IsMoreThanZero(ISBN, out value))
+                if (Helper.IsMoreThanZero(isbn, out value))
                 {
                     int sum = 0;
 
                     for (int i = 1; i < Helper.LengthISBN13; i++)
                     {
-                        var digit = int.Parse(ISBN[i - 1].ToString());
+                        var digit = int.Parse(isbn[i - 1].ToString());
 
                         if (i % 2 == 0)
                         {
@@ -307,7 +249,7 @@
                     byte check = 0;
                     var mod10 = (byte)(sum % Helper.Mod10);
 
-                    return Helper.ISCheckDigit(mod10, check, Helper.Mod10, ISBN);
+                    return Helper.ISCheckDigit(mod10, check, Helper.Mod10, isbn);
                 }
             }
 

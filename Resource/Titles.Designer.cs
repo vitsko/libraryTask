@@ -216,8 +216,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все записи из файла {0}\{1} загружены в Каталог.
-        ///Нажмите любую кнопку для выходя в Главное меню....
+        ///   Looks up a localized string similar to Все записи из файла {0}\{1} загружены в Каталог..
         /// </summary>
         public static string CorrectImport {
             get {
@@ -227,8 +226,7 @@ namespace Resource {
         
         /// <summary>
         ///   Looks up a localized string similar to Записи из файла {0}\{1} загружены в Каталог.
-        ///Лог проверки загрузки смотрите в файле {0}\{2}.
-        ///Нажмите любую кнопку для выходя в Главное меню....
+        ///Лог проверки загрузки смотрите в файле {0}\{2}..
         /// </summary>
         public static string CorrectImportWithLog {
             get {
@@ -391,12 +389,20 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Файл {0}\{1} пуст или не содержит записей Каталога.
-        ///Нажмите любую кнопку для выходя в Главное меню....
+        ///   Looks up a localized string similar to Файл {0}\{1} пуст или не содержит записей Каталога..
         /// </summary>
         public static string EmptyFile {
             get {
                 return ResourceManager.GetString("EmptyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Во время чтения файла {0}\{1} произошла ошибка:.
+        /// </summary>
+        public static string ErrorParseXML {
+            get {
+                return ResourceManager.GetString("ErrorParseXML", resourceCulture);
             }
         }
         
@@ -527,8 +533,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to В файле {0}\{1} не все записи корректны.
-        ///Нажмите любую кнопку для выходя в Главное меню....
+        ///   Looks up a localized string similar to В файле {0}\{1} не все записи корректны..
         /// </summary>
         public static string ItemIsIncorrectInFile {
             get {
@@ -632,168 +637,6 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Author.
-        /// </summary>
-        public static string NameForAuthor {
-            get {
-                return ResourceManager.GetString("NameForAuthor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Authors.
-        /// </summary>
-        public static string NameForAuthors {
-            get {
-                return ResourceManager.GetString("NameForAuthors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PublisherCity.
-        /// </summary>
-        public static string NameForCity {
-            get {
-                return ResourceManager.GetString("NameForCity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Country.
-        /// </summary>
-        public static string NameForCountry {
-            get {
-                return ResourceManager.GetString("NameForCountry", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Date.
-        /// </summary>
-        public static string NameForDate {
-            get {
-                return ResourceManager.GetString("NameForDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DatePublication.
-        /// </summary>
-        public static string NameForDatePublication {
-            get {
-                return ResourceManager.GetString("NameForDatePublication", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DateRequest.
-        /// </summary>
-        public static string NameForDateRequest {
-            get {
-                return ResourceManager.GetString("NameForDateRequest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inventor.
-        /// </summary>
-        public static string NameForInventor {
-            get {
-                return ResourceManager.GetString("NameForInventor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inventors.
-        /// </summary>
-        public static string NameForInventors {
-            get {
-                return ResourceManager.GetString("NameForInventors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ISBN.
-        /// </summary>
-        public static string NameForISBN {
-            get {
-                return ResourceManager.GetString("NameForISBN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ISSN.
-        /// </summary>
-        public static string NameForISSN {
-            get {
-                return ResourceManager.GetString("NameForISSN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Note.
-        /// </summary>
-        public static string NameForNote {
-            get {
-                return ResourceManager.GetString("NameForNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Number.
-        /// </summary>
-        public static string NameForNumber {
-            get {
-                return ResourceManager.GetString("NameForNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PageCount.
-        /// </summary>
-        public static string NameForPageCount {
-            get {
-                return ResourceManager.GetString("NameForPageCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Publisher.
-        /// </summary>
-        public static string NameForPublisher {
-            get {
-                return ResourceManager.GetString("NameForPublisher", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RegNumber.
-        /// </summary>
-        public static string NameForRegNumber {
-            get {
-                return ResourceManager.GetString("NameForRegNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Title.
-        /// </summary>
-        public static string NameForTitle {
-            get {
-                return ResourceManager.GetString("NameForTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Year.
-        /// </summary>
-        public static string NameForYear {
-            get {
-                return ResourceManager.GetString("NameForYear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Не существует запись #{0}..
         /// </summary>
         public static string NoExist {
@@ -815,8 +658,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to В файле {0}\{1} не все записи соответствуют типу объекта Каталога.
-        ///Нажмите любую кнопку для выходя в Главное меню....
+        ///   Looks up a localized string similar to В файле {0}\{1} не все записи соответствуют типу объекта Каталога..
         /// </summary>
         public static string NoParseItem {
             get {
@@ -947,6 +789,15 @@ namespace Resource {
         public static string ResultGroupByYear {
             get {
                 return ResourceManager.GetString("ResultGroupByYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы импортировали файл {0}\{1}..
+        /// </summary>
+        public static string ResultLoadXML {
+            get {
+                return ResourceManager.GetString("ResultLoadXML", resourceCulture);
             }
         }
         

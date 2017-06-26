@@ -22,7 +22,7 @@
 
         public Newspaper()
         {
-            this.ToConstructorForXML();
+            this.CreateFromXML();
         }
 
         public Newspaper(List<string> aboutItemCatalog)
@@ -30,10 +30,10 @@
             this.ToConstructor(aboutItemCatalog, CountOfData);
         }
 
-        //[XmlElement(Order = 4)]
+        [XmlElement(Order = 4)]
         public string PublisherCity { get; set; }
 
-        //[XmlElement(Order = 5)]
+        [XmlElement(Order = 5)]
         public string Publisher
         {
             get
@@ -49,13 +49,12 @@
                 }
                 else
                 {
-                    this.publisher = Titles.DefaultPublisher;
-                    this.errorList.Add(string.Format(Titles.PublisherError, this.publisher));
+                    this.publisher = this.GetDefValueAndError(Titles.DefaultPublisher, string.Format(Titles.PublisherError, Titles.DefaultPublisher));
                 }
             }
         }
 
-        //[XmlElement(Order = 6)]
+        [XmlElement(Order = 6)]
         public int Year
         {
             get
@@ -71,13 +70,12 @@
                 }
                 else
                 {
-                    this.year = Newspaper.DefaultYear;
-                    this.errorList.Add(string.Format(Titles.YearError, this.year));
+                    this.year = this.GetDefValueAndError(Newspaper.DefaultYear, string.Format(Titles.YearError, Newspaper.DefaultYear));
                 }
             }
         }
 
-        //[XmlElement(Order = 7)]
+        [XmlElement(Order = 7)]
         public int Number
         {
             get
@@ -93,13 +91,12 @@
                 }
                 else
                 {
-                    this.number = Newspaper.DefaultNumber;
-                    this.errorList.Add(string.Format(Titles.NumberNewsError, this.number));
+                    this.number = this.GetDefValueAndError(Newspaper.DefaultNumber, string.Format(Titles.NumberNewsError, Newspaper.DefaultNumber));
                 }
             }
         }
 
-        //[XmlElement(Order = 8)]
+        [XmlElement(Order = 8)]
         public DateTime Date
         {
             get
@@ -115,13 +112,12 @@
                 }
                 else
                 {
-                    this.date = DateTime.Today;
-                    this.errorList.Add(string.Format(Titles.DateNewsError, this.date.ToShortDateString()));
+                    this.date = this.GetDefValueAndError(DateTime.Today, string.Format(Titles.DateNewsError, DateTime.Today.ToShortDateString()));
                 }
             }
         }
 
-        //[XmlElement(Order = 9)]
+        [XmlElement(Order = 9)]
         public string ISSN
         {
             get
@@ -137,8 +133,7 @@
                 }
                 else
                 {
-                    this.issn = Newspaper.ISSNDefault;
-                    this.errorList.Add(string.Format(Titles.ISSNError, this.issn));
+                    this.issn = this.GetDefValueAndError(Newspaper.ISSNDefault, string.Format(Titles.ISSNError, Newspaper.ISSNDefault));
                 }
             }
         }
@@ -197,6 +192,31 @@
                        string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypeNews));
         }
 
+        public override void CheckFromXML()
+        {
+            base.CheckFromXML();
+
+            if (this.Publisher == null)
+            {
+                this.Publisher = this.GetDefValueAndError(Titles.DefaultPublisher, string.Format(Titles.PublisherError, Titles.DefaultPublisher));
+            }
+
+            if (this.Year < Newspaper.YearPublication)
+            {
+                this.Year = this.GetDefValueAndError(Newspaper.DefaultYear, string.Format(Titles.YearError, Newspaper.DefaultYear));
+            }
+
+            if (this.Number < 0)
+            {
+                this.Number = this.GetDefValueAndError(Newspaper.DefaultNumber, string.Format(Titles.NumberNewsError, Newspaper.DefaultNumber));
+            }
+
+            if (this.ISSN == null)
+            {
+                this.ISSN = this.GetDefValueAndError(Newspaper.ISSNDefault, string.Format(Titles.ISSNError, Newspaper.ISSNDefault));
+            }
+        }
+
         internal override string GetInfoToSave()
         {
             return base.GetInfoToSave().Insert(0, string.Format(Titles.SaveType, (byte)Helper.TypeItem.Newspaper));
@@ -204,8 +224,6 @@
 
         protected internal override void Create(List<string> aboutItemCatalog)
         {
-            this.errorList.Clear();
-
             var intValue = 0d;
             DateTime date;
 
@@ -228,30 +246,6 @@
             this.Date = date;
 
             this.ISSN = aboutItemCatalog[8];
-        }
-
-        protected override void CreateFromXML()
-        {
-            base.CreateFromXML();
-
-            var intValue = 0d;
-            DateTime date;
-
-            this.PublisherCity = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForCity);
-            this.Publisher = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForPublisher);
-
-            Helper.IsMoreThanZero(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForYear), out intValue);
-            this.Year = (int)intValue;
-
-            Helper.IsMoreThanZero(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForNumber), out intValue);
-            this.Number = (int)intValue;
-
-            Helper.IsDate(Helper.GetValueElement(Helper.CurrentNode, Titles.NameForDate), out date);
-            this.Date = date;
-
-            this.ISSN = Helper.GetValueElement(Helper.CurrentNode, Titles.NameForISSN);
-
-            Helper.CurrentNode = Helper.CurrentNode.NextSibling;
         }
     }
 }

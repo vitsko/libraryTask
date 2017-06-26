@@ -10,7 +10,6 @@
     using Library;
     using Resource;
 
-
     internal static class MainMenu
     {
         private static dynamic selectedKey = new
@@ -81,7 +80,6 @@
                 Screen.ShowResultAddOrEdit(Catalog.AllItem[Catalog.Count - 1]);
                 Console.ReadKey();
             }
-
         }
 
         internal static void Edit()
@@ -473,79 +471,100 @@
             }
 
             exitMenuFiles = true;
-
-
         }
 
         private static void Import(ConsoleKey selectMenu, out bool exitMenuFiles, string fullPath)
         {
             StreamReader reader = null;
 
-            if (File.Exists(Titles.FileToSaveWithPath))
+            if (File.Exists(Titles.PathWithXMLtoSave))
             {
-                Screen.ShowText(Titles.MenuToImport);
+                var serializer = new XmlSerializer(typeof(List<ItemCatalog>));
+                XmlReader xmlReader = null;
 
-                bool exitMenuImport = false;
-
-                while (!exitMenuImport)
+                try
                 {
-                    Console.Clear();
-                    Screen.ShowText(Titles.MenuToImport);
-                    selectMenu = Console.ReadKey().Key;
+                    xmlReader = XmlReader.Create(Titles.PathWithXMLtoSave);
+                    Helper.XmlRead = xmlReader;
 
-                    List<List<string>> stringsFromFile = null;
+                    var catalog = (List<ItemCatalog>)serializer.Deserialize(Helper.XmlRead);
 
-                    if (MainMenu.ConditionToAdd(selectMenu))
+                    Catalog.RewriteCatalog(catalog);
+                    Screen.ShowText(string.Format(Titles.ResultLoadXML, fullPath, Titles.FileXML));
+                }
+                catch (FileNotFoundException ex)
+                {
+                    Screen.ShowText(ex.Message);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    Screen.ShowText(string.Format(Titles.ErrorParseXML, fullPath, Titles.FileXML), ex.Message, ex.InnerException.Message);
+                }
+                finally
+                {
+                    if (xmlReader != null)
                     {
-                        reader = new StreamReader(Titles.FileToSaveWithPath);
-                        stringsFromFile = new List<List<string>>();
-                    }
-
-                    switch (selectMenu)
-                    {
-                        case ConsoleKey.D1:
-                        case ConsoleKey.NumPad1:
-                            {
-                                MainMenu.ImportWithoutError(reader, stringsFromFile, fullPath, out exitMenuImport);
-                                break;
-                            }
-
-                        case ConsoleKey.D2:
-                        case ConsoleKey.NumPad2:
-                            {
-                                MainMenu.ImportWithError(reader, stringsFromFile, fullPath, out exitMenuImport);
-                                break;
-                            }
-
-                        case ConsoleKey.Q:
-                            exitMenuImport = true;
-                            break;
-
-                        default:
-                            break;
+                        xmlReader.Close();
+                        Helper.XmlRead = null;
                     }
                 }
             }
             else
             {
-                if (File.Exists(Titles.PathWithXMLtoSave))
+                Screen.ShowText(Titles.MenuToImport);
+
+                bool exitMenuImport = false;
+
+                try
                 {
-                    var serializer = new XmlSerializer(typeof(List<ItemCatalog>));
-                    var xmlReader = XmlReader.Create(Titles.PathWithXMLtoSave);
-                    Helper.XmlRead = xmlReader;
+                    while (!exitMenuImport)
+                    {
+                        Console.Clear();
+                        Screen.ShowText(Titles.MenuToImport);
+                        selectMenu = Console.ReadKey().Key;
 
-                    var catalog = (List<ItemCatalog>)serializer.Deserialize(Helper.XmlRead);
+                        List<List<string>> stringsFromFile = null;
 
+                        if (MainMenu.ConditionToAdd(selectMenu))
+                        {
+                            reader = new StreamReader(Titles.FileToSaveWithPath);
+                            stringsFromFile = new List<List<string>>();
+                        }
 
+                        switch (selectMenu)
+                        {
+                            case ConsoleKey.D1:
+                            case ConsoleKey.NumPad1:
+                                {
+                                    MainMenu.ImportWithoutError(reader, stringsFromFile, fullPath, out exitMenuImport);
+                                    break;
+                                }
+
+                            case ConsoleKey.D2:
+                            case ConsoleKey.NumPad2:
+                                {
+                                    MainMenu.ImportWithError(reader, stringsFromFile, fullPath, out exitMenuImport);
+                                    break;
+                                }
+
+                            case ConsoleKey.Q:
+                                exitMenuImport = true;
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
                 }
-                else
+                catch (FileNotFoundException ex)
                 {
-
+                    Console.Clear();
+                    Screen.ShowText(ex.Message);
                 }
-                //Screen.ShowText(string.Format(Titles.NoExistFile, fullPath, Titles.FileTXT));
-                Console.ReadKey();
             }
 
+            Screen.ShowText(Titles.PressAnyKey);
+            Console.ReadKey();
             exitMenuFiles = true;
         }
 
@@ -598,8 +617,6 @@
             }
 
             exitMenuImport = true;
-
-            Console.ReadKey();
         }
 
         private static void ImportWithError(StreamReader reader, List<List<string>> stringsFromFile, string fullPath, out bool exitMenuImport)
@@ -643,8 +660,6 @@
             writer.Close();
 
             exitMenuImport = true;
-
-            Console.ReadKey();
         }
     }
 }

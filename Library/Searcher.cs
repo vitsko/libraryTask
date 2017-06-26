@@ -1,12 +1,10 @@
-﻿using Helper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Library
+﻿namespace Library
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Helper;
+
     public static class Searcher
     {
         public static Searching GetItemWithTitle = (string title, List<ItemCatalog> catalog) =>
@@ -55,6 +53,5 @@ namespace Library
         {
             return searcher(toSearch, catalog);
         }
-
     }
 }

@@ -29,6 +29,11 @@
             {
                 return Catalog.libraryItem;
             }
+
+            private set
+            {
+                Catalog.libraryItem = value;
+            }
         }
 
         public static int Count
@@ -200,6 +205,21 @@
 
             Catalog.libraryItem.Clear();
             Catalog.libraryItem = new List<ItemCatalog>(tempCatalog);
+        }
+
+        public static void RewriteCatalog(List<ItemCatalog> fromXML)
+        {
+            Catalog.DeleteAll();
+            Catalog.AllItem = new List<ItemCatalog>(fromXML);
+            Catalog.AddDefaultValue();
+        }
+
+        private static void AddDefaultValue()
+        {
+            foreach (var item in Catalog.AllItem)
+            {
+                item.CheckFromXML();
+            }
         }
 
         private static string GetKeyForgrouping(dynamic group, GroupingBy propertyToGrouping)

@@ -382,16 +382,13 @@
 Нажмите любую кнопку для выходя в Главное меню...</value>
 </data>
   <data name="CorrectImport" xml:space="preserve">
-<value>Все записи из файла {0}\{1} загружены в Каталог.
-Нажмите любую кнопку для выходя в Главное меню...</value>
+<value>Все записи из файла {0}\{1} загружены в Каталог.</value>
 </data>
   <data name="NoParseItem" xml:space="preserve">
-<value>В файле {0}\{1} не все записи соответствуют типу объекта Каталога.
-Нажмите любую кнопку для выходя в Главное меню...</value>
+<value>В файле {0}\{1} не все записи соответствуют типу объекта Каталога.</value>
 </data>
   <data name="ItemIsIncorrectInFile" xml:space="preserve">
-<value>В файле {0}\{1} не все записи корректны.
-Нажмите любую кнопку для выходя в Главное меню...</value>
+<value>В файле {0}\{1} не все записи корректны.</value>
 </data>
   <data name="FileToLogWithPath" xml:space="preserve">
 <value>.\SavedFiles\LogImport.txt</value>
@@ -407,8 +404,7 @@
 </data>
   <data name="CorrectImportWithLog" xml:space="preserve">
 <value>Записи из файла {0}\{1} загружены в Каталог.
-Лог проверки загрузки смотрите в файле {0}\{2}.
-Нажмите любую кнопку для выходя в Главное меню...</value>
+Лог проверки загрузки смотрите в файле {0}\{2}.</value>
 </data>
   <data name="FileOfLog" xml:space="preserve">
 <value>LogImport.txt</value>
@@ -417,62 +413,15 @@
 <value>#Тип записи:{0}#</value>
 </data>
   <data name="EmptyFile" xml:space="preserve">
-<value>Файл {0}\{1} пуст или не содержит записей Каталога.
-Нажмите любую кнопку для выходя в Главное меню...</value>
+<value>Файл {0}\{1} пуст или не содержит записей Каталога.</value>
 </data>
-  <!--Названия полей в XML-->
-  <data name="NameForTitle" xml:space="preserve">
-<value>Title</value>
+  <data name="ErrorParseXML" xml:space="preserve">
+<value>Во время чтения файла {0}\{1} произошла ошибка:</value>
 </data>
-  <data name="NameForPageCount" xml:space="preserve">
-<value>PageCount</value>
+  <data name="ResultLoadXML" xml:space="preserve">
+<value>Вы импортировали файл {0}\{1}.</value>
 </data>
-  <data name="NameForNote" xml:space="preserve">
-<value>Note</value>
-</data>
-  <data name="NameForAuthors" xml:space="preserve">
-<value>Authors</value>
-</data>
-  <data name="NameForAuthor" xml:space="preserve">
-<value>Author</value>
-</data>
-  <data name="NameForCity" xml:space="preserve">
-<value>PublisherCity</value>
-</data>
-  <data name="NameForPublisher" xml:space="preserve">
-<value>Publisher</value>
-</data>
-  <data name="NameForYear" xml:space="preserve">
-<value>Year</value>
-</data>
-  <data name="NameForISBN" xml:space="preserve">
-<value>ISBN</value>
-</data>
-  <data name="NameForNumber" xml:space="preserve">
-<value>Number</value>
-</data>
-  <data name="NameForDate" xml:space="preserve">
-<value>Date</value>
-</data>
-  <data name="NameForISSN" xml:space="preserve">
-<value>ISSN</value>
-</data>
-  <data name="NameForInventors" xml:space="preserve">
-<value>Inventors</value>
-</data>
-  <data name="NameForInventor" xml:space="preserve">
-<value>Inventor</value>
-</data>
-  <data name="NameForCountry" xml:space="preserve">
-<value>Country</value>
-</data>
-  <data name="NameForRegNumber" xml:space="preserve">
-<value>RegNumber</value>
-</data>
-  <data name="NameForDateRequest" xml:space="preserve">
-<value>DateRequest</value>
-</data>
-  <data name="NameForDatePublication" xml:space="preserve">
-<value>DatePublication</value>
+  <data name="PressAnyKey" xml:space="preserve">
+<value>Нажмите любую кнопку для выходя в Главное меню...</value>
 </data>
 </root>
