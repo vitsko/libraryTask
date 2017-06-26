@@ -5,21 +5,33 @@
     using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using System.Xml;
 
     public static class Helper
     {
+        public static XmlReader XmlRead;
         private const char Comma = ',';
-        private static string oneSpace = @" ";
+        private const byte LengthISBN10 = 10,
+                           LengthISBN13 = 13,
+                           LengthISSN = 8,
+                           EvenPosition = 3,
+                           Mod10 = 10,
+                           Mod11 = 11;
+
+        private const string OneSpace = @" ",
+                             UtilityPatent = @"^[1-9]([0-9]{5}|[0-9]{6})",
+                             PatentWith6d = @"^(RE|PP|AI)\d{6}",
+                             PatentWith7d = @"^[DXHT]\d{7}",
+                             PatentByYear = @"^[0-9]{1,}-(((195|196|197|198|199)[0-9]{1})||2[0-9]{3})/[0-9]{1,}";
+
         private static string[] charp = { "#" };
         private static string[] colon = { ":" };
-        private static string[] typeItem = { "книга", "газета", "патент" };
 
         public enum TypeItem
         {
             Book = 1,
-            Newspaper,
-            Patent,
-            Default
+            Newspaper = 2,
+            Patent = 3
         }
 
         public static List<string> GetyQuestions(string questions)
@@ -40,7 +52,7 @@
             ///Паттерн поиска пробелов в начале\конце строки
             string patternBeginninrOrEndString = @"(^(\s+))?((\s+)$)?";
 
-            string deleteGapBetween = Regex.Replace(expression, patternBetween, oneSpace);
+            string deleteGapBetween = Regex.Replace(expression, patternBetween, Helper.OneSpace);
 
             return Regex.Replace(deleteGapBetween, patternBeginninrOrEndString, string.Empty);
         }
@@ -51,7 +63,7 @@
 
             var newItem = new List<string>();
 
-            item.ForEach(delegate(string oneItem)
+            item.ForEach(delegate (string oneItem)
             {
                 oneItem = Helper.DeleteWhitespace(oneItem);
                 newItem.Add(oneItem);
@@ -60,12 +72,12 @@
             return newItem;
         }
 
-        public static bool IsIntMoreThanZero(string parseToInt, out int intValue)
+        public static bool IsMoreThanZero(string parseToInt, out double intValue)
         {
-            return int.TryParse(parseToInt, out intValue) && intValue > 0 ? true : false;
+            return double.TryParse(parseToInt, out intValue) && intValue > 0;
         }
 
-        public static bool IsDateAsDDMMYYYY(string date, out DateTime enterDate)
+        public static bool IsDate(string date, out DateTime enterDate)
         {
             CultureInfo newCulture = new CultureInfo("ru-RU", true);
 
@@ -74,14 +86,23 @@
 
         public static bool IsTypeOfItemCatalog(string fromFile, out List<string> afterParsing)
         {
-            var toCompare = fromFile.ToLower();
-
-            afterParsing = Helper.ParseToSign(toCompare, charp);
+            afterParsing = Helper.ParseToSign(fromFile, charp);
             var type = afterParsing.ElementAt(0);
+            var toParse = Helper.ParseToSign(type, colon);
 
-            return type.Equals(typeItem[0])
-                || type.Equals(typeItem[1])
-                || type.Equals(typeItem[2]);
+            var typebyInt = 0d;
+
+            if (toParse.Count() == 2)
+            {
+                if (Helper.IsMoreThanZero(toParse[1], out typebyInt))
+                {
+                    return typebyInt.Equals((int)TypeItem.Book)
+                        || typebyInt.Equals((int)TypeItem.Newspaper)
+                        || typebyInt.Equals((int)TypeItem.Patent);
+                }
+            }
+
+            return false;
         }
 
         public static List<string> ParseStringToItem(List<string> oneStringValue)
@@ -90,60 +111,159 @@
 
             for (var index = 0; index < oneStringValue.Count; index++)
             {
-                if (index == 0)
+                var stringValue = Helper.ParseToSign(oneStringValue[index], Helper.colon);
+
+                if (stringValue.Count != 2)
                 {
-                    valuesOfItemCatalog.Add(oneStringValue[index]);
+                    valuesOfItemCatalog.Add(string.Empty);
                 }
-
-                if (index != 0)
+                else
                 {
-                    var stringValue = Helper.ParseToSign(oneStringValue[index], Helper.colon);
-
-                    if (stringValue.Count == 0 || stringValue.Count == 1)
-                    {
-                        valuesOfItemCatalog.Add(string.Empty);
-                    }
-                    else
-                    {
-                        valuesOfItemCatalog.Add(stringValue[1]);
-                    }
+                    valuesOfItemCatalog.Add(stringValue[1]);
                 }
             }
 
             return valuesOfItemCatalog;
         }
 
-        public static byte GetTypeItem(string typeItemCatalog)
+        public static void AddStringsForCheck(List<string> aboutItemCatalog, int countOfValues)
         {
-            var type = typeItemCatalog.ToLower();
+            var diff = countOfValues - aboutItemCatalog.Count;
 
-            if (type.Equals(typeItem[0]))
+            if (diff > 0)
             {
-                return (byte)TypeItem.Book;
+                for (var i = 0; i < diff; i++)
+                {
+                    aboutItemCatalog.Add(string.Empty);
+                }
             }
-
-            if (type.Equals(typeItem[1]))
+            else
             {
-                return (byte)TypeItem.Newspaper;
+                if (diff < 0)
+                {
+                    aboutItemCatalog.RemoveRange(countOfValues, -1 * diff);
+                }
             }
-
-            if (type.Equals(typeItem[2]))
-            {
-                return (byte)TypeItem.Patent;
-            }
-
-            return (byte)TypeItem.Default;
         }
 
-        public static void AddValuesForCheckImport(List<string> aboutItemCatalog, int countOfValues)
+        public static bool IsISBN(string isbn)
         {
-            var count = aboutItemCatalog.Count - 1;
+            var toParse = Helper.OnlyDigitallyValue(isbn);
+            return Helper.IsISBN10(toParse) || IsISBN13(toParse);
+        }
 
-            while (countOfValues != count)
+        public static bool IsISSN(string issn)
+        {
+            var toParse = Helper.OnlyDigitallyValue(issn);
+
+            if (Helper.EqualsLength(toParse, Helper.LengthISSN))
             {
-                aboutItemCatalog.Add(string.Empty);
-                count++;
+                var value = 0d;
+
+                if (Helper.IsMoreThanZero(toParse, out value))
+                {
+                    var sum = Helper.SumOfDigitByPosition(toParse, Helper.LengthISSN) -
+                              int.Parse(toParse[toParse.Length - 1].ToString());
+
+                    var mod11 = (byte)(sum % Helper.Mod11);
+                    byte check = 0;
+
+                    return Helper.ISCheckDigit(mod11, check, Helper.Mod11, toParse);
+                }
             }
+
+            return false;
+        }
+
+        public static bool IsRegNum(string regNumber)
+        {
+            return Regex.IsMatch(regNumber, Helper.UtilityPatent) ||
+                   Regex.IsMatch(regNumber, Helper.PatentWith6d) ||
+                   Regex.IsMatch(regNumber, Helper.PatentWith7d) ||
+                   Regex.IsMatch(regNumber, Helper.PatentByYear);
+        }
+
+        private static string OnlyDigitallyValue(string value)
+        {
+            return Regex.Replace(value, @"-+", string.Empty);
+        }
+
+        private static bool EqualsLength(string toCompare, byte length)
+        {
+            return toCompare.Length == length;
+        }
+
+        private static bool IsISBN10(string isbn)
+        {
+            if (Helper.EqualsLength(isbn, Helper.LengthISBN10))
+            {
+                var value = 0d;
+
+                if (Helper.IsMoreThanZero(isbn, out value))
+                {
+                    var sum = Helper.SumOfDigitByPosition(isbn, Helper.LengthISBN10);
+
+                    return sum % Helper.Mod11 == 0;
+                }
+            }
+
+            return false;
+        }
+
+        private static int SumOfDigitByPosition(string toParse, byte length)
+        {
+            int sum = 0;
+
+            for (byte i = length, j = 0; i > 0; i--, j++)
+            {
+                sum += i * int.Parse(toParse[j].ToString());
+            }
+
+            return sum;
+        }
+
+        private static bool IsISBN13(string isbn)
+        {
+            if (Helper.EqualsLength(isbn, Helper.LengthISBN13))
+            {
+                var value = 0d;
+
+                if (Helper.IsMoreThanZero(isbn, out value))
+                {
+                    int sum = 0;
+
+                    for (int i = 1; i < Helper.LengthISBN13; i++)
+                    {
+                        var digit = int.Parse(isbn[i - 1].ToString());
+
+                        if (i % 2 == 0)
+                        {
+                            sum += digit * Helper.EvenPosition;
+                        }
+                        else
+                        {
+                            sum += digit;
+                        }
+                    }
+
+                    byte check = 0;
+                    var mod10 = (byte)(sum % Helper.Mod10);
+
+                    return Helper.ISCheckDigit(mod10, check, Helper.Mod10, isbn);
+                }
+            }
+
+            return false;
+        }
+
+        private static bool ISCheckDigit(byte mod, byte check, byte minuend, string toParse)
+        {
+            if (mod != 0)
+            {
+                check = (byte)(minuend - mod);
+            }
+
+            return byte.Parse(toParse[toParse.Length - 1].ToString()) == check;
         }
 
         private static List<string> ParseToSign(string toParse, string[] spliter)

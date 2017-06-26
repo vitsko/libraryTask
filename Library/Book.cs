@@ -1,25 +1,34 @@
 ﻿namespace Library
 {
     using System.Collections.Generic;
+    using System.Xml;
+    using System.Xml.Serialization;
     using Helper;
     using Resource;
 
     public class Book : ItemCatalog
     {
+        private const string ISBNDefault = "978-3-16-148410-0";
         private const int DefaultYear = 2000;
         private const int YearPublication = 1900;
+        private const int CountOfData = 8;
         private List<string> authors;
         private string publisherCity;
         private string publisher;
         private int year;
+        private string isbn;
+
+        public Book()
+        {
+            this.CreateFromXML();
+        }
 
         public Book(List<string> aboutItemCatalog)
         {
-            this.Id = ItemCatalog.GetId();
-            this.errorList = new List<string>();
-            this.Create(aboutItemCatalog);
+            this.ToConstructor(aboutItemCatalog, CountOfData);
         }
 
+        [XmlArray(ElementName = "Authors", Order = 4), XmlArrayItem(ElementName = "Author")]
         public List<string> Authors
         {
             get
@@ -29,19 +38,26 @@
 
             set
             {
-                if (value.Count != 0)
+                if (Helper.XmlRead is XmlReader)
                 {
                     this.authors = value;
                 }
                 else
                 {
-                    this.authors = new List<string>(1);
-                    this.authors.Add(Titles.DefaultAuthor);
-                    this.errorList.Add(string.Format(Titles.AuthorsError, this.authors[0]));
+                    if (value.Count != 0)
+                    {
+                        this.authors = value;
+                    }
+                    else
+                    {
+                        this.authors = new List<string>(1);
+                        this.GetDefAndErrorForArray(this.authors, Titles.DefaultAuthor, Titles.AuthorsError);
+                    }
                 }
             }
         }
 
+        [XmlElement(Order = 5)]
         public string PublisherCity
         {
             get
@@ -57,12 +73,12 @@
                 }
                 else
                 {
-                    this.publisherCity = Titles.DefaultCity;
-                    this.errorList.Add(string.Format(Titles.CityError, this.publisherCity));
+                    this.publisherCity = this.GetDefValueAndError(Titles.DefaultCity, string.Format(Titles.CityError, Titles.DefaultCity));
                 }
             }
         }
 
+        [XmlElement(Order = 6)]
         public string Publisher
         {
             get
@@ -78,12 +94,12 @@
                 }
                 else
                 {
-                    this.publisher = Titles.DefaultPublisher;
-                    this.errorList.Add(string.Format(Titles.PublisherError, this.publisher));
+                    this.publisher = this.GetDefValueAndError(Titles.DefaultPublisher, string.Format(Titles.PublisherError, Titles.DefaultPublisher));
                 }
             }
         }
 
+        [XmlElement(Order = 7)]
         public int Year
         {
             get
@@ -99,14 +115,33 @@
                 }
                 else
                 {
-                    this.year = Book.DefaultYear;
-                    this.errorList.Add(string.Format(Titles.YearError, this.year));
+                    this.year = this.GetDefValueAndError(Book.DefaultYear, string.Format(Titles.YearError, Book.DefaultYear));
                 }
             }
         }
 
-        public string ISBN { get; set; }
+        [XmlElement(Order = 8)]
+        public string ISBN
+        {
+            get
+            {
+                return this.isbn;
+            }
 
+            set
+            {
+                if (Helper.IsISBN(value))
+                {
+                    this.isbn = value;
+                }
+                else
+                {
+                    this.isbn = this.GetDefValueAndError(Book.ISBNDefault, string.Format(Titles.ISBNError, Book.ISBNDefault));
+                }
+            }
+        }
+
+        [XmlIgnore]
         public override string TypeItem
         {
             get
@@ -115,6 +150,7 @@
             }
         }
 
+        [XmlIgnore]
         public override List<string> GetQuestionAboutItem
         {
             get
@@ -158,18 +194,49 @@
                        string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypeBook));
         }
 
+        public override void CheckFromXML()
+        {
+            base.CheckFromXML();
+
+            if (this.Authors.Count == 0)
+            {
+                this.authors = new List<string>(1);
+                this.GetDefAndErrorForArray(this.authors, Titles.DefaultAuthor, Titles.AuthorsError);
+            }
+
+            if (this.PublisherCity == null)
+            {
+                this.PublisherCity = this.GetDefValueAndError(Titles.DefaultCity, string.Format(Titles.CityError, Titles.DefaultCity));
+            }
+
+            if (this.Publisher == null)
+            {
+                this.Publisher = this.GetDefValueAndError(Titles.DefaultPublisher, string.Format(Titles.PublisherError, Titles.DefaultPublisher));
+            }
+
+            if (this.Year < Book.YearPublication)
+            {
+                this.Year = this.GetDefValueAndError(Book.DefaultYear, string.Format(Titles.YearError, Book.DefaultYear));
+            }
+
+            if (this.ISBN == null)
+            {
+                this.ISBN = this.GetDefValueAndError(Book.ISBNDefault, string.Format(Titles.ISBNError, Book.ISBNDefault));
+            }
+        }
+
         internal override string GetInfoToSave()
         {
-            return base.GetInfoToSave().Insert(0, Titles.TypeBook);
+            return base.GetInfoToSave().Insert(0, string.Format(Titles.SaveType, (byte)Helper.TypeItem.Book));
         }
 
         protected internal override void Create(List<string> aboutItemCatalog)
         {
             var authors = new List<string>(Helper
-                 .DeleteWhitespace(aboutItemCatalog[1])
-                 .Split(ItemCatalog.Comma));
+                                          .DeleteWhitespace(aboutItemCatalog[1])
+                                          .Split(ItemCatalog.Comma));
 
-            var intValue = 0;
+            var intValue = 0d;
 
             this.Title = aboutItemCatalog[0];
             this.Authors = Helper.DeleteEmpty(authors);
@@ -177,11 +244,11 @@
             this.PublisherCity = aboutItemCatalog[2];
             this.Publisher = aboutItemCatalog[3];
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[4], out intValue);
-            this.Year = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[4], out intValue);
+            this.Year = (int)intValue;
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[5], out intValue);
-            this.PageCount = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[5], out intValue);
+            this.PageCount = (int)intValue;
 
             this.Note = aboutItemCatalog[6];
             this.ISBN = aboutItemCatalog[7];

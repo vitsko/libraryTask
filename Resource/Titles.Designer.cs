@@ -216,8 +216,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все записи из файла {0}\{1} загружены в Каталог.
-        ///Нажмите любую кнопку для выходя в Главное меню....
+        ///   Looks up a localized string similar to Все записи из файла {0}\{1} загружены в Каталог..
         /// </summary>
         public static string CorrectImport {
             get {
@@ -227,8 +226,7 @@ namespace Resource {
         
         /// <summary>
         ///   Looks up a localized string similar to Записи из файла {0}\{1} загружены в Каталог.
-        ///Лог проверки загрузки смотрите в файле {0}\{2}.
-        ///Нажмите любую кнопку для выходя в Главное меню....
+        ///Лог проверки загрузки смотрите в файле {0}\{2}..
         /// </summary>
         public static string CorrectImportWithLog {
             get {
@@ -354,6 +352,15 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}-{1}/{2}.
+        /// </summary>
+        public static string DefaultRegNumber {
+            get {
+                return ResourceManager.GetString("DefaultRegNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Название по умолчанию.
         /// </summary>
         public static string DefaultTitle {
@@ -382,6 +389,24 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Файл {0}\{1} пуст или не содержит записей Каталога..
+        /// </summary>
+        public static string EmptyFile {
+            get {
+                return ResourceManager.GetString("EmptyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Во время чтения файла {0}\{1} произошла ошибка:.
+        /// </summary>
+        public static string ErrorParseXML {
+            get {
+                return ResourceManager.GetString("ErrorParseXML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LogImport.txt.
         /// </summary>
         public static string FileOfLog {
@@ -400,20 +425,29 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SavedFile.txt.
-        /// </summary>
-        public static string FileToSave {
-            get {
-                return ResourceManager.GetString("FileToSave", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to .\SavedFiles\SavedFile.txt.
         /// </summary>
         public static string FileToSaveWithPath {
             get {
                 return ResourceManager.GetString("FileToSaveWithPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SavedFile.txt.
+        /// </summary>
+        public static string FileTXT {
+            get {
+                return ResourceManager.GetString("FileTXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SavedFile.xml.
+        /// </summary>
+        public static string FileXML {
+            get {
+                return ResourceManager.GetString("FileXML", resourceCulture);
             }
         }
         
@@ -472,6 +506,15 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы  указали некорректный ISBN. Вместо него указано значение по умолчанию: {0}..
+        /// </summary>
+        public static string ISBNError {
+            get {
+                return ResourceManager.GetString("ISBNError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Международный стандартный номер серийного издания (ISSN):.
         /// </summary>
         public static string ISSN {
@@ -481,8 +524,16 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to В файле {0}\{1} не все записи корректны.
-        ///Нажмите любую кнопку для выходя в Главное меню....
+        ///   Looks up a localized string similar to Вы  указали некорректный ISSN. Вместо него указано значение по умолчанию: {0}..
+        /// </summary>
+        public static string ISSNError {
+            get {
+                return ResourceManager.GetString("ISSNError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to В файле {0}\{1} не все записи корректны..
         /// </summary>
         public static string ItemIsIncorrectInFile {
             get {
@@ -607,8 +658,7 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to В файле {0}\{1} не все записи соответствуют типу объекта Каталога.
-        ///Нажмите любую кнопку для выходя в Главное меню....
+        ///   Looks up a localized string similar to В файле {0}\{1} не все записи соответствуют типу объекта Каталога..
         /// </summary>
         public static string NoParseItem {
             get {
@@ -658,6 +708,24 @@ namespace Resource {
         public static string PageCountError {
             get {
                 return ResourceManager.GetString("PageCountError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы указали некорректный регистрационный номер патента. Вместо него указано значение по умолчанию: {0}..
+        /// </summary>
+        public static string PatentRegNumberError {
+            get {
+                return ResourceManager.GetString("PatentRegNumberError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .\SavedFiles\SavedFile.xml.
+        /// </summary>
+        public static string PathWithXMLtoSave {
+            get {
+                return ResourceManager.GetString("PathWithXMLtoSave", resourceCulture);
             }
         }
         
@@ -725,6 +793,15 @@ namespace Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вы импортировали файл {0}\{1}..
+        /// </summary>
+        public static string ResultLoadXML {
+            get {
+                return ResourceManager.GetString("ResultLoadXML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Результат поиска книги по автору &apos;{0}&apos;..
         /// </summary>
         public static string ResultSearchOfAuthors {
@@ -739,6 +816,28 @@ namespace Resource {
         public static string ResultSearchOfTitle {
             get {
                 return ResourceManager.GetString("ResultSearchOfTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сохранить в:
+        ///[1]-- Специальный формат
+        ///[2]-- XML
+        ///
+        ///[Q]-- Перейти в Главное меню.
+        /// </summary>
+        public static string SavedTypeMunu {
+            get {
+                return ResourceManager.GetString("SavedTypeMunu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #Тип записи:{0}#.
+        /// </summary>
+        public static string SaveType {
+            get {
+                return ResourceManager.GetString("SaveType", resourceCulture);
             }
         }
         

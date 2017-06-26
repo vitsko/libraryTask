@@ -2,24 +2,33 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Xml;
+    using System.Xml.Serialization;
     using Helper;
     using Resource;
 
     public class Patent : ItemCatalog
     {
+        private const int CountOfData = 8;
+        private static string defaultRegNumber = string.Format(Titles.DefaultRegNumber, "1", DateTime.Today.Year, "1");
         private static DateTime defaultDate = new DateTime(1950, 01, 01);
         private List<string> inventors;
         private string сountry;
         private DateTime dateRequest;
         private DateTime datePublication;
+        private string regNumber;
+
+        public Patent()
+        {
+            this.CreateFromXML();
+        }
 
         public Patent(List<string> aboutItemCatalog)
         {
-            this.Id = ItemCatalog.GetId();
-            this.errorList = new List<string>();
-            this.Create(aboutItemCatalog);
+            this.ToConstructor(aboutItemCatalog, CountOfData);
         }
 
+        [XmlArray("Inventors", Order = 4), XmlArrayItem("Inventor")]
         public List<string> Inventors
         {
             get
@@ -29,19 +38,26 @@
 
             set
             {
-                if (value.Count != 0)
+                if (Helper.XmlRead is XmlReader)
                 {
                     this.inventors = value;
                 }
                 else
                 {
-                    this.inventors = new List<string>(1);
-                    this.inventors.Add(Titles.DefaultInventor);
-                    this.errorList.Add(string.Format(Titles.InventorError, this.inventors[0]));
+                    if (value.Count != 0)
+                    {
+                        this.inventors = value;
+                    }
+                    else
+                    {
+                        this.inventors = new List<string>(1);
+                        this.GetDefAndErrorForArray(this.inventors, Titles.DefaultInventor, Titles.InventorError);
+                    }
                 }
             }
         }
 
+        [XmlElement(Order = 5)]
         public string Country
         {
             get
@@ -57,14 +73,33 @@
                 }
                 else
                 {
-                    this.сountry = Titles.DefaultCountry;
-                    this.errorList.Add(string.Format(Titles.CountryError, this.сountry));
+                    this.сountry = this.GetDefValueAndError(Titles.DefaultCountry, string.Format(Titles.CountryError, Titles.DefaultCountry));
                 }
             }
         }
 
-        public string RegNumber { get; set; }
+        [XmlElement(Order = 6)]
+        public string RegNumber
+        {
+            get
+            {
+                return this.regNumber;
+            }
 
+            set
+            {
+                if (Helper.IsRegNum(value))
+                {
+                    this.regNumber = value;
+                }
+                else
+                {
+                    this.regNumber = this.GetDefValueAndError(Patent.defaultRegNumber, string.Format(Titles.PatentRegNumberError, Patent.defaultRegNumber));
+                }
+            }
+        }
+
+        [XmlElement(Order = 7)]
         public DateTime DateRequest
         {
             get
@@ -80,12 +115,12 @@
                 }
                 else
                 {
-                    this.dateRequest = Patent.defaultDate;
-                    this.errorList.Add(string.Format(Titles.DateRPatentError, this.dateRequest.ToShortDateString()));
+                    this.dateRequest = this.GetDefValueAndError(Patent.defaultDate, string.Format(Titles.DateRPatentError, Patent.defaultDate.ToShortDateString()));
                 }
             }
         }
 
+        [XmlElement(Order = 8)]
         public DateTime DatePublication
         {
             get
@@ -101,12 +136,12 @@
                 }
                 else
                 {
-                    this.datePublication = Patent.defaultDate;
-                    this.errorList.Add(string.Format(Titles.DatePPatentError, this.datePublication.ToShortDateString()));
+                    this.datePublication = this.GetDefValueAndError(Patent.defaultDate, string.Format(Titles.DatePPatentError, Patent.defaultDate.ToShortDateString()));
                 }
             }
         }
 
+        [XmlIgnore]
         public override string TypeItem
         {
             get
@@ -115,6 +150,7 @@
             }
         }
 
+        [XmlIgnore]
         public override List<string> GetQuestionAboutItem
         {
             get
@@ -158,18 +194,49 @@
                        string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypePatent));
         }
 
+        public override void CheckFromXML()
+        {
+            base.CheckFromXML();
+
+            if (this.Inventors.Count == 0)
+            {
+                this.inventors = new List<string>(1);
+                this.GetDefAndErrorForArray(this.inventors, Titles.DefaultInventor, Titles.InventorError);
+            }
+
+            if (this.Country == null)
+            {
+                this.Country = this.GetDefValueAndError(Titles.DefaultCountry, string.Format(Titles.CountryError, Titles.DefaultCountry));
+            }
+
+            if (this.RegNumber == null)
+            {
+                this.RegNumber = this.GetDefValueAndError(Patent.defaultRegNumber, string.Format(Titles.PatentRegNumberError, Patent.defaultRegNumber));
+            }
+
+            if (this.DateRequest < Patent.defaultDate)
+            {
+                this.DateRequest = this.GetDefValueAndError(Patent.defaultDate, string.Format(Titles.DateRPatentError, Patent.defaultDate.ToShortDateString()));
+            }
+
+            if (this.DatePublication < Patent.defaultDate)
+            {
+                this.DatePublication = this.GetDefValueAndError(Patent.defaultDate, string.Format(Titles.DatePPatentError, Patent.defaultDate.ToShortDateString()));
+            }
+        }
+
         internal override string GetInfoToSave()
         {
-            return base.GetInfoToSave().Insert(0, Titles.TypePatent);
+            return base.GetInfoToSave().Insert(0, string.Format(Titles.SaveType, (byte)Helper.TypeItem.Patent));
         }
 
         protected internal override void Create(List<string> aboutItemCatalog)
         {
             var inventors = new List<string>(Helper
-                           .DeleteWhitespace(aboutItemCatalog[1])
-                           .Split(ItemCatalog.Comma));
+                 .DeleteWhitespace(aboutItemCatalog[1])
+                 .Split(ItemCatalog.Comma));
 
-            int intValue = 0;
+            var intValue = 0d;
             DateTime date;
 
             this.Title = aboutItemCatalog[0];
@@ -178,14 +245,14 @@
             this.Country = aboutItemCatalog[2];
             this.RegNumber = aboutItemCatalog[3];
 
-            Helper.IsDateAsDDMMYYYY(aboutItemCatalog[4], out date);
+            Helper.IsDate(aboutItemCatalog[4], out date);
             this.DateRequest = date;
 
-            Helper.IsDateAsDDMMYYYY(aboutItemCatalog[5], out date);
+            Helper.IsDate(aboutItemCatalog[5], out date);
             this.DatePublication = date;
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[6], out intValue);
-            this.PageCount = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[6], out intValue);
+            this.PageCount = (int)intValue;
 
             this.Note = aboutItemCatalog[7];
         }

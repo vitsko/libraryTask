@@ -4,9 +4,13 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Xml;
+    using System.Xml.Serialization;
     using Helper;
     using Resource;
 
+    [XmlType(TypeName = "Item")]
+    [XmlInclude(typeof(Book)), XmlInclude(typeof(Newspaper)), XmlInclude(typeof(Patent))]
     public abstract class ItemCatalog : IComparable<ItemCatalog>
     {
         protected const char Comma = ',';
@@ -22,6 +26,7 @@
         private string title;
         private int pageCount;
 
+        [XmlElement(Order = 1)]
         public string Title
         {
             get
@@ -37,12 +42,12 @@
                 }
                 else
                 {
-                    this.title = Titles.DefaultTitle;
-                    this.errorList.Add(string.Format(Titles.TitleError, this.title));
+                    this.title = this.GetDefValueAndError(Titles.DefaultTitle, string.Format(Titles.TitleError, Titles.DefaultTitle));
                 }
             }
         }
 
+        [XmlElement(Order = 2)]
         public int PageCount
         {
             get
@@ -52,22 +57,24 @@
 
             set
             {
-                if (value != 0)
+                if (value > 0)
                 {
                     this.pageCount = value;
                 }
                 else
                 {
-                    this.pageCount = ItemCatalog.DefaultPageCount;
-                    this.errorList.Add(string.Format(Titles.PageCountError, this.pageCount));
+                    this.pageCount = this.GetDefValueAndError(ItemCatalog.DefaultPageCount, string.Format(Titles.PageCountError, ItemCatalog.DefaultPageCount));
                 }
             }
         }
 
+        [XmlElement(Order = 3)]
         public string Note { get; set; }
 
+        [XmlIgnore]
         public int Id { get; protected set; }
 
+        [XmlIgnore]
         public List<string> ErrorList
         {
             get
@@ -76,8 +83,10 @@
             }
         }
 
+        [XmlIgnore]
         public abstract string TypeItem { get; }
 
+        [XmlIgnore]
         public abstract List<string> GetQuestionAboutItem { get; }
 
         internal abstract int PublishedYear { get; }
@@ -117,36 +126,42 @@
             return allinfo.ToString();
         }
 
+        public virtual void CheckFromXML()
+        {
+            if (this.Title == null)
+            {
+                this.Title = this.GetDefValueAndError(Titles.DefaultTitle, string.Format(Titles.TitleError, Titles.DefaultTitle));
+            }
+
+            if (this.PageCount == 0)
+            {
+                this.PageCount = this.GetDefValueAndError(ItemCatalog.DefaultPageCount, string.Format(Titles.PageCountError, ItemCatalog.DefaultPageCount));
+            }
+        }
+
         internal static ItemCatalog CreateFromFile(List<string> aboutItemCatalog)
         {
             var type = aboutItemCatalog.ElementAt(0);
-            ItemCatalog fromImport = null;
+            var typeByInt = 0d;
 
-            switch (Helper.GetTypeItem(type))
+            ItemCatalog toCatalog = null;
+
+            if (Helper.IsMoreThanZero(type, out typeByInt))
             {
-                case (byte)Helper.TypeItem.Book:
-                    {
-                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.CountForBookAndPatent);
-                        fromImport = new Book(aboutItemCatalog.FindAll(item => !item.Equals(type)));
-                        break;
-                    }
+                switch ((byte)typeByInt)
+                {
+                    case (byte)Helper.TypeItem.Book:
+                        return new Book(aboutItemCatalog.FindAll(item => !item.Equals(type)));
 
-                case (byte)Helper.TypeItem.Newspaper:
-                    {
-                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.CountForNews);
-                        fromImport = new Newspaper(aboutItemCatalog.FindAll(item => !item.Equals(type)));
-                        break;
-                    }
+                    case (byte)Helper.TypeItem.Newspaper:
+                        return new Newspaper(aboutItemCatalog.FindAll(item => !item.Equals(type)));
 
-                case (byte)Helper.TypeItem.Patent:
-                    {
-                        Helper.AddValuesForCheckImport(aboutItemCatalog, ItemCatalog.CountForBookAndPatent);
-                        fromImport = new Patent(aboutItemCatalog.FindAll(item => !item.Equals(type)));
-                        break;
-                    }
+                    case (byte)Helper.TypeItem.Patent:
+                        return new Patent(aboutItemCatalog.FindAll(item => !item.Equals(type)));
+                }
             }
 
-            return fromImport;
+            return toCatalog;
         }
 
         internal virtual string GetInfoToSave()
@@ -168,6 +183,33 @@
         protected static int GetId()
         {
             return ++countOfItem;
+        }
+
+        protected void CreateFromXML()
+        {
+            this.Id = ItemCatalog.GetId();
+            this.errorList = new List<string>();
+        }
+
+        protected void ToConstructor(List<string> aboutItemCatalog, int countOfData)
+        {
+            Helper.AddStringsForCheck(aboutItemCatalog, countOfData);
+            this.Id = ItemCatalog.GetId();
+            this.errorList = new List<string>();
+            this.Create(aboutItemCatalog);
+        }
+
+        protected dynamic GetDefValueAndError(dynamic defaultValue, string errorMessage)
+        {
+            this.errorList.Add(errorMessage);
+
+            return defaultValue;
+        }
+
+        protected void GetDefAndErrorForArray(List<string> athorsOrInventors, string defaultValue, string message)
+        {
+            athorsOrInventors.Add(defaultValue);
+            this.errorList.Add(string.Format(message, athorsOrInventors[0]));
         }
     }
 }

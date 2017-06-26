@@ -46,18 +46,21 @@
             switch (toAddIntoCatalog)
             {
                 case ConsoleKey.D1:
+                case ConsoleKey.NumPad1:
                     {
                         questions = Helper.GetyQuestions(Titles.AskAboutBook);
                         break;
                     }
 
                 case ConsoleKey.D2:
+                case ConsoleKey.NumPad2:
                     {
                         questions = Helper.GetyQuestions(Titles.AskAboutNewspaper);
                         break;
                     }
 
                 case ConsoleKey.D3:
+                case ConsoleKey.NumPad3:
                     {
                         questions = Helper.GetyQuestions(Titles.AskAboutPatent);
                         break;

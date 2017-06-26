@@ -4,71 +4,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Helper;
+    using System.Xml.Serialization;
     using Resource;
 
     public static class Catalog
     {
-        public static Searcher GetItemWithTitle = title =>
-        {
-            return Catalog.libraryItem.FindAll(item => item.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-        };
-
-        public static Sorter SortByYearASC = () =>
-        {
-            var result = Catalog.libraryItem.ToList();
-            result.Sort();
-            return result;
-        };
-
-        public static Sorter SortByYearDESC = () =>
-        {
-            var catalogToSort = SortByYearASC();
-            catalogToSort.Reverse();
-            return catalogToSort;
-        };
-
-        public static Searcher GetBookByAuthor = authorForSearch =>
-        {
-            IEqualityComparer<string> comparator = new Comparator();
-
-            return Catalog.OnlyBooks.FindAll(book => ((Book)book).Authors.Contains(authorForSearch, comparator));
-        };
-
-        public static Searcher GroupBooksByPublisher = publisher =>
-        {
-            IEnumerable<IGrouping<string, Book>> emptyResult = null;
-
-            if (Catalog.OnlyBooks.Count != 0)
-            {
-                var booksWithResult = new List<Book>();
-
-                foreach (var book in Catalog.OnlyBooks)
-                {
-                    var onlyBook = (Book)book;
-
-                    if (string.Compare(onlyBook.Publisher, 0, publisher, 0, publisher.Length, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        booksWithResult.Add(onlyBook);
-                    }
-                }
-
-                if (booksWithResult.Count != 0)
-                {
-                    return from book in booksWithResult
-                           group book by book.Publisher;
-                }
-            }
-
-            return emptyResult;
-        };
-
-        public static Sorter GroupByYear = () =>
-        {
-            return from items in Catalog.libraryItem
-                   group items by items.PublishedYear;
-        };
-
         private static List<ItemCatalog> libraryItem;
 
         static Catalog()
@@ -76,21 +16,23 @@
             libraryItem = new List<ItemCatalog>();
         }
 
-        public delegate dynamic Searcher(string criterionSerch);
-
-        public delegate dynamic Sorter();
-
         public enum GroupingBy
         {
             Publisher = 1,
             Year
         }
 
+        [XmlElement(ElementName = "Catalog")]
         public static List<ItemCatalog> AllItem
         {
             get
             {
                 return Catalog.libraryItem;
+            }
+
+            private set
+            {
+                Catalog.libraryItem = value;
             }
         }
 
@@ -119,7 +61,7 @@
             }
         }
 
-        private static List<ItemCatalog> OnlyBooks
+        public static List<ItemCatalog> OnlyBooks
         {
             get
             {
@@ -158,16 +100,6 @@
         public static void Edit(ItemCatalog itemForEdit, List<string> aboutItemCatalog)
         {
             itemForEdit.Create(aboutItemCatalog);
-        }
-
-        public static dynamic Search(Searcher searcher, string toSearch)
-        {
-            return searcher(toSearch);
-        }
-
-        public static dynamic Sort(Sorter sort)
-        {
-            return sort();
         }
 
         public static string GetInfoCatalog()
@@ -273,6 +205,21 @@
 
             Catalog.libraryItem.Clear();
             Catalog.libraryItem = new List<ItemCatalog>(tempCatalog);
+        }
+
+        public static void RewriteCatalog(List<ItemCatalog> fromXML)
+        {
+            Catalog.DeleteAll();
+            Catalog.AllItem = new List<ItemCatalog>(fromXML);
+            Catalog.AddDefaultValue();
+        }
+
+        private static void AddDefaultValue()
+        {
+            foreach (var item in Catalog.AllItem)
+            {
+                item.CheckFromXML();
+            }
         }
 
         private static string GetKeyForgrouping(dynamic group, GroupingBy propertyToGrouping)

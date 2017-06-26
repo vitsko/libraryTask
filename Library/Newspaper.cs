@@ -2,28 +2,38 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Xml;
+    using System.Xml.Serialization;
     using Helper;
     using Resource;
 
     public class Newspaper : ItemCatalog
     {
+        private const string ISSNDefault = "0378-5955";
         private const int YearPublication = 1900;
         private const int DefaultYear = 2000;
         private const byte DefaultNumber = 1;
+        private const int CountOfData = 9;
         private string publisher;
         private int year;
         private int number;
         private DateTime date;
+        private string issn;
+
+        public Newspaper()
+        {
+            this.CreateFromXML();
+        }
 
         public Newspaper(List<string> aboutItemCatalog)
         {
-            this.Id = ItemCatalog.GetId();
-            this.errorList = new List<string>();
-            this.Create(aboutItemCatalog);
+            this.ToConstructor(aboutItemCatalog, CountOfData);
         }
 
+        [XmlElement(Order = 4)]
         public string PublisherCity { get; set; }
 
+        [XmlElement(Order = 5)]
         public string Publisher
         {
             get
@@ -39,12 +49,12 @@
                 }
                 else
                 {
-                    this.publisher = Titles.DefaultPublisher;
-                    this.errorList.Add(string.Format(Titles.PublisherError, this.publisher));
+                    this.publisher = this.GetDefValueAndError(Titles.DefaultPublisher, string.Format(Titles.PublisherError, Titles.DefaultPublisher));
                 }
             }
         }
 
+        [XmlElement(Order = 6)]
         public int Year
         {
             get
@@ -60,12 +70,12 @@
                 }
                 else
                 {
-                    this.year = Newspaper.DefaultYear;
-                    this.errorList.Add(string.Format(Titles.YearError, this.year));
+                    this.year = this.GetDefValueAndError(Newspaper.DefaultYear, string.Format(Titles.YearError, Newspaper.DefaultYear));
                 }
             }
         }
 
+        [XmlElement(Order = 7)]
         public int Number
         {
             get
@@ -81,12 +91,12 @@
                 }
                 else
                 {
-                    this.number = Newspaper.DefaultNumber;
-                    this.errorList.Add(string.Format(Titles.NumberNewsError, this.number));
+                    this.number = this.GetDefValueAndError(Newspaper.DefaultNumber, string.Format(Titles.NumberNewsError, Newspaper.DefaultNumber));
                 }
             }
         }
 
+        [XmlElement(Order = 8)]
         public DateTime Date
         {
             get
@@ -102,14 +112,33 @@
                 }
                 else
                 {
-                    this.date = DateTime.Today;
-                    this.errorList.Add(string.Format(Titles.DateNewsError, this.date.ToShortDateString()));
+                    this.date = this.GetDefValueAndError(DateTime.Today, string.Format(Titles.DateNewsError, DateTime.Today.ToShortDateString()));
                 }
             }
         }
 
-        public string ISSN { get; set; }
+        [XmlElement(Order = 9)]
+        public string ISSN
+        {
+            get
+            {
+                return this.issn;
+            }
 
+            set
+            {
+                if (Helper.IsISSN(value))
+                {
+                    this.issn = value;
+                }
+                else
+                {
+                    this.issn = this.GetDefValueAndError(Newspaper.ISSNDefault, string.Format(Titles.ISSNError, Newspaper.ISSNDefault));
+                }
+            }
+        }
+
+        [XmlIgnore]
         public override string TypeItem
         {
             get
@@ -118,6 +147,7 @@
             }
         }
 
+        [XmlIgnore]
         public override List<string> GetQuestionAboutItem
         {
             get
@@ -162,32 +192,57 @@
                        string.Format(Titles.AboutItem, this.Id.ToString(), Titles.TypeNews));
         }
 
+        public override void CheckFromXML()
+        {
+            base.CheckFromXML();
+
+            if (this.Publisher == null)
+            {
+                this.Publisher = this.GetDefValueAndError(Titles.DefaultPublisher, string.Format(Titles.PublisherError, Titles.DefaultPublisher));
+            }
+
+            if (this.Year < Newspaper.YearPublication)
+            {
+                this.Year = this.GetDefValueAndError(Newspaper.DefaultYear, string.Format(Titles.YearError, Newspaper.DefaultYear));
+            }
+
+            if (this.Number < 0)
+            {
+                this.Number = this.GetDefValueAndError(Newspaper.DefaultNumber, string.Format(Titles.NumberNewsError, Newspaper.DefaultNumber));
+            }
+
+            if (this.ISSN == null)
+            {
+                this.ISSN = this.GetDefValueAndError(Newspaper.ISSNDefault, string.Format(Titles.ISSNError, Newspaper.ISSNDefault));
+            }
+        }
+
         internal override string GetInfoToSave()
         {
-            return base.GetInfoToSave().Insert(0, Titles.TypeNews);
+            return base.GetInfoToSave().Insert(0, string.Format(Titles.SaveType, (byte)Helper.TypeItem.Newspaper));
         }
 
         protected internal override void Create(List<string> aboutItemCatalog)
         {
-            var intValue = 0;
+            var intValue = 0d;
             DateTime date;
 
             this.Title = aboutItemCatalog[0];
             this.PublisherCity = aboutItemCatalog[1];
             this.Publisher = aboutItemCatalog[2];
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[3], out intValue);
-            this.Year = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[3], out intValue);
+            this.Year = (int)intValue;
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[4], out intValue);
-            this.PageCount = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[4], out intValue);
+            this.PageCount = (int)intValue;
 
             this.Note = aboutItemCatalog[5];
 
-            Helper.IsIntMoreThanZero(aboutItemCatalog[6], out intValue);
-            this.Number = intValue;
+            Helper.IsMoreThanZero(aboutItemCatalog[6], out intValue);
+            this.Number = (int)intValue;
 
-            Helper.IsDateAsDDMMYYYY(aboutItemCatalog[7], out date);
+            Helper.IsDate(aboutItemCatalog[7], out date);
             this.Date = date;
 
             this.ISSN = aboutItemCatalog[8];
