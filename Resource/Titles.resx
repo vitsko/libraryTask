@@ -351,23 +351,14 @@
 <value>Вы указали некорректный регистрационный номер патента. Вместо него указано значение по умолчанию: {0}.</value>
 </data>
   <!--Для выгрузки в файл-->
-  <data name="FullPath" xml:space="preserve">
-<value>{0}\{1}</value>
-</data>
-  <data name="CatalogToFile" xml:space="preserve">
-<value>SavedFiles</value>
-</data>
-  <data name="FileToSaveWithPath" xml:space="preserve">
-<value>.\SavedFiles\SavedFile.txt</value>
-</data>
-  <data name="PathWithXMLtoSave" xml:space="preserve">
-<value>.\SavedFiles\SavedFile.xml</value>
-</data>
   <data name="FileTXT" xml:space="preserve">
 <value>SavedFile.txt</value>
 </data>
   <data name="FileXML" xml:space="preserve">
 <value>SavedFile.xml</value>
+</data>
+  <data name="FileOfLog" xml:space="preserve">
+<value>LogImport.txt</value>
 </data>
   <data name="MessageOfSaveFile" xml:space="preserve">
 <value>Вы выгрузили Каталог в файл:
@@ -375,23 +366,23 @@
 
 Нажмите любую кнопку для выходя в Главное меню...</value>
 </data>
-  <data name="NoExistFile" xml:space="preserve">
-<value>Не существует файла:
-{0}\{1}
+  <data name="ErrorOfSaveFile" xml:space="preserve">
+<value>Во время записи файла {0}\{1} произошла ошибка.
 
 Нажмите любую кнопку для выходя в Главное меню...</value>
 </data>
   <data name="CorrectImport" xml:space="preserve">
-<value>Все записи из файла {0}\{1} загружены в Каталог.</value>
-</data>
-  <data name="NoParseItem" xml:space="preserve">
-<value>В файле {0}\{1} не все записи соответствуют типу объекта Каталога.</value>
+<value>Все записи из файла {0}\{1} загружены в Каталог.
+  
+Нажмите любую кнопку для выходя в Главное меню...</value>
 </data>
   <data name="ItemIsIncorrectInFile" xml:space="preserve">
-<value>В файле {0}\{1} не все записи корректны.</value>
-</data>
-  <data name="FileToLogWithPath" xml:space="preserve">
-<value>.\SavedFiles\LogImport.txt</value>
+<value>В файле {0}\{1}:
+1. Не все записи корректны.
+ИЛИ
+2. Файл пуст.
+
+Нажмите любую кнопку для выходя в Главное меню...</value>
 </data>
   <data name="AboutIncorrectTypeItem" xml:space="preserve">
 <value>Запись содержит некорректный тип:</value>
@@ -404,24 +395,28 @@
 </data>
   <data name="CorrectImportWithLog" xml:space="preserve">
 <value>Записи из файла {0}\{1} загружены в Каталог.
-Лог проверки загрузки смотрите в файле {0}\{2}.</value>
+Лог проверки загрузки смотрите в файле {0}\{2}.
+
+Нажмите любую кнопку для выходя в Главное меню...</value>
 </data>
-  <data name="FileOfLog" xml:space="preserve">
-<value>LogImport.txt</value>
+  <data name="IncorrectImportWithLog" xml:space="preserve">
+<value>Записи из файла {0}\{1} не загружены в Каталог.
+Лог проверки загрузки смотрите в файле {0}\{2}.
+
+Нажмите любую кнопку для выходя в Главное меню...</value>
 </data>
   <data name="SaveType" xml:space="preserve">
 <value>#Тип записи:{0}#</value>
 </data>
   <data name="EmptyFile" xml:space="preserve">
-<value>Файл {0}\{1} пуст или не содержит записей Каталога.</value>
+<value>Файл {0}\{1} пуст или не содержит записей Каталога.
+
+Нажмите любую кнопку для выходя в Главное меню...</value>
+</data>
+  <data name="ToLogCorrectImport" xml:space="preserve">
+<value>Все записи из файла {0}\{1} загружены в Каталог.</value>
 </data>
   <data name="ErrorParseXML" xml:space="preserve">
-<value>Во время чтения файла {0}\{1} произошла ошибка:</value>
-</data>
-  <data name="ResultLoadXML" xml:space="preserve">
-<value>Вы импортировали файл {0}\{1}.</value>
-</data>
-  <data name="PressAnyKey" xml:space="preserve">
-<value>Нажмите любую кнопку для выходя в Главное меню...</value>
+<value>Во время чтения файла {0}\{1} произошла ошибка.</value>
 </data>
 </root>

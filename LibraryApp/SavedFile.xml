@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Item xsi:type="Book">
+    <Title>Название книги</Title>
+    <PageCount>50</PageCount>
+    <Note>Примечание книги</Note>
+    <Authors>
+      <Author>Автор 1</Author>
+      <Author>Автор 2</Author>
+    </Authors>
+    <PublisherCity>Город</PublisherCity>
+    <Publisher>Издательство</Publisher>
+    <Year>2017</Year>
+    <ISBN>978-3-16-148410-0</ISBN>
+  </Item>
+  <Item xsi:type="Newspaper">
+    <Title>Название газеты</Title>
+    <PageCount>75</PageCount>
+    <Note>Примечание к газете</Note>
+    <PublisherCity />
+    <Publisher>Издательство газеты</Publisher>
+    <Year>2017</Year>
+    <Number>1</Number>
+    <Date>2017-06-18T00:00:00</Date>
+    <ISSN>0378-5955</ISSN>
+  </Item>
+  <Item xsi:type="Patent">
+    <Title>Название патента</Title>
+    <PageCount>500</PageCount>
+    <Note />
+    <Inventors>
+      <Inventor>Изобретатель 1</Inventor>
+      <Inventor>Изобретатель 2</Inventor>
+    </Inventors>
+    <Country>Страна</Country>
+    <RegNumber>RE123456</RegNumber>
+    <DateRequest>1990-01-01T00:00:00</DateRequest>
+    <DatePublication>1990-01-01T00:00:00</DatePublication>
+  </Item>
+</ArrayOfItem>
