@@ -62,7 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Import.cs" />
+    <Compile Include="Storage\Import.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Program.cs" />

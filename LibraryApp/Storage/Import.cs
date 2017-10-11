@@ -1,4 +1,4 @@
-﻿namespace LibraryApp
+﻿namespace LibraryApp.Storage
 {
     internal abstract class Import
     {
