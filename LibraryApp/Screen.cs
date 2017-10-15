@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Text;
     using Helper;
     using Library;
@@ -35,6 +36,18 @@
             foreach (var stringToShow in textToShow)
             {
                 Console.WriteLine(stringToShow);
+            }
+        }
+
+        internal static void ShowResultStorage(bool resultStorage, string success, string fail)
+        {
+            if (resultStorage)
+            {
+                Screen.ShowText(success);
+            }
+            else
+            {
+                Screen.ShowText(fail);
             }
         }
 
@@ -112,6 +125,25 @@
             }
 
             return result.ToString();
+        }
+
+        internal static void WriteLog(string messageToLog)
+        {
+            var writer = new StreamWriter(Titles.FileOfLog, true);
+
+            writer.WriteLine(messageToLog);
+            writer.Close();
+        }
+
+        internal static string AboutError(Exception exception)
+        {
+            var text = new StringBuilder();
+            text.AppendFormat(string.Format(Titles.ErrorParseXML, Environment.CurrentDirectory, Titles.FileXML));
+            text.AppendLine();
+            text.AppendLine(exception.Message);
+            text.AppendLine(exception.InnerException.Message);
+
+            return text.ToString();
         }
     }
 }

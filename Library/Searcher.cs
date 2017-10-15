@@ -8,15 +8,23 @@
     public static class Searcher
     {
         public static Searching GetItemWithTitle = (string title, List<ItemCatalog> catalog) =>
-{
-    return catalog.FindAll(item => item.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-};
+        {
+            return
+
+            (from item in catalog
+             where item.Title.Contains(title, StringComparison.OrdinalIgnoreCase)
+             select item).ToList();
+        };
 
         public static Searching GetBookByAuthor = (string authorForSearch, List<ItemCatalog> catalog) =>
         {
             IEqualityComparer<string> comparator = new Comparator();
 
-            return catalog.FindAll(book => ((Book)book).Authors.Contains(authorForSearch, comparator));
+            return
+
+            (from book in catalog
+             where ((Book)book).Authors.Contains(authorForSearch, comparator)
+             select book).ToList();
         };
 
         public static Searching GroupBooksByPublisher = (string publisher, List<ItemCatalog> catalog) =>

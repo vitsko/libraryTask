@@ -15,7 +15,7 @@
         private List<string> authors;
         private string publisherCity;
         private string publisher;
-        private int year;
+        private dynamic year;
         private string isbn;
 
         public Book()
@@ -25,7 +25,7 @@
 
         public Book(List<string> aboutItemCatalog)
         {
-            this.ToConstructor(aboutItemCatalog, CountOfData);
+            this.ToConstructor(aboutItemCatalog, Book.CountOfData);
         }
 
         [XmlArray(ElementName = "Authors", Order = 4), XmlArrayItem(ElementName = "Author")]
@@ -100,7 +100,7 @@
         }
 
         [XmlElement(Order = 7)]
-        public int Year
+        public dynamic Year
         {
             get
             {
@@ -141,6 +141,14 @@
             }
         }
 
+        public override List<string> GetQuestionAboutItem
+        {
+            get
+            {
+                return Helper.GetyQuestions(Titles.AskAboutBook);
+            }
+        }
+
         [XmlIgnore]
         public override string TypeItem
         {
@@ -151,13 +159,6 @@
         }
 
         [XmlIgnore]
-        public override List<string> GetQuestionAboutItem
-        {
-            get
-            {
-                return Helper.GetyQuestions(Titles.AskAboutBook);
-            }
-        }
 
         internal override int PublishedYear
         {
@@ -225,6 +226,11 @@
             }
         }
 
+        internal static ItemCatalog CreateItem(List<string> onlyData)
+        {
+            return new Book(onlyData);
+        }
+
         internal override string GetInfoToSave()
         {
             return base.GetInfoToSave().Insert(0, string.Format(Titles.SaveType, (byte)Helper.TypeItem.Book));
@@ -236,7 +242,7 @@
                                           .DeleteWhitespace(aboutItemCatalog[1])
                                           .Split(ItemCatalog.Comma));
 
-            var intValue = 0d;
+            dynamic intValue;
 
             this.Title = aboutItemCatalog[0];
             this.Authors = Helper.DeleteEmpty(authors);

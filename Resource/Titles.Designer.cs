@@ -189,15 +189,6 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SavedFiles.
-        /// </summary>
-        public static string CatalogToFile {
-            get {
-                return ResourceManager.GetString("CatalogToFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Место издательства (Город):.
         /// </summary>
         public static string City {
@@ -216,7 +207,9 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Все записи из файла {0}\{1} загружены в Каталог..
+        ///   Looks up a localized string similar to Все записи из файла {0}\{1} загружены в Каталог.
+        ///  
+        ///Нажмите любую кнопку для выходя в Главное меню....
         /// </summary>
         public static string CorrectImport {
             get {
@@ -226,7 +219,9 @@ namespace Resource {
         
         /// <summary>
         ///   Looks up a localized string similar to Записи из файла {0}\{1} загружены в Каталог.
-        ///Лог проверки загрузки смотрите в файле {0}\{2}..
+        ///Лог проверки загрузки смотрите в файле {0}\{2}.
+        ///
+        ///Нажмите любую кнопку для выходя в Главное меню....
         /// </summary>
         public static string CorrectImportWithLog {
             get {
@@ -389,7 +384,9 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Файл {0}\{1} пуст или не содержит записей Каталога..
+        ///   Looks up a localized string similar to Файл {0}\{1} пуст или не содержит записей Каталога.
+        ///
+        ///Нажмите любую кнопку для выходя в Главное меню....
         /// </summary>
         public static string EmptyFile {
             get {
@@ -398,7 +395,18 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Во время чтения файла {0}\{1} произошла ошибка:.
+        ///   Looks up a localized string similar to Во время записи файла {0}\{1} произошла ошибка.
+        ///
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        public static string ErrorOfSaveFile {
+            get {
+                return ResourceManager.GetString("ErrorOfSaveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Во время чтения файла {0}\{1} произошла ошибка..
         /// </summary>
         public static string ErrorParseXML {
             get {
@@ -412,24 +420,6 @@ namespace Resource {
         public static string FileOfLog {
             get {
                 return ResourceManager.GetString("FileOfLog", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .\SavedFiles\LogImport.txt.
-        /// </summary>
-        public static string FileToLogWithPath {
-            get {
-                return ResourceManager.GetString("FileToLogWithPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .\SavedFiles\SavedFile.txt.
-        /// </summary>
-        public static string FileToSaveWithPath {
-            get {
-                return ResourceManager.GetString("FileToSaveWithPath", resourceCulture);
             }
         }
         
@@ -452,20 +442,23 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}\{1}.
-        /// </summary>
-        public static string FullPath {
-            get {
-                return ResourceManager.GetString("FullPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Нет данных для группировки..
         /// </summary>
         public static string GroupingIsUnavailable {
             get {
                 return ResourceManager.GetString("GroupingIsUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Записи из файла {0}\{1} не загружены в Каталог.
+        ///Лог проверки загрузки смотрите в файле {0}\{2}.
+        ///
+        ///Нажмите любую кнопку для выходя в Главное меню....
+        /// </summary>
+        public static string IncorrectImportWithLog {
+            get {
+                return ResourceManager.GetString("IncorrectImportWithLog", resourceCulture);
             }
         }
         
@@ -533,7 +526,12 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to В файле {0}\{1} не все записи корректны..
+        ///   Looks up a localized string similar to В файле {0}\{1}:
+        ///1. Не все записи корректны.
+        ///ИЛИ
+        ///2. Файл пуст.
+        ///
+        ///Нажмите любую кнопку для выходя в Главное меню....
         /// </summary>
         public static string ItemIsIncorrectInFile {
             get {
@@ -646,27 +644,6 @@ namespace Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не существует файла:
-        ///{0}\{1}
-        ///
-        ///Нажмите любую кнопку для выходя в Главное меню....
-        /// </summary>
-        public static string NoExistFile {
-            get {
-                return ResourceManager.GetString("NoExistFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to В файле {0}\{1} не все записи соответствуют типу объекта Каталога..
-        /// </summary>
-        public static string NoParseItem {
-            get {
-                return ResourceManager.GetString("NoParseItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Примечание:.
         /// </summary>
         public static string Note {
@@ -717,15 +694,6 @@ namespace Resource {
         public static string PatentRegNumberError {
             get {
                 return ResourceManager.GetString("PatentRegNumberError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .\SavedFiles\SavedFile.xml.
-        /// </summary>
-        public static string PathWithXMLtoSave {
-            get {
-                return ResourceManager.GetString("PathWithXMLtoSave", resourceCulture);
             }
         }
         
@@ -789,15 +757,6 @@ namespace Resource {
         public static string ResultGroupByYear {
             get {
                 return ResourceManager.GetString("ResultGroupByYear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Вы импортировали файл {0}\{1}..
-        /// </summary>
-        public static string ResultLoadXML {
-            get {
-                return ResourceManager.GetString("ResultLoadXML", resourceCulture);
             }
         }
         
@@ -874,6 +833,15 @@ namespace Resource {
         public static string TitleError {
             get {
                 return ResourceManager.GetString("TitleError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Все записи из файла {0}\{1} загружены в Каталог..
+        /// </summary>
+        public static string ToLogCorrectImport {
+            get {
+                return ResourceManager.GetString("ToLogCorrectImport", resourceCulture);
             }
         }
         

@@ -25,7 +25,7 @@
 
         public Patent(List<string> aboutItemCatalog)
         {
-            this.ToConstructor(aboutItemCatalog, CountOfData);
+            this.ToConstructor(aboutItemCatalog, Patent.CountOfData);
         }
 
         [XmlArray("Inventors", Order = 4), XmlArrayItem("Inventor")]
@@ -225,6 +225,11 @@
             }
         }
 
+        internal static ItemCatalog CreateItem(List<string> onlyData)
+        {
+            return new Patent(onlyData);
+        }
+
         internal override string GetInfoToSave()
         {
             return base.GetInfoToSave().Insert(0, string.Format(Titles.SaveType, (byte)Helper.TypeItem.Patent));
@@ -236,7 +241,7 @@
                  .DeleteWhitespace(aboutItemCatalog[1])
                  .Split(ItemCatalog.Comma));
 
-            var intValue = 0d;
+            dynamic intValue;
             DateTime date;
 
             this.Title = aboutItemCatalog[0];

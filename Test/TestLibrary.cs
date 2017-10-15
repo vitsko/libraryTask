@@ -23,14 +23,14 @@
         [TestMethod]
         public void CheckAdd()
         {
-            TestLibrary.GetDataToTest();
+            DataToTest.GetDataToTest();
             Assert.IsTrue(Catalog.Count == TestLibrary.LengthTestCatalog);
         }
 
         [TestMethod]
         public void CheckDelete()
         {
-            TestLibrary.GetDataToTest();
+            DataToTest.GetDataToTest();
 
             Catalog.Delete(1);
             Catalog.Delete(-1);
@@ -44,7 +44,7 @@
         [TestMethod]
         public void CheckEdit()
         {
-            TestLibrary.GetDataToTest();
+            DataToTest.GetDataToTest();
 
             var newData = DataToTest.InfoToCatalog().ElementAt(6);
 
@@ -59,7 +59,7 @@
         [TestMethod]
         public void CheckValidate()
         {
-            TestLibrary.GetDataToTest();
+            DataToTest.GetDataToTest();
 
             Assert.IsTrue(Catalog.AllItem.ElementAt(0).IsCorrectCreating() == false);
         }
@@ -67,10 +67,8 @@
         [TestMethod]
         public void CheckSearchByTitle()
         {
-            TestLibrary.GetDataToTest();
-
-            var seacher = Catalog.GetItemWithTitle;
-            var result = Catalog.Search(seacher, SearchTitle);
+            var seacher = Searcher.GetItemWithTitle;
+            var result = Searcher.Search(seacher, SearchTitle, DataToTest.GetDataToSearchOrSort());
 
             Assert.IsTrue(result[0].Id == IdByTitleSearch);
         }
@@ -78,10 +76,8 @@
         [TestMethod]
         public void CheckSortByYearASC()
         {
-            TestLibrary.GetDataToTest();
-
-            var sortByYear = Catalog.SortByYearASC;
-            var result = Catalog.Sort(sortByYear);
+            var sortByYear = Sorter.SortByYearASC;
+            var result = Sorter.Sort(sortByYear, DataToTest.GetDataToSearchOrSort());
 
             Assert.IsTrue(result[0].Id == TestLibrary.IdBySortYearASC);
         }
@@ -89,10 +85,8 @@
         [TestMethod]
         public void CheckSortByYearDESC()
         {
-            TestLibrary.GetDataToTest();
-
-            var sortByYear = Catalog.SortByYearDESC;
-            var result = Catalog.Sort(sortByYear);
+            var sortByYear = Sorter.SortByYearDESC;
+            var result = Sorter.Sort(sortByYear, DataToTest.GetDataToSearchOrSort());
 
             Assert.IsTrue(result[0].Id == TestLibrary.IdBySortYearDESC);
         }
@@ -100,10 +94,8 @@
         [TestMethod]
         public void CheckSearchBookByAuthor()
         {
-            TestLibrary.GetDataToTest();
-
-            var seacher = Catalog.GetBookByAuthor;
-            var booksbyAuthor = Catalog.Search(seacher, TestLibrary.SearchByAuthor);
+            var seacher = Searcher.GetBookByAuthor;
+            var booksbyAuthor = Searcher.Search(seacher, TestLibrary.SearchByAuthor, DataToTest.OnlyBook());
 
             Assert.IsTrue(booksbyAuthor.Count == TestLibrary.CountBookByAuthor);
         }
@@ -111,10 +103,8 @@
         [TestMethod]
         public void CheckGroupingBookByPublisher()
         {
-            TestLibrary.GetDataToTest();
-
-            var seacher = Catalog.GroupBooksByPublisher;
-            var books = Catalog.Search(seacher, PublisherForGrouping);
+            var seacher = Searcher.GroupBooksByPublisher;
+            var books = Searcher.Search(seacher, PublisherForGrouping, DataToTest.OnlyBook());
 
             Assert.IsTrue(TestLibrary.CountOfGroup(books) == TestLibrary.CountOfGroupForPublisher);
         }
@@ -122,10 +112,8 @@
         [TestMethod]
         public void CheckGroupingItemByYear()
         {
-            TestLibrary.GetDataToTest();
-
-            var groupedCatalogByYear = Catalog.GroupByYear;
-            var resultGrouping = Catalog.Sort(groupedCatalogByYear);
+            var groupedCatalogByYear = Sorter.GroupByYear;
+            var resultGrouping = Sorter.Sort(groupedCatalogByYear, DataToTest.GetDataToSearchOrSort());
 
             Assert.IsTrue(TestLibrary.CountOfGroup(resultGrouping) == TestLibrary.CountOfGroupForYear);
         }
@@ -144,8 +132,6 @@
         [TestMethod]
         public void CheckLoadWithoutError()
         {
-            TestLibrary.GetDataToTest();
-
             var aboutItemsToLoad = DataToTest.ToLoad;
             var isLoad = Catalog.LoadWithoutError(aboutItemsToLoad);
 
@@ -155,8 +141,6 @@
         [TestMethod]
         public void CheckWithoutLoad()
         {
-            TestLibrary.GetDataToTest();
-
             var aboutItemsToLoad = DataToTest.IncorrectToLoad;
             var isLoad = Catalog.LoadWithoutError(aboutItemsToLoad);
 
@@ -166,7 +150,7 @@
         [TestMethod]
         public void CheckLoad()
         {
-            TestLibrary.GetDataToTest();
+            DataToTest.GetDataToTest();
 
             var aboutItemsToLoad = DataToTest.IncorrectToLoad;
             Catalog.Load(aboutItemsToLoad);
@@ -184,20 +168,6 @@
             }
 
             return count;
-        }
-
-        private static void GetDataToTest()
-        {
-            Catalog.DeleteAll();
-
-            var allInfoToCatalog = DataToTest.InfoToCatalog();
-
-            Catalog.Add(new Book(allInfoToCatalog[0]));
-            Catalog.Add(new Book(allInfoToCatalog[3]));
-            Catalog.Add(new Newspaper(allInfoToCatalog[1]));
-            Catalog.Add(new Newspaper(allInfoToCatalog[4]));
-            Catalog.Add(new Patent(allInfoToCatalog[2]));
-            Catalog.Add(new Patent(allInfoToCatalog[5]));
         }
     }
 }
