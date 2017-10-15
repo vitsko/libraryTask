@@ -23,8 +23,9 @@
         private const int CountForNews = 9;
 
         private static int countOfItem = 0;
+
         private string title;
-        private int pageCount;
+        private dynamic pageCount;
 
         [XmlElement(Order = 1)]
         public string Title
@@ -48,7 +49,7 @@
         }
 
         [XmlElement(Order = 2)]
-        public int PageCount
+        public dynamic PageCount
         {
             get
             {
@@ -142,26 +143,20 @@
         internal static ItemCatalog CreateFromFile(List<string> aboutItemCatalog)
         {
             var type = aboutItemCatalog.ElementAt(0);
-            var typeByInt = 0d;
-
-            ItemCatalog toCatalog = null;
+            dynamic typeByInt;
 
             if (Helper.IsMoreThanZero(type, out typeByInt))
             {
-                switch ((byte)typeByInt)
-                {
-                    case (byte)Helper.TypeItem.Book:
-                        return new Book(aboutItemCatalog.FindAll(item => !item.Equals(type)));
+                var select = (Helper.TypeItem)typeByInt;
 
-                    case (byte)Helper.TypeItem.Newspaper:
-                        return new Newspaper(aboutItemCatalog.FindAll(item => !item.Equals(type)));
+                var onlyData = aboutItemCatalog.FindAll(item => !item.Equals(type));
 
-                    case (byte)Helper.TypeItem.Patent:
-                        return new Patent(aboutItemCatalog.FindAll(item => !item.Equals(type)));
-                }
+                return select == Helper.TypeItem.Book ? Book.CreateItem(onlyData) :
+                       select == Helper.TypeItem.Newspaper ? Newspaper.CreateItem(onlyData) :
+                       select == Helper.TypeItem.Patent ? Patent.CreateItem(onlyData) : null;
             }
 
-            return toCatalog;
+            return null;
         }
 
         internal virtual string GetInfoToSave()

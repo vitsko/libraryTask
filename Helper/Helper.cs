@@ -27,7 +27,7 @@
         private static string[] charp = { "#" };
         private static string[] colon = { ":" };
 
-        public enum TypeItem
+        public enum TypeItem : byte
         {
             Book = 1,
             Newspaper = 2,
@@ -72,9 +72,25 @@
             return newItem;
         }
 
-        public static bool IsMoreThanZero(string parseToInt, out double intValue)
+        public static bool IsMoreThanZero(string parse, out dynamic value)
         {
-            return double.TryParse(parseToInt, out intValue) && intValue > 0;
+            if (!string.IsNullOrWhiteSpace(parse) && Regex.IsMatch(parse, @"^[0-9]{1,}"))
+            {
+                if (parse.Length == 1)
+                {
+                    value = byte.Parse(parse);
+                }
+                else
+                {
+                    value = double.Parse(parse);
+                }
+            }
+            else
+            {
+                value = 0;
+            }
+
+            return value != 0;
         }
 
         public static bool IsDate(string date, out DateTime enterDate)
@@ -90,15 +106,15 @@
             var type = afterParsing.ElementAt(0);
             var toParse = Helper.ParseToSign(type, colon);
 
-            var typebyInt = 0d;
+            dynamic typebyInt;
 
             if (toParse.Count() == 2)
             {
                 if (Helper.IsMoreThanZero(toParse[1], out typebyInt))
                 {
-                    return typebyInt.Equals((int)TypeItem.Book)
-                        || typebyInt.Equals((int)TypeItem.Newspaper)
-                        || typebyInt.Equals((int)TypeItem.Patent);
+                    return Enum.GetValues(typeof(TypeItem)).Cast<byte>()
+                                                           .ToList()
+                                                           .Contains(typebyInt);
                 }
             }
 
@@ -130,6 +146,11 @@
         {
             var diff = countOfValues - aboutItemCatalog.Count;
 
+            if (diff == 0)
+            {
+                return;
+            }
+
             if (diff > 0)
             {
                 for (var i = 0; i < diff; i++)
@@ -158,7 +179,7 @@
 
             if (Helper.EqualsLength(toParse, Helper.LengthISSN))
             {
-                var value = 0d;
+                dynamic value;
 
                 if (Helper.IsMoreThanZero(toParse, out value))
                 {
@@ -197,7 +218,7 @@
         {
             if (Helper.EqualsLength(isbn, Helper.LengthISBN10))
             {
-                var value = 0d;
+                dynamic value;
 
                 if (Helper.IsMoreThanZero(isbn, out value))
                 {
@@ -226,7 +247,7 @@
         {
             if (Helper.EqualsLength(isbn, Helper.LengthISBN13))
             {
-                var value = 0d;
+                dynamic value;
 
                 if (Helper.IsMoreThanZero(isbn, out value))
                 {

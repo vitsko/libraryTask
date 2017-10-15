@@ -15,8 +15,8 @@
         private const byte DefaultNumber = 1;
         private const int CountOfData = 9;
         private string publisher;
-        private int year;
-        private int number;
+        private dynamic year;
+        private dynamic number;
         private DateTime date;
         private string issn;
 
@@ -27,7 +27,7 @@
 
         public Newspaper(List<string> aboutItemCatalog)
         {
-            this.ToConstructor(aboutItemCatalog, CountOfData);
+            this.ToConstructor(aboutItemCatalog, Newspaper.CountOfData);
         }
 
         [XmlElement(Order = 4)]
@@ -55,7 +55,7 @@
         }
 
         [XmlElement(Order = 6)]
-        public int Year
+        public dynamic Year
         {
             get
             {
@@ -76,7 +76,7 @@
         }
 
         [XmlElement(Order = 7)]
-        public int Number
+        public dynamic Number
         {
             get
             {
@@ -217,6 +217,11 @@
             }
         }
 
+        internal static ItemCatalog CreateItem(List<string> onlyData)
+        {
+            return new Newspaper(onlyData);
+        }
+
         internal override string GetInfoToSave()
         {
             return base.GetInfoToSave().Insert(0, string.Format(Titles.SaveType, (byte)Helper.TypeItem.Newspaper));
@@ -224,7 +229,7 @@
 
         protected internal override void Create(List<string> aboutItemCatalog)
         {
-            var intValue = 0d;
+            dynamic intValue;
             DateTime date;
 
             this.Title = aboutItemCatalog[0];
@@ -232,15 +237,15 @@
             this.Publisher = aboutItemCatalog[2];
 
             Helper.IsMoreThanZero(aboutItemCatalog[3], out intValue);
-            this.Year = (int)intValue;
+            this.Year = intValue;
 
             Helper.IsMoreThanZero(aboutItemCatalog[4], out intValue);
-            this.PageCount = (int)intValue;
+            this.PageCount = intValue;
 
             this.Note = aboutItemCatalog[5];
 
             Helper.IsMoreThanZero(aboutItemCatalog[6], out intValue);
-            this.Number = (int)intValue;
+            this.Number = intValue;
 
             Helper.IsDate(aboutItemCatalog[7], out date);
             this.Date = date;
