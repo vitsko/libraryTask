@@ -15,7 +15,6 @@
     {
         protected const char Comma = ',';
         protected const int DefaultPageCount = 100;
-        protected List<string> errorList;
 
         private const char Sharp = '#';
         private const string SplitToSave = ": ";
@@ -24,6 +23,7 @@
 
         private static int countOfItem = 0;
 
+        private List<string> errorList;
         private string title;
         private dynamic pageCount;
 

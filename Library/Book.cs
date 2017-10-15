@@ -251,10 +251,10 @@
             this.Publisher = aboutItemCatalog[3];
 
             Helper.IsMoreThanZero(aboutItemCatalog[4], out intValue);
-            this.Year = intValue;
+            this.Year = (int)intValue;
 
             Helper.IsMoreThanZero(aboutItemCatalog[5], out intValue);
-            this.PageCount = intValue;
+            this.PageCount = (int)intValue;
 
             this.Note = aboutItemCatalog[6];
             this.ISBN = aboutItemCatalog[7];

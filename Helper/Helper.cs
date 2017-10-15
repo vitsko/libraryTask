@@ -9,7 +9,6 @@
 
     public static class Helper
     {
-        public static XmlReader XmlRead;
         private const char Comma = ',';
         private const byte LengthISBN10 = 10,
                            LengthISBN13 = 13,
@@ -33,6 +32,8 @@
             Newspaper = 2,
             Patent = 3
         }
+
+        public static XmlReader XmlRead { get; set; }
 
         public static List<string> GetyQuestions(string questions)
         {

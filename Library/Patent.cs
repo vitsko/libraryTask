@@ -257,7 +257,7 @@
             this.DatePublication = date;
 
             Helper.IsMoreThanZero(aboutItemCatalog[6], out intValue);
-            this.PageCount = intValue;
+            this.PageCount = (int)intValue;
 
             this.Note = aboutItemCatalog[7];
         }
